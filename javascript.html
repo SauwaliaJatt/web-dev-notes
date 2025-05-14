@@ -243,7 +243,7 @@ caption{
             <li><a href="#section42">JSON</a></li>
             <li><a href="#section43">Ajax</a></li>
             <li><a href="#section44">HTTP Verbs/<br>Status Codes</a></li>
-            <li><a href="#section45">topic</a></li>
+            <li><a href="#section45">Additional URL info</a></li>
             <li><a href="#section46">topic</a></li>
             <li><a href="#section47">topic</a></li>
             <li><a href="#section48">topic</a></li>
@@ -4738,12 +4738,74 @@ caption{
 
         <section id="section45" class="note-section">
             <div class="container">
-                <h2>Identifiers</h2>
+                <h2>Add information in URLs</h2>
+                <p>
+                    APIs often use URLs to define endpoints, and information can be added to URLs in several ways, depending on the API's design.
+                </p>
                 <div class="notes">
                     <div class="note">
-                        <h3>camelCase</h3>
+                        <h3>Path Parameters</h3>
                         <p>
-                            
+                            Path parameters are placeholders in the URL path that represent specific resources or identifiers. <br>
+                            Use Case: Accessing a specific resource (e.g., a user by ID).
+                        </p>
+                        <div class="code-container">
+                            <code>Example:-
+                                Syntax: /resource/{id}
+
+                                GET https://api.example.com/users/123
+                                Here, 123 is the user ID, identifying a specific user.
+                            </code>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes">
+                    <div class="note">
+                        <h3>Query Parameters</h3>
+                        <p>
+                            Query parameters are key-value pairs appended to the URL after a ?, separated by &. They're commonly used for filtering, sorting, or optional settings. <br>
+                            Use Case: Filtering results, pagination, or specifying options.
+                        </p>
+                        <div class="code-container">
+                            <code>Example:-
+                                Syntax: ?key1=value1&key2=value2 e.t.c
+
+                                Example:
+                                GET https://api.example.com/users?role=admin&limit=10&sort=name
+                            </code>
+                        </div>
+                        <p>
+                            You can combine path and query parameters for complex requests.
+                        </p>
+                    </div>
+                </div>
+                <div class="notes">
+                    <div class="note">
+                        <h3>HTTP Headers</h3>
+                        <p>
+                            HTTP headers are key-value pairs sent in the request or response of an HTTP transaction. In API requests, headers provide metadata about the request, such as: <br>
+                            <ul>
+                                <li>Authentication credentials (e.g., API keys, tokens).</li>
+                                <li>Content type of the request or response (e.g., JSON, XML).</li>
+                                <li>Instructions for caching, compression, or behavior.</li>
+                                <li>Unlike URL parameters or the request body, headers are not part of the URL but are included in the HTTP request's header section.</li>
+                                <li>They're essential for secure and efficient API communication.</li>
+                            </ul>                              
+                        </p>
+                        <div class="code-container">
+                            <code>Example:-
+                                fetch('/api/data', {
+                                    &nbsp;&nbsp;method: 'GET',
+                                    &nbsp;&nbsp;headers: {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;'Authorization': 'Bearer YOUR_TOKEN',
+                                        &nbsp;&nbsp;&nbsp;&nbsp;'Accept': 'application/json'
+                                    &nbsp;&nbsp;}
+                                });                                  
+                            </code>
+                        </div>
+                        <p>
+                            In Console:- <br>
+                            <img src="https://github.com/SauwaliaJatt/web-dev-notes/blob/main/contentimages/console-headers.png?raw=true" alt="header" width="60%">
                         </p>
                     </div>
                 </div>
