@@ -4400,7 +4400,11 @@ caption{
                     <div class="note">
                         <h3>Sending Requests</h3>
                         <p>
-                            Sending a request means your application (client) contacts a server (API) and asks for something — like data, a save operation, update, or deletion. The server then responds with data or a status.
+                            Sending a request means your application (client) contacts a server (API) and asks for something — like data, a save operation, update, or deletion. The server then responds with data or a status. <br> <br>
+                        </p>
+                        <p>
+                            <span class="bolder">1. fetch()</span> <br>
+                            fetch() is a JavaScript function built into modern browsers that allows you to make HTTP requests to fetch resources (like data, images, etc.) from a server or API. It returns a Promise.
                         </p>
                         <div class="code-container">
                             <code>Syntax:-
@@ -4463,6 +4467,44 @@ caption{
                                 }
                                 
                                 getFacts();
+                            </code>
+                        </div>
+                        <p>
+                            <span class="bolder">2. axios()</span> <br>
+                            Axios is a JavaScript library used to send HTTP requests from the browser or Node.js to a server or API. It automatically parses json data. <br>
+                            we need to install it (using - npm install axios) <br>
+                            OR add this &lt;script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"&gt;&lt;/script&gt;
+                        </p>
+                        <div class="code-container">
+                            <code>Example:-
+                                const axios = require('axios'); // Only in Node.js, not needed in browser
+                                
+                                let url = "https://catfact.ninja/fact";
+                                
+                                axios.get(url)
+                                .then((response) => {
+                                    &nbsp;&nbsp;console.log("Response:", response.data.fact); //It automatically parses
+                                }) 
+                                .catch((error) => {
+                                    &nbsp;&nbsp;console.log("Error:", error);
+                                });
+
+
+                                example sending headers using asios:-
+
+                                const url = "https://icanhazdadjoke.com/";
+                                async function getJokes() {
+                                    &nbsp;&nbsp;try {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;// make object with key - headers, and in value make another object
+                                        &nbsp;&nbsp;&nbsp;&nbsp;const config = { headers: { Accept: "application/json"} };
+
+                                        &nbsp;&nbsp;&nbsp;&nbsp;//pass headers object as 2nd argument
+                                        &nbsp;&nbsp;&nbsp;&nbsp;let res = await axios.get(url, config);
+                                        &nbsp;&nbsp;&nbsp;&nbsp;console.log(res.data);
+                                    &nbsp;&nbsp;} catch (err) {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("Error:", err);
+                                    &nbsp;&nbsp;}
+                                }
                             </code>
                         </div>
                     </div>
@@ -4848,6 +4890,24 @@ caption{
                         <p>
                             You can combine path and query parameters for complex requests.
                         </p>
+                        <p>
+                            Api link can also be manupulated by using variable query strings.
+                        </p>
+                        <div class="code-container">
+                            <code>Example:-
+                                let url = "http://universities.hipolabs.com/search?country=";
+                                let country = "Nepal"; //we can also get this variable from user e.t.c.
+
+                                async function getColleges() {
+                                    &nbsp;&nbsp;try {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;let res = await axios.get(<b>url + country</b>);
+                                        &nbsp;&nbsp;&nbsp;&nbsp;console.log(res.data); // Just log the result data
+                                    &nbsp;&nbsp;} catch (e) {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("Error:", e);
+                                    &nbsp;&nbsp;}
+                                }
+                            </code>
+                        </div>
                     </div>
                 </div>
                 <div class="notes">
