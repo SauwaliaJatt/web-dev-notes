@@ -448,7 +448,7 @@ caption{
                             </tbody>
                         </table> <br>
 
-                        <img src="contentimages/comparisonoperators.png" alt="comparison operators" width="60%"> 
+                        <img src="https://raw.githubusercontent.com/SauwaliaJatt/web-dev-notes/main/contentimages/comparisonoperators.png" alt="comparison operators" width="60%"> 
                         
                         <h4>Comparing Strings</h4>
                         <p>
@@ -555,7 +555,7 @@ caption{
                     <div class="note">
                         <h3>If, else, else if statements</h3>
                         <p>
-                            <img src="contentimages/ifelseif.png" alt="if,else,else if" width="60%">
+                            <img src="https://raw.githubusercontent.com/SauwaliaJatt/web-dev-notes/main/contentimages/ifelseif.png" alt="if,else,else if" width="60%">
                         </p>
                     </div>
                 </div>
@@ -563,7 +563,7 @@ caption{
                     <div class="note">
                         <h3>Switch statements</h3>
                         <p>
-                            <img src="contentimages/switchstatements.png" alt="if,else,else if" width="60%">
+                            <img src="https://raw.githubusercontent.com/SauwaliaJatt/web-dev-notes/main/contentimages/switchstatements.png" alt="if,else,else if" width="60%">
                         </p>
                     </div>
                 </div>
@@ -1166,7 +1166,7 @@ caption{
                             In JavaScript, arrays are reference types, meaning they are stored in memory as objects, and variables hold references (memory addresses) to these arrays rather than their actual values. <br>
                             <span class="bolder">Assigning Arrays by Reference</span> - When you assign an array to another variable, both variables point to the same array in memory. <br>
                             e.g:- <br>
-                            <img src="contentimages/arrRefrences.png" alt="arr refrences" width="70%"> <br>
+                            <img src="https://raw.githubusercontent.com/SauwaliaJatt/web-dev-notes/main/contentimages/arrRefrences.png" alt="arr refrences" width="70%"> <br>
 
                             Copying Arrays Without Reference - To create new independent copy of an array (instead of referencing the same memory), there are many methods for now Using .slice() or assign manually.
                         </p>
@@ -1215,7 +1215,7 @@ caption{
                     <div class="note">
                         <h3>For loop</h3>
                         <p>
-                            <img src="contentimages/forloop.png" alt="for loop" width="80%">
+                            <img src="https://raw.githubusercontent.com/SauwaliaJatt/web-dev-notes/main/contentimages/forloop.png" alt="for loop" width="80%">
                         </p>
                     </div>
                 </div>
@@ -1223,7 +1223,7 @@ caption{
                     <div class="note">
                         <h3>While loop</h3>
                         <p>
-                            <img src="contentimages/whileloop.png" alt="while loop" width="80%">
+                            <img src="https://raw.githubusercontent.com/SauwaliaJatt/web-dev-notes/main/contentimages/whileloop.png" alt="while loop" width="80%">
                         </p>
                     </div>
                 </div>
@@ -1249,7 +1249,7 @@ caption{
                         <h3>for of loop</h3>
                         <p>
                             The for...of loop in JavaScript is used to iterate over iterable objects like arrays, strings, maps, and sets. <br>
-                            <img src="contentimages/forof.png" alt="for of loop" width="80%">
+                            <img src="https://raw.githubusercontent.com/SauwaliaJatt/web-dev-notes/main/contentimages/forof.png" alt="for of loop" width="80%">
                             <div class="code-container">
                                 <code>Examples:-
                                     let numbers = [10, 20, 30, 40];
@@ -2582,7 +2582,7 @@ caption{
                         <h3>Document Object Model(DOM)</h3>
                         <p>
                             The DOM is essentially a representation of a webpage that a browser creates when it loads an HTML document. The DOM is a tree-like structure that represents the elements of a webpage as nodes. Each element (such as paragraphs, images, and headings) becomes an object that scripts can access and modify.
-                            <img src="contentimages/pic_htmltree.gif" alt="tree">
+                            <img src="https://raw.githubusercontent.com/SauwaliaJatt/web-dev-notes/main/contentimages/pic_htmltree.gif" alt="tree">
                         </p>
                         <p>
                             <span class="bolder">Document Object - </span>The document object is the entry point to the DOM, representing the whole webpage in the browser. It allows JavaScript to dynamically access, modify, and update page content and structure. We can print it using console.dir(document);
@@ -4031,7 +4031,7 @@ caption{
                             Breakpoints are intentional stopping points in your code that you set while debugging. They pause the execution of your JavaScript program at a specific line, allowing you to inspect the state of the program—like variable values, the call stack, and scope—at that moment. They're a key tool in developer tools (e.g., Chrome DevTools, VS Code debugger) to troubleshoot and understand code behavior. <br>
                             <span class="bolder">Setting Breakpoints:-</span> <br> 
                             1. In Browser DevTools: Open the "Sources" tab, navigate to your script, and click the line number where you want to pause.
-                            <img src="contentimages/breakpoints.png" alt="breakpoints" width="60%"> <br>
+                            <img src="https://raw.githubusercontent.com/SauwaliaJatt/web-dev-notes/main/contentimages/breakpoints.png" alt="breakpoints" width="60%"> <br>
 
                             2. Programmatically: Use the debugger statement in your code, which acts like a breakpoint when DevTools is open. <br> <br>
                             <span class="bolder">Types of Breakpoints:</span> Line Breakpoint, Conditional Breakpoint, Function Breakpoint, Exception Breakpoint, Watchpoint (Variable Breakpoint). and many other also... <br>
@@ -4394,6 +4394,77 @@ caption{
                             <li>You send a request (e.g., "Give me the weather for New York") in a format the API understands (often HTTP with JSON or XML).</li>
                             <li>The API processes it and sends back a response (e.g., "It's 72°F and sunny").</li>
                         </ul>
+                    </div>
+                </div>
+                <div class="notes">
+                    <div class="note">
+                        <h3>Sending Requests</h3>
+                        <p>
+                            Sending a request means your application (client) contacts a server (API) and asks for something — like data, a save operation, update, or deletion. The server then responds with data or a status.
+                        </p>
+                        <div class="code-container">
+                            <code>Syntax:-
+                                &nbsp;&nbsp;
+                                Using Javascript fetch():-
+
+                                let url = "https://catfact.ninja/fact";
+                                
+                                fetch(url) // [1]
+                                .then((res) => {
+                                    &nbsp;&nbsp;console.log("Raw Response:", res); // [2]
+                                    &nbsp;&nbsp;return res.json(); // [3]
+                                })
+                                    &nbsp;&nbsp;.then((data) => {
+                                    &nbsp;&nbsp;console.log("Cat Fact:", data.fact); // [4]
+                                })
+                                    &nbsp;&nbsp;.catch((err) => {
+                                    &nbsp;&nbsp;console.log("ERROR -", err); // [5]
+                                });
+
+                                //Explanation:-
+                                1. fetch(url) - What it does: Sends a GET request, What you get: A Promise that resolves to a Response object.
+
+                                2. .then((res) => { ... }) - res is the Response object.
+                                console.log("Raw Response:", res); will output:
+                                Raw Response: Response { type: 'cors', url: 'https://catfact.ninja/fact', status: 200, ... }
+
+                                3. return res.json();
+                                Converts the response body from JSON into a usable JavaScript object.
+                                Returns another Promise, which resolves to the actual data.
+
+                                4. .then((data) => { ... })
+                                data is the parsed JSON object from the API.
+                                You'll get something like:
+                                {
+                                    &nbsp;&nbsp;"fact": "Cats sleep for 70% of their lives.",
+                                    &nbsp;&nbsp;"length": 35
+                                }     
+                                
+                                console.log("Cat Fact:", data.fact); outputs:
+                                Cat Fact: Cats sleep for 70% of their lives.
+
+                                5. .catch((err) => { ... }) - Catches any network error
+                            </code>
+                        </div>
+                        <div class="code-container">
+                            <code>Example 2:-
+                                Javascript fetch() with async and await:-
+
+                                let url = "https://catfact.ninja/fact";
+                                
+                                async function getFacts() {
+                                    &nbsp;&nbsp;try {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;let res = await fetch(url);
+                                        &nbsp;&nbsp;&nbsp;&nbsp;let data = await res.json();
+                                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("Fact 1:", data.fact);
+                                    &nbsp;&nbsp;} catch (e) {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("error -", e);
+                                    &nbsp;&nbsp;}
+                                }
+                                
+                                getFacts();
+                            </code>
+                        </div>
                     </div>
                 </div>
                 <div class="notes">
@@ -4805,7 +4876,7 @@ caption{
                         </div>
                         <p>
                             In Console:- <br>
-                            <img src="https://github.com/SauwaliaJatt/web-dev-notes/blob/main/contentimages/console-headers.png?raw=true" alt="header" width="60%">
+                            <img src="https://raw.githubusercontent.com/SauwaliaJatt/web-dev-notes/main/contentimages/console-headers.png" alt="header" width="60%">
                         </p>
                     </div>
                 </div>
