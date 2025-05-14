@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Notes</title>
+</head>
+
+<body>
+    <!-- boilerplate -->
+    <div>
+        <h2>Boilerplate Code:-</h2>
+        <pre>
+            &lt;!DOCTYPE html&gt;
+            &lt;html lang="en"&gt;
+            &lt;head&gt;
+                &lt;meta charset="UTF-8"&gt;
+                &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+                &lt;title&gt;Document&lt;/title&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+            
+            &lt;/body&gt;
+            &lt;/html&gt;
+        </pre>
+        <b>file extension - </b> .html or .hml(old but function same)
+    </div>
+
+    <div>
+        <h2>HTML Elements:-</h2>
+        <p>
+            The HTML element is everything from the start tag to the end tag: <br> &lt;tagname&gt; Content goes here...&lt;/tagname&gt;
+        </p>
+    </div>
+
+    <div>
+        <h2>Paragraphs:-</h2>
+        <p>
+            The HTML &lt;p&gt; element defines a paragraph. <br> A paragraph always starts on a new line, and browsers
+            automatically add some white space (a margin) before and after a paragraph. <br> Usually a block ot text.
+        </p>
+    </div>
+
+    <h2>Headings:-</h2>
+    <p>
+        HTML headings are titles or subtitles that you want to display on a webpage. <br>
+        HTML headings are defined with the &lt;h1&gt; to &lt;h6&gt; tags. <br>
+        &lt;h1&gt; defines the most important heading. &lt;h6&gt; defines the least important heading.
+    </p>
+
+    <!-- Lists -->
+    <h2>Lists:-</h2>
+    <p>HTML lists allow web developers to group a set of related items in lists.
+    <h3>Unordered Lists:-</h3>
+    <p>The HTML &lt;ul&gt; tag defines an unordered (bulleted) list. Each list item starts with the &lt;li&gt; tag.
+        <br>The list items will be marked with bullets (small black circles) by default. <br> The CSS list-style-type
+        property is used to define the style of the list item marker. It can have one of the following values: <br>
+    <ul>
+        <li style="list-style-type: disc;">disc (default)</li>
+        <li style="list-style-type: circle;">circle</li>
+        <li style="list-style-type: square;">square</li>
+        <li style="list-style-type: none;">none</li>
+    </ul>
+    </p>
+    <h3>Ordered Lists:-</h3>
+    <p>An ordered list starts with the &lt;ol&gt; tag. Each list item starts with the &lt;li&gt; tag.<br>The list items
+        will be marked with numbers by default.<br>
+    <p><b>Type Attribute</b> -- The type attribute of the &lt;ol&gt; tag, defines the type of the list item marker <br>
+        values = 1,A,a,I,i</p>
+    <ol>
+        <li type="1">type = "1" -- Numbers(default)</li>
+        <li type="A">type = "A" -- Uppercase letters</li>
+        <li type="a">type = "a" -- Lowercase letters</li>
+        <li type="I">type = "I" -- Uppercase Roman numbers</li>
+        <li type="i">type = "i" -- Lowercase Roman numbers</li>
+    </ol>
+    <p><b>Control List Counting</b> -- If you want to start counting from a specified number, you can use the
+        <b>start</b> attribute:
+    </p>
+    <p><b>Note: </b> A list item (&lt;li&gt;) can contain a new list, and other HTML elements, like images and links,
+        etc.</p>
+    </p>
+    <h3>Description Lists:-</h3>
+    <p>A description list is a list of terms, with a description of each term. <br> Use the HTML &lt;dl&gt; element to
+        define a description list <br> Use the HTML &lt;dt&gt; element to define the description term <br> Use the HTML
+        &lt;dd&gt; element to describe the term in a description list
+    </p>
+    </p>
+
+    <!-- Attributes -->
+    <h2>Attributes:-</h2>
+    <p>HTML attributes provide additional information about HTML elements. <br> All HTML elements can have attributes.
+        <br> Attributes usually come in name/value pairs like: name="value". <br> Attributes are always specified in the
+        start tag. <br> e.g - href, src, width, heigth e.t.c.
+    </p>
+
+    <!-- Anchor Tag -->
+    <h2>Anchor Element:-</h2>
+    <p>The &lt;a&gt; tag defines a hyperlink, which is used to link from one page to another(used to add links to your
+        page). <br> The href attribute specifies the URL of the page the link goes to. <br>
+        &lt;a href="link/path"&gt; text/image e.t.c &lt;/a&gt;
+    </p>
+
+    <!-- Image Element  -->
+    <h2>Image tag:-</h2>
+    <p>
+        The HTML &lt;img&gt; tag is used to embed an image in a web page. <br>
+        The <img> tag has two required attributes: <br>
+        <b>src</b> - Specifies the path/link to the image. <br>
+        <b>alt</b> - Specifies an alternate text for the image if the browser cannot find the image. <br>
+    </p>
+
+
+    <!-- Other Tags  -->
+    <h2>Other tags:-</h2>
+    <p>
+        &lt;br&gt; - Used to add next line(line breaks) to your page. <br>
+        &lt;b&gt; <b>Bold</b> &lt;/b&gt;<br>
+        &lt;i&gt; <i>Italic</i> &lt;/i&gt; <br>
+        &lt;u&gt; <u>Underline</u> &lt;/u&gt; <br>
+        &lt;!-- Comments --&gt; <br>
+        &lt;hr&gt; - horizontal rule element.(add a horizontal line) <br> <br>
+        <b>Question - </b> is html case sensitive? <br>
+        <b>Answer - </b> NO, but we prefer to write in lowercase.
+    </p>
+
+    <!-- Inline vs Block  -->
+    <h2>Block Elements:-</h2>
+    <p>
+        Takes the full width available(whole block). <br>
+        Start from new line. <br>
+        Two commonly used block elements are: &lt;p&gt; and &lt;div&gt;. <br>
+        Here are the block-level elements in HTML: <br>
+        &lt;address&gt; &lt;article&gt; &lt;aside&gt; &lt;blockquote&gt; &lt;canvas&gt; &lt;dd&gt; <br> &lt;div&gt;
+        &lt;dl&gt; &lt;dt&gt; &lt;fieldset&gt; &lt;figcaption&gt; &lt;figure&gt; &lt;footer&gt; <br> &lt;form&gt;
+        &lt;h1&gt; - &lt;h6&gt; &lt;header&gt; &lt;hr&gt; &lt;li&gt; &lt;main&gt; &lt;nav&gt; <br> &lt;noscript&gt;
+        &lt;ol&gt; &lt;p&gt; &lt;pre&gt; &lt;section&gt; &lt;table&gt; &lt;tfoot&gt; &lt;ul&gt; &lt;video&gt;
+
+    </p>
+
+    <h2>Inline Elements:-</h2>
+    <p>
+        Takes up only necessary width. <br>
+        Don't start from new line. <br>
+        element - &lt;span&gt; <br>
+        Here are the inline elements in HTML: <br>
+        &lt;a&gt; &lt;abbr&gt; &lt;acronym&gt; &lt;b&gt; &lt;bdo&gt; &lt;big&gt; &lt;br&gt; <br>
+        &lt;button&gt; &lt;cite&gt; &lt;code&gt; &lt;dfn&gt; &lt;em&gt; &lt;i&gt; &lt;img&gt; <br>
+        &lt;input&gt; &lt;kbd&gt; &lt;label&gt; &lt;map&gt; &lt;object&gt; &lt;output&gt; &lt;q&gt; <br>
+        &lt;samp&gt; &lt;script&gt; &lt;select&gt; &lt;small&gt; &lt;span&gt; &lt;strong&gt; <br>
+        &lt;sub&gt; &lt;sup&gt; &lt;textarea&gt; &lt;time&gt; &lt;tt&gt; &lt;var&gt;
+    </p>
+
+    <h2>Div Element:-</h2>
+    <p>
+        Content Division Element. <br>
+        Div is a container used to hold other HTML elementsor group elements together. And Manupulate many elements
+        together. <br>
+        It is a Block Element. <br>
+        Any sort of content can be put inside the &lt;div&gt; tag!
+    </p>
+
+    <h2>Span Element:-</h2>
+    <p>
+        Span is also a generic container used to hold other Elements or group elements together. <br>
+        It is Span Element.
+    </p>
+
+    <h2>Subscript(sub) & Superscript(sup):-</h2>
+    <p>
+        &lt;sup&gt; - To show text in power position. e.g - x<sup>2</sup><br>
+        &lt;sub&gt; - To show text in base position. e.g - h<sub>2</sub>o
+    </p>
+
+    <h2>Sementics Markup:-</h2>
+    <p>
+        A semantic element clearly describes its meaning to both the browser and the developer. <br>
+        Means we can find what a tag is used for by its name. Make code more meaningfull and SEO friendly. <br>
+        Examples of non-semantic elements: &lt;div&gt; and &lt;span&gt; - Tells nothing about its content. <br>
+        Examples of semantic elements: <br>
+        &lt;header&gt; - Defines the introductory section or header of a page or section. Used only one time.<br>  
+        &lt;footer&gt; - Represents the footer section, typically containing metadata or links. Used only one time.<br>  
+        &lt;nav&gt; - Specifies a navigation menu for links within the site.<br>  
+        &lt;main&gt; - Represents the central content of a webpage. Used only one time.<br>  
+        &lt;section&gt; - Defines thematic grouping of content, often with a heading.<br>  
+        &lt;article&gt; - Represents self-contained content like blog posts or news articles.<br>  
+        &lt;aside&gt; - Specifies complementary or sidebar content.<br>  
+        &lt;figure&gt; - Groups media content like images with captions.<br>  
+        &lt;figcaption&gt; - Provides a caption or description for the &lt;figure&gt; element.<br>  
+        &lt;mark&gt; - Highlights text to indicate relevance or importance.<br>  
+        &lt;time&gt; - Represents a specific point or duration of time.<br>  
+        &lt;details&gt; - Creates a collapsible disclosure widget for additional information.<br>  
+        &lt;summary&gt; - Defines a summary or label for the &lt;details&gt; element.<br>  
+
+        Clearly defines its content. <br>
+        If we may use tow or more tags for same result, So use sementic tags more so that code is more readible <br>
+        e.g - if we want to want to write code for header then use header tag rather then div.
+    </p>
+
+    <h2>HTML Entities:-</h2>
+    <p>
+        Reserved characters in HTML must be replaced with entities. <br>
+        An HTML entity is a piece of text ("string") that begins with an ampersand (&) and ends with a semicolon (;). <br>
+        Entity names(we prefer name) or entity numbers can be used to display reserved HTML characters. <br>
+        like &entity_name; OR &#entity_number;
+    </p>
+
+    <h2>Emmet:-</h2>
+    <p>
+        Emmet is a web development toolkit that uses shorthand syntax to quickly generate and edit HTML, CSS, and other code, saving time and boosting productivity. <br>
+        vs code has come with emmets by default else we can download it also if we need. <br>
+        e.g - if we type ! and enter then html boilerplate code automatically written.
+        Child: >, Sibling: +, Multiplication: * e.t.c. we can go to emmet website cheatsheet for more.
+    </p>
+
+    <section>
+        <h2>HTML5:-</h2>
+        <p>The term HTML5 is essentially a buzzword that refers to a set of modern web technologies. <br> This includes the HTML Living Standard, along with JavaScript APis to enhance storage, multimedia, and hardware access.</p>
+    </section>
+
+    <!-- Tables -->
+     <section>
+        <h2>Tables:-</h2>
+        <p>
+            HTML tables allow web developers to arrange data into rows and columns. <br>
+            <table border="black">
+                <caption>Table Caption Here </caption>
+                <thead>
+                    <tr>
+                        <th>Tag</th>
+                        <th>Discription</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>&lt;table&gt;</td>
+                        <td>Defines a table</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;th&gt;</td>
+                        <td>Define a header cell in table</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;tr&gt;</td>
+                        <td>Define a row in table</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;td&gt;</td>
+                        <td>Define a table cell in table</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;caption&gt;</td>
+                        <td>Define a table caption</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">table Sementics</th>
+                    </tr>
+                    <tr>
+                        <td>&lt;thead&gt;</td>
+                        <td>Groups the header content in a table</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;tbody&gt;</td>
+                        <td>Groups the body content in a table</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;tfoot&gt;</td>
+                        <td>Groups the footer content in a table</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>Colspan:-</h3>
+            <p>
+                To make a cell span over multiple columns, use the colspan attribute.
+            </p>
+            <h3>Rowspan:-</h3>
+            <p>
+                To make a cell span over multiple rows, use the rowspan attribute.
+            </p>
+        </p>
+     </section>
+
+     <section>
+        <h2>Forms:-</h2>
+        <div>
+            An HTML form is used to collect user input. The user input is most often sent to a server for processing. <br>
+            The HTML &lt;form&gt; element is used to create an HTML form for user input. <br>
+            <h3>Action Attribute:</h3> <br>
+            The action attribute defines the action to be performed when the form is submitted. <br>
+            Usually, the form data is sent to a file on the server when the user clicks on the submit button. <br>
+            &lt;form action="/action_page.php"&gt; - In this example , the form data is sent to a file called "action_page.php". <br>
+            Note: If the action attribute is omitted, the action is set to the current page.
+
+            <h3>&lt;input&gt; Element:</h3>
+            <p>One of the most used form elements is the &lt;input&gt; element. <br>
+            The &lt;input&gt; element can be displayed in several ways, depending on the <b>type attribute.</b></p>
+
+            <table border="black">
+                <caption>Type attributes types</caption>
+                <tr>
+                    <th>Type attribute value</th>
+                    <th>Working</th>
+                </tr>
+                <tr>
+                    <td>text</td>
+                    <td>default value of the type attribute is "text".defines a single-line text input field.</td>
+                </tr>
+                <tr>
+                    <td>password</td>
+                    <td>The characters in a password field are masked</td>
+                </tr>
+                <tr>
+                    <td>email</td>
+                    <td>The type="email" is used for input fields that should contain an e-mail address. <br> Depending on browser support, the e-mail address can be automatically validated when submitted.</td>
+                </tr>
+                <tr>
+                    <td>submit</td>
+                    <td>defines a button for submitting form data to a form-handler. <br> The form-handler is typically a server page with a script for processing input data. <br> The form-handler is specified in the form's action attribute.</td>
+                </tr>
+                <tr>
+                    <td>radio</td>
+                    <td>
+                        Radio buttons let a user <b>select ONLY ONE</b> of a limited number of choices <br>
+                        &#x2022;We have to use the same name attribute value for multiple radio buttons to group them together, allowing only one to be selected. <br>
+                        &#x2022;We must use the value attribute according to the option, so that when the form data is sent to the server, <br> the selected option can be identified.
+                    </td>
+                </tr>
+                <tr>
+                    <td>checkbox</td>
+                    <td>
+                        Checkboxes let a user <b>select ZERO or MORE</b> options of a limited number of choices. <br> 
+                        &#x2022;We can use "checked" attribute to tick by default <br>
+                        &#x2022;We have to use the same name attribute value for multiple checkboxes if they represent a group of related options, <br> allowing multiple options to be selected. <br>
+                        &#x2022;We must use the value attribute according to each option so that when the form data is sent to the server,<br> all selected options can be identified.
+                    </td>
+                </tr>
+                <tr>
+                    <td>number</td>
+                    <td>type="number" defines a numeric input field. <br>You can also set restrictions on what numbers are accepted.</td>
+                </tr>
+                <tr>
+                    <td>date</td>
+                    <td>is used for input fields that should contain a date. <br>Depending on browser support, a date picker can show up in the input field. <br>You can also use the min and max attributes to add restrictions to dates.</td>
+                </tr>
+                <tr>
+                    <td>file</td>
+                    <td>defines a file-select field and a "Browse" button for file uploads.</td>
+                </tr>
+                <tr>
+                    <td>tel</td>
+                    <td>used for input fields that should contain a telephone number.</td>
+                </tr>
+                <tr>
+                    <td>range</td>
+                    <td>
+                        defines a control for entering a number whose exact value is not important (like a slider control). <br>
+                        &#x2022;Default range is 0 to 100. <br> However, you can set restrictions on what numbers are accepted with the "min", "max", and "step" attributes.
+                        &#x2022; we can use value = "x" to select a x value by default.
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">There are many values of type attribute to input different types of data like:- <br>url, hidden, color, search, datetime-local, month, week, time, reset, image, button e.t.c.</td>
+                </tr>
+            </table>
+
+            <h3>placeholder attribute:-</h3>
+            <p>The input placeholder attribute specifies a short hint that describes the expected value.<br>
+            The short hint is displayed in the input field before the user enters a value. <br>
+            The placeholder attribute works with: text, search, url, number, tel, email, and password. <br>
+            e.g. - &lt;input type = "password" placeholder = "Enter password here"&gt; - <input type = "password" placeholder = "Enter password here"> <br>
+            </p>
+
+            <h3>&lt;label&gt; element:-</h3>
+            <p>
+                The label element defines a label for several form elements. <br>
+                when the user clicks the text within the label element, it toggles the input element also.<br>
+                The <b>for</b> attribute of the &lt;label&gt; tag should be equal to the <b>id</b> attribute of the &lt;input&gt; element to bind them together. <br>
+                e.g. &lt;label <b>for="username"</b>&gt; Enter Username &lt;/label&gt;  <br> 
+                &lt;input type = "text" <b>id="username"</b>&gt;  (this method is more preferred)<br>  <b>OR</b> <br>
+                &lt;label&gt; Enter Name &lt;input type = "text"&gt; &lt;/label&gt; 
+            </p>
+
+            <h3>&lt;button&gt; element:-</h3>
+            <p>
+                The <button>button</button> tag defines a clickable button. <br>
+                button's "type" attribute:-
+                <ul>
+                    <li>type = "submit" - used to submit</li>
+                    <li>type = "button" - do something</li>
+                    <li>type = "reset" - used to reset</li>
+                </ul>
+                If a button is inside form and type is submit then the form is submitted. <br>
+                We can also create buttons outside form with button element. (most preferred also in forms) <br>OR <br>
+                input element type="submit":- <br>
+                &lt;input type="submit" <b>value="button name"</b>&gt; <br>
+                also type="button" we can create button inside forms.
+            </p>
+
+            <h3>name attribute:-</h3>
+            <p>
+                The name attribute in an &lt;input&gt; element is used to identify the input when form data is submitted to the server. <br>
+                key=value -&gt; name=value(from value attribute or user's input)
+            </p>
+
+            <h3>&lt;select&gt; element:-</h3>
+            <p>
+                The &lt;select&gt; element defines a drop-down list. <br>
+                The &lt;option&gt; element defines an option that can be selected. <br>
+                By default, the first item in the drop-down list is selected. <br>
+                To define a pre-selected option, add the "selected" attribute to the option. <br>
+                e.g of select element:- 
+                &lt; select name="profession" id = "profession"&gt; <br>
+                &lt; option > Select your option &lt;/option&gt; <br>
+                &lt; option value= "student"> Student&lt;/option&gt; <br>
+                &lt; option value= "dev" selected>Developer&lt;/option&gt; <br>
+                &lt;/select&gt; <br>
+                Use the size = "n" attribute to specify the number of visible values at once.
+            </p>
+
+            <h3>&lt;textarea&gt; element:-</h3>
+            <p>
+                The &lt;textarea&gt; element defines a multi-line input field (a text area). <br>
+                The "rows" attribute specifies the visible number of lines in a text area. <br>
+                The "cols" attribute specifies the visible width of a text area. <br>
+                You can also define the size of the text area by using CSS.
+            </p>
+
+            <h3>name attribute:-</h3>
+            <p>
+                The name attribute in an &lt;input&gt; element defines the <b>key</b> used to send the input's value as a key-value pair in form submissions. <br>
+                Each input element must have a unique name unless they are part of the same group (e.g., radio buttons sharing the same name).
+            </p>
+        </div>
+        <div>
+            <h3>&lt;fieldset&gt; and &lt;legend&gt; elements:-</h3>
+            <p>
+                The fieldset element is used to group related data in a form. <br>
+                The legend element defines a caption for the fieldset element. <br>
+                e.g - <fieldset style="width: 200px;"><legend>Legend</legend></fieldset>
+            </p>
+        </div>
+     </section>
+</body>
+
+</html>

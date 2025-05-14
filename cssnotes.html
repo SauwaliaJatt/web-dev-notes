@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Notes</title>
+    <link rel="stylesheet" href="notes.css">
+    <style>
+        body{
+    background-color: #cc916190;
+    font-size: 1.3rem;
+    line-height: 2.5rem;
+    font-family: 'Palatino', 'Palatino Linotype', 'Book Antiqua', serif;
+    /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
+}
+
+section{
+    max-width: 90%;
+    background-color: #e8d8af;
+    margin: 20px auto;
+    padding: 20px;
+    border: 3px solid #264653;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px brown;
+}
+
+h1,h2,h3,h4{
+    margin-bottom: 20px;
+    border-bottom: 2px solid #264653;
+    /* display: inline-block; */
+    text-shadow: 5px 5px 6px rgba(74, 23, 23, 0.2);
+    background-color: #2a9d8f40;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 20px 0px;
+    max-width: 15em;
+    box-shadow: 2px 2px 5px inset;
+    font-family: sans-serif;
+}
+
+table,tr,td{
+    border: 2px solid #264653;
+    border-collapse: collapse;
+    padding: 5px;
+    border-radius: 10px;
+}
+    </style>
+</head>
+<body>
+    <section>
+        <h1>CSS Notes</h1>
+        <div>
+            CSS stands for Cascading Style Sheets. <br>
+            CSS is the language we use to style an HTML document. <br>
+            CSS describes how HTML elements should be displayed. <br>
+            <b>file extension -</b> .css and many other.
+        </div>
+    </section>
+
+    <!-- syntax -->
+    <section>
+        <h2>CSS Syntax</h2>
+        <div>
+            A CSS rule consists of a selector and a declaration block. <br>
+            <img src="https://www.w3schools.com/css/img_selector.gif" alt="css syntax">  <br>
+            Example:- <br>
+            <pre>
+                p {
+                    color: red;
+                    text-align: center;
+                }
+            </pre>
+            Example Explained <br>
+            p is a selector in CSS (it points to the HTML element you want to style: &lt;p&gt;). <br>
+            color is a property, and red is the property value <br>
+            text-align is a property, and center is the property value <br>
+        </div>
+    </section>
+    <!-- selectors -->
+
+    <section>
+        <div>
+            <h2>CSS Selectors:-</h2>
+            <p>
+                A CSS selector selects the HTML element(s) you want to style. <br>
+                We can divide CSS selectors into five categories:
+                <ul>
+                    <li>Simple selectors (select elements based on name, id, class)</li>
+                    <li>Combinator selectors (select elements based on a specific relationship between them)</li>
+                    <li>Pseudo-class selectors (select elements based on a certain state)</li>
+                    <li>Pseudo-elements selectors (select and style a part of an element)</li>
+                    <li>Attribute selectors (select elements based on an attribute or attribute value)</li>
+                </ul>
+            </p>
+        </div>
+        <div>
+            <h3>Universal Selector:-</h3>
+            <p>
+                The universal selector (*) selects all HTML elements on the page. <br>
+                e.g - * { text-align: center; color: blue;}
+            </p>
+        </div>
+        <div>
+            <h3>Element Selector:-</h3>
+            <p>
+                The element selector selects HTML elements based on the element name. <br>
+                also we can select multiple different elements by using comma. <br>
+                e.g - h1, p { text-align: center; } - here all h1 and p tags are selected.
+            </p>
+        </div>
+        <div>
+            <h3>ID Selector:-</h3>
+            <p>
+                The id of an element is unique within a page. <br>
+                id is case sensitive. <br>
+                Note: An id name cannot start with a number! <br>
+                so the id selector is used to select one unique element! <br>
+                write a hash (#) character, followed by the id of the element. <br>
+                e.g #elementid { text-align: center; }
+            </p>
+        </div>
+        <div>
+            <h3>Class Selector:-</h3>
+            <p>
+                Multiple HTML elements can share the same class. <br>
+                Also one element have more than one classes. <br>
+                Note: A class name cannot start with a number! <br>
+                e.g &lt;p class="center large"&gt;...&lt;/p&gt; - have two classes center and large. <br>
+                The class selector selects HTML elements with a specific class attribute. <br>
+                To select elements with a specific class, write a period (.) character, followed by the class name. <br>
+                e.g - .center {text-align: center; color: red;} <br>
+                You can also specify that only specific HTML elements should be affected by a class. <br>
+                e.g - p.center { text-align: center; color: red; } <br>
+                In this example only &lt;p&gt; elements with class="center" will be affected
+            </p>
+        </div>
+        <div>
+            <h3>attribute Selector:-</h3>
+            <p>
+                The [attribute] selector is used to select elements with a specified attribute. <br>
+                e.g - a[target] { background-color: yellow; } - selects all a elements with a target attribute. <br>
+            </p>
+        </div>
+        <div>
+            <h3>[attribute="value"] Selector:-</h3>
+            <p>
+                The [attribute="value"] selector is used to select elements with a specified attribute and value. <br>
+                e.g - a[target="_blank"] { background-color: yellow; } - selects all a elements with a target="_blank" attribute.
+            </p>
+        </div>
+        <div>
+            <h3>Pseudo class:-</h3>
+            <p>
+                A pseudo-class is used to define a special state of an element. <br>
+                syntax: selector:pseudo-class { property: value; } <br>
+                e.g - a:hover { color: #FF00FF; } <br>
+                <table border="black">
+                    <caption>different pseudo-classes</caption>
+                    <tr>
+                        <th>Pseudo-class</th>
+                        <th>example</th>
+                        <th>example description</th>
+                    </tr>
+                    <tr>
+                        <td>:hover</td>
+                        <td>a:hover</td>
+                        <td>Selects element on mouse over</td>
+                    </tr>
+                    <tr>
+                        <td>:active</td>
+                        <td>a:active</td>
+                        <td>Selects the active link</td>
+                    </tr>
+                    <tr>
+                        <td>:checked</td>
+                        <td>option:checked</td>
+                        <td>Matches any option element that is checked</td>
+                    </tr>
+                    <tr>
+                        <td>:nth-of-type()</td>
+                        <td>p:nth-of-type(2n)</td>
+                        <td>Selects any p element that is the even p element of its parent</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Many many more pseudo classes also there that we can learn</td>
+                    </tr>
+                </table>
+            </p>
+        </div>
+        <div>
+            <h3>Pseudo-elements:-</h3>
+            <p>
+                A CSS pseudo-element is used to style specific parts of an element. <br>
+                syntax - selector::pseudo-element { property: value; } <br>
+                e.g - p::first-line { color: #ff0000; } <br>
+                <table border="black">
+                    <caption>different pseudo-elements</caption>
+                    <tr>
+                        <th>Pseudo-element</th>
+                        <th>Example</th>
+                        <th>Example description</th>
+                    </tr>
+                    <tr>
+                        <td>::first-letter</td>
+                        <td>p::first-letter</td>
+                        <td>Selects the first letter of every p element</td>
+                    </tr>
+                    <tr>
+                        <td>::first-line</td>
+                        <td>p::first-line</td>
+                        <td>Selects the first line of every p element</td>
+                    </tr>
+                    <tr>
+                        <td>::selection</td>
+                        <td>p::selection</td>
+                        <td>Styles the user-selected text inside any p tag</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Many many more pseudo elements also there that we can learn</td>
+                    </tr>
+                </table>
+            </p>
+        </div>
+    </section>
+
+    <!-- combinators -->
+    <section>
+        <div>
+            <h2>CSS Combinators:-</h2>
+            <p>
+                A CSS selector can contain more than one simple selector. Between the simple selectors, we can include a combinator.
+            </p>
+        </div>
+        <div>
+            <h3>Descendant Combinator(space):-</h3>
+            <p>
+                The descendant combinator matches all elements that are descendants of a specified element. <br>
+                e.g - div p { background-color: yellow; } - selects all &lt;p&gt; elements inside &lt;div&gt; elements
+            </p>
+        </div>
+        <div>
+            <h3>Next Sibling combinator (+):-</h3>
+            <p>
+                The next sibling combinator is used to select an element that is directly after another specific element. <br>
+                Sibling elements must have the same parent element(means same level). <br>
+                e.g - div + p { background-color: yellow; } - selects the first &lt;p&gt; element that are placed immediately after &lt;div&gt; elements
+            </p>
+        </div>
+        <div>
+            <h3>Child combinator (>):-</h3>
+            <p>
+                The child combinator selects all elements that are the children of a specified element. <br>
+                e.g - div > p { background-color: yellow; } - selects all &lt;p&gt; elements that are children of a &lt;div&gt; element
+            </p>
+        </div>
+    </section>
+
+    <!-- Cascading -->
+    <section>
+        <div>
+            <h2>Cascade in CSS:-</h2>
+            <p>
+                Cascading in CSS determines which rule to apply when multiple rules target the same element. <br>
+                these rules are also works when there many style sheets. <br>
+                The browser resolves conflicts based on: <br>
+                <ol>
+                    <li>Rules marked with !important override everything. Regardless of where they are declared.</li>
+                    <li>Inline styles (e.g., style="...") have the highest priority if no !important is involved..</li>
+                    <li>Specificity determines which rule takes precedence if there's no !important.</li>
+                    <li>If specificity is the same, the last declared rule is applied.</li>
+                </ol>
+            </p>
+        </div>
+    </section>
+
+    <!-- specificity -->
+    <section>
+        <div>
+            <h2>Specificity:-</h2>
+            <p>
+                Specificity in CSS is a system used to determine which CSS rule should be applied to an element when multiple rules target the same element. <br>
+                The higher the specificity value, the more priority the rule has over others. <br>
+                Specificity is calculated using a four-part system, where each part is represented by a number that reflects the importance of different types of selectors. <br>
+                These parts are:
+                <ol>
+                    <li>Inline styles: (1000)</li>
+                    <li>ID selectors: (100)</li>
+                    <li>Class selectors, attributes, and pseudo-classes: (10)</li>
+                    <li>Element selectors and pseudo-elements: (1)</li>
+                </ol>
+                e.g -  <br>
+                #header { color: blue; }   - Specificity 100 <br>  
+                .menu { color: green; }     - Specificity 10 <br>
+                div { color: yellow; }     - Specificity 1 <br>
+                #header { color: red; }     - Specificity 100, but declared later (wins) <br>
+                The result will be red <br>
+                Add up the specificity for all components of the selector. <br>
+                if two rules have the same specificity, the one declared last wins.
+            </p>
+        </div>
+    </section>
+
+    <!-- important -->
+    <section>
+        <div>
+            <h2>!important:-</h2>
+            <p>
+                The !important rule in CSS is used to add more importance to a property/value than normal. <br>
+                it will override ALL previous styling rules for that specific property on that element! <br>
+                e.g - p { background-color: red <b>!important</b>; } <br>
+                do not use it unless you absolutely have to.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <div>
+            <h2>Inheritance:-</h2>
+            <p>
+                Inheritance in CSS means that some properties automatically pass their values from parent elements to child elements. <br>
+            </p>
+        </div>
+        <div>
+            <h3>Properties that inherit by default:</h3>
+            <p>
+                Some CSS properties inherit their values automatically. These are typically text- and font-related properties, such as: <br>
+                color, font-family, font-size, font-style, letter-spacing, line-height, visibility e.t.c
+            </p>
+        </div>
+        <div>
+            <h3>Properties that do not inherit by default:</h3>
+            <p>
+                Most other CSS properties, especially box model properties and layout-related properties, do not inherit by default, such as: <br>
+                margin, padding, border, width, height, background, display e.t.c
+            </p>
+        </div>
+        <div>
+            <h3>Forcing inheritance:-</h3>
+            <p>
+                You can force a property to inherit its value using the inherit keyword. For example: <br>
+                p { color: inherit; } - Takes the color from its parent.
+            </p>
+        </div>
+        <div>
+            <h3>Overriding inheritance:-</h3>
+            <p>
+                Child elements can override inherited values with their own specified styles.
+            </p>
+        </div>
+        <div>
+            <h3>Default (initial) value:-</h3>
+            <p>
+                If you want to reset a property to its default value (as defined by the CSS specification), you can use the initial keyword: <br>
+                p { color: initial; }
+            </p>
+        </div>
+        <div>
+            <h3>Universal inheritance (using all):-</h3>
+            <p>
+                The all shorthand property can be used to apply inherit, initial, or unset to all properties: <br>
+                e.g - div {all: inherit; } - Forces all properties to inherit.
+            </p>
+        </div>
+    </section>
+
+    <!-- css types -->
+    <section>
+        <h2>How to use:-</h2>
+        <div>
+            There are three ways of inserting a style sheet: <br>
+            <h3>External CSS</h3>
+            With an external style sheet, you can change the look of an entire website by changing just one file! <br>
+            External styles are defined within the &lt;link&gt; element, inside the &lt;head&gt; section <br>
+            Most used as we can use a single file for multiple pages. <br>
+            e.g - &lt;head&gt; &lt;link <b>rel="stylesheet"</b> href="cssfilename.css"&gt; &lt;/head&gt; <br>
+            write full path of file if not in same folder.
+
+            <h3>Internal CSS</h3>
+            The internal style is defined inside the &lt;style&gt; element, inside the head section. <br>
+            Not used because for every html file we have to style again and again.
+            <pre>
+            &lt;head&gt;
+                &lt;style&gt;
+                body {
+                  background-color: black;
+                }
+                &lt;/style&gt;
+            &lt;/head&gt;
+            </pre>
+
+            <h3>Inline CSS</h3>
+            An inline style may be used to apply a unique style for a single element. <br>
+            To use inline styles, add the <b>style attribute</b> to the relevant element that can contain any CSS property. <br>
+            e.g - &lt;h1 style="color:blue; text-align:center;"&gt;This is a heading&lt;/h1&gt; <br>
+            Not used because every element we have to style again and again.<br> <br>
+
+            &#x2022;<b>Note - </b> If some properties have been defined for the same selector (element) in <br>
+            different style sheets, the value from the last read style sheet will be used.
+        </div>
+    </section>
+    
+    <section>
+        <h3>color property:-</h3>
+        <p>
+            The color property specifies the color of text(or foreground). <br>
+            e.g - body {color: red;}
+        </p>
+        <h3>background-color property:-</h3>
+        <p>
+            The background-color property sets the background color of an element. <br>
+            The background of an element is the total size of the element, including padding and border (but not the margin).
+        </p>
+        <h3>font-size property:-</h3>
+        <p>
+            The font-size property sets the size of a font. <br>
+            values - medium(default), small, large, smaller, larger, length, %. <br>
+            smaller and larger are relative to parent.
+        </p>
+        <h3>background-image property:-</h3>
+        <p>
+            The background-image property specifies an image to use as the background of an element. <br>
+            syntax - background-image: url("path/link"); e.g - background-image: url("paper.gif"); <br>
+            By default, the image is repeated so it covers the entire element.
+        </p>
+        <h3>background-size property:-</h3>
+        <p>
+            The background-size property specifies the size of the background images. <br>
+            e.g - background-size: cover;(best, we are using it mostly) or background-size: 75% 50% e.t.c 
+            <table>
+                <caption>values</caption>
+                <tr>
+                    <td>auto</td>
+                    <td>Default value. The background image is displayed in its original size</td>
+                </tr>
+                <tr>
+                    <td>length</td>
+                    <td>Sets the width and height of the background image.first value sets width, second value sets height. If only one value, the second is set to "auto".</td>
+                </tr>
+                <tr>
+                    <td>cover</td>
+                    <td>Resize the background image to cover the entire container, even if it has to stretch the image or cut a little bit off one of the edges</td>
+                </tr>
+                <tr>
+                    <td>contain</td>
+                    <td>Resize the background image to make sure the image is fully visible</td>
+                </tr>
+            </table>
+        </p>
+    </section>
+
+    <!-- color system -->
+    <section>
+        <h2>Color System:-</h2>
+        <div>
+            <div>
+                <h3>Named Colors:-</h3>
+                a color can be specified by using a predefined color name. <br>
+                CSS/HTML support ~140 standard color names.
+            </div>
+            <div>
+                <h3>RGB Colors:-</h3>
+                a color can be specified as an RGB value, using this formula: <br>
+                <b>rgb(red, green, blue)</b> <br>
+                Each parameter (red, green, and blue) defines the intensity of the color between 0 and 255.
+            </div>
+            <div>
+                <h3>RGBA Colors:-</h3>
+                RGBA color values are an extension of RGB color <br>
+                values with an alpha channel - which specifies the opacity for a color. <br>
+                <b>rgba(red, green, blue, alpha)</b> <br>
+                alpha parameter is a number between 0.0 (fully transparent) and 1.0 (not transparent at all).
+            </div>
+            <div>
+                <h3>HEX(hexadecimal) Colors:-</h3>
+                a color can be specified using a hexadecimal value in the form: <br>
+                <b>#rrggbb</b> <br>
+                Where rr (red), gg (green) and bb (blue) are hexadecimal values between 00 and ff (same as decimal 0-255). <br>
+                The 3-digit hex code is a shorthand for some 6-digit hex codes. - #rgb <br>
+                e.g - if we have #ff00cc, it can be written like this: #f0c. <br>
+                <b>#rrggbbaa</b> - aa is for alpha channel range from 00(fully transparent) to ff(fully visible). <br>
+                it does not affect the transparency of the element's content.
+            </div>
+        </div>
+        <div>
+            <h2>Opacity property:-</h2>
+            <p>
+                The opacity property in CSS is used to control the transparency level of an element. <br>
+                It accepts values between 0 (completely transparent) and 1 (completely opaque). <br>
+                e.g - opacity: value; <br>
+                Note - opacity applies to both the element and its children. <br>
+                To make only the background transparent while keeping child elements opaque, you can use color with alpha value for the background color.
+            </p>
+        </div>
+    </section>
+    
+
+    <!-- text properties -->
+    <section>
+        <h2>Text properties:-</h2>
+        <div>
+            <h3>text-align property:-</h3>
+            <p>
+                The text-align property specifies the horizontal alignment of text in an element. <br>
+                Aligns according to parent element.
+            </p>
+            <table border="black">
+                <tr>
+                    <td>left/start</td>
+                    <td>Aligns the text to the left / <br> from starting side according to different languages</td>
+                </tr>
+                <tr>
+                    <td>right/end</td>
+                    <td>Aligns the text to the right / <br> from ending side according to different languages</td>
+                </tr>
+                <tr>
+                    <td>center</td>
+                    <td>Centers the text</td>
+                </tr>
+                <tr>
+                    <td>justify</td>
+                    <td>Stretches the lines so that each line has equal width <br> (like in newspapers and magazines)</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h3>font-weight property:-</h3>
+            <p>
+                The font-weight property sets how thick or thin characters in text should be displayed. <br>
+                values - 100-900, normal, bold, bolder, lighter. 400 is the same as normal, and 700 is the same as bold. <br>
+                bolder and lighter are according to parent.
+            </p>
+        </div>
+        <div>
+            <h3>text-decoration property:-</h3>
+            <p>
+                The text-decoration property specifies the decoration added to text, and is a shorthand property for: <br>
+                text-decoration-line (required), text-decoration-color, text-decoration-style, text-decoration-thickness. <br>
+                <b>syntax</b> - text-decoration: text-decoration-line; text-decoration-color; text-decoration-style; text-decoration-thickness; <br>
+                Default value:	none currentColor solid auto
+                <table border="black">
+                    <caption>Values:-</caption>
+                    <tr>
+                        <td>text-decoration-line</td>
+                        <td>none, underline, overline, line-through</td>
+                    </tr>
+                    <tr>
+                        <td>text-decoration-color</td>
+                        <td>Sets the color of the text decoration</td>
+                    </tr>
+                    <tr>
+                        <td>text-decoration-style</td>
+                        <td>solid, wavy, dotted, dashed, double</td>
+                    </tr>
+                    <tr>
+                        <td>text-decoration-thickness</td>
+                        <td>Sets the thickness of the decoration line</td>
+                    </tr>
+                </table>
+                <p>also can be used to remove underline of anchor tag e.t.c by using value none.</p>
+            </p>
+        </div>
+        <div>
+            <h3>line-height property:-</h3>
+            <p>
+                The line-height property specifies the height of a line. <br>
+                Note: Negative values are not allowed.
+            </p>
+            <table border="black">
+                <caption>line-height values:-</caption>
+                <tr>
+                    <td>normal</td>
+                    <td>A normal line height. This is default</td>
+                </tr>
+                <tr>
+                    <td>number</td>
+                    <td>A number that will be multiplied with the current font-size to set the line height <br> e.g - 2,3.5 e.t.c</td>
+                </tr>
+                <tr>
+                    <td>length</td>
+                    <td>A fixed line height in px, pt, cm, etc</td>
+                </tr>
+                <tr>
+                    <td>%</td>
+                    <td> line height in percent of the current font size</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h3>letter-spacing property:-</h3>
+            <p>
+                The letter-spacing property increases or decreases the space between characters in a text. <br>
+            </p>
+            <table border="black">
+                <caption>letter-spacing values:-</caption>
+                <tr>
+                    <td>normal</td>
+                    <td>default,Defines normal space</td>
+                </tr>
+                <tr>
+                    <td>length</td>
+                    <td>Defines a length that is used as the space between characters <br> (negative values are also allowed). <br> e.g - 10px e.t.c</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <!-- units -->
+    <section>
+        <h2>Units in css:-</h2>
+        <p>
+            CSS has several different units for expressing a length. <br>
+            Many CSS properties take "length" values, such as width, margin, padding, font-size, etc. <br>
+            Length is a number followed by a length unit, such as 10px, 2em, etc. <br>
+            Note: A whitespace cannot appear between the number and the unit.if the value is 0, the unit can be omitted. <br>
+            For some CSS properties, negative lengths are allowed. <br>
+            two types of length units: absolute and relative. <br>
+        </p>
+
+        <h3>Absolute Lengths:-</h3>
+        <p>
+            The absolute length units are fixed and a length expressed in any of these will appear as exactly that size.
+        </p>
+        <table border="black">
+            <tr>
+                <th>Unit</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>px</td>
+                <td>pixels (1px = 1/96th of 1in)</td>
+            </tr>
+            <tr>
+                <td>mm</td>
+                <td>milimeters</td>
+            </tr>
+            <tr>
+                <td>in</td>
+                <td>inches (1in = 96px = 2.54cm)</td>
+            </tr>
+            <tr>
+                <td>cm</td>
+                <td>centimeters</td>
+            </tr>
+            <tr>
+                <td>pt</td>
+                <td>points (1pt = 1/72 of 1in)</td>
+            </tr>
+            <tr>
+                <td>pc</td>
+                <td>picas (1pc = 12 pt)</td>
+            </tr>
+        </table>
+
+        <h3>Relative Lengths:-</h3>
+        <p>
+            Relative length units specify a length relative to another length property.
+        </p>
+        <table border="black">
+            <tr>
+                <th>Unit</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>%</td>
+                <td>Relative to the parent element</td>
+            </tr>
+            <tr>
+                <td>em</td>
+                <td>Relative to the font-size of the element <br>(2em means 2 times the size of the current font)</td>
+            </tr>
+            <tr>
+                <td>rem</td>
+                <td>Relative to font-size of the root element</td>
+            </tr>
+            <tr>
+                <td>ch</td>
+                <td>Relative to the width of the "0" (zero)</td>
+            </tr>
+            <tr>
+                <td>vh</td>
+                <td>Relative to 1% of the height of the viewport</td>
+            </tr>
+            <tr>
+                <td>vw</td>
+                <td>Relative to 1% of the width of the viewport</td>
+            </tr>
+            <tr>
+                <td colspan="2">many more...</td>
+            </tr>
+        </table>
+        <p>
+            Tip: The em and rem units are practical in creating perfectly scalable layout! <br>
+            Viewport = the browser window size. If the viewport is 50cm wide, 1vw = 0.5cm.
+        </p>
+
+        <p>
+            <b>%</b> - The percentage unit (%) in CSS is relative to its parent element's dimensions. For width and height, it depends on the parent's width or height, while for padding and margin, it's based on the parent's width. Font sizes use the parent's font size, and positioning (top, left, etc.) is relative to the containing block's dimensions.
+        </p> 
+        <p>
+            <b>em</b> - Relative to Font size of the parent, in the case of typographical properties like font-size, and font size of the element itself, in the case of other properties like width. <br>
+            drawback - Because em is relative, nested elements can multiply the size effect if their parents also use em (Compounding effect or Snowball effect in nested elements).
+        </p>
+        <p>
+            <b>rem</b> - Relative to font size of root element. Easy to adjust entire layouts by changing the root font size. Avoids compounding effects seen with em.
+        </p>
+    </section>
+
+    <!-- font-family property -->
+    <section>
+        <h2>font-family property:-</h2>
+        <p>
+            The font-family property specifies the font for an element. <br>
+            The font-family property can hold several font names. <br>
+            If the browser does not support the first font, it tries the next font. <br>
+            <b>family-name</b> - The name of a font-family, like "times", "courier", "arial", etc. <br>
+            <b>generic-family</b> - The name of a generic-family, like "serif", "sans-serif", "cursive", "fantasy", "monospace". <br>
+            Start with the font you want, and always end with a generic family <br>
+            Note: Separate each value with a comma. <br>
+            If a font name contains white-space, it must be quoted.
+        </p>
+    </section>
+
+    <!-- box model  -->
+    <section>
+        <div>
+            <h2>Box Model:-</h2>
+            <p>
+                All HTML elements can be considered as boxes. <br>
+                The CSS box model is essentially a box that wraps around every HTML element. It consists of: content, padding, borders and margins. <br>
+                <img src="contentimages/boxmodel.png" alt="box model img" width="40%"> <br>
+                Content - The content of the box, where text and images appear <br>
+                Padding - Clears an area around the content. The padding is transparent <br>
+                Border - A border that goes around the padding and content <br>
+                Margin - Clears an area outside the border. The margin is transparent <br>
+            </p>
+        </div>
+        <div>
+            <h3>height property:-</h3>
+            <p>
+                The height property sets the height of an element. <br>
+                The height of an element does not include padding, borders, or margins. <br>
+                If height: auto; the element will automatically adjust its height to allow its content to be displayed correctly. <br>
+                values - auto, length, %, initial, inherit.
+            </p>
+        </div>
+        <div>
+            <h3>width property:-</h3>
+            <p>
+                The width property sets the width of an element. <br>
+                The width of an element does not include padding, borders, or margins. <br>
+                values - auto, length, %, initial, inherit.
+            </p>
+        </div>
+
+        <!-- border -->
+        <div class="border">
+            <h2>Border:-</h2>
+            <p>
+                The border property in CSS is used to add a visible line (border) around an HTML element. <br>
+                You can customize its width, style, and color. <br>
+                shorthand - border: width style color; <br>
+                we can control each side of the border independently:- <br>
+                border-top: width style color; (same for all other), border-right, border-bottom, border-left. 
+            </p>
+        </div>
+        <div>
+            <h3>border-width property:-</h3>
+            <p>
+                The border-width property specifies the width of the four borders. <br>
+                The width can be set as a specific size (in px, pt, cm, em, etc) or <br>
+                by using one of the three pre-defined values: thin, medium, or thick.
+
+                <b>specific side widths:-</b> <br>
+                The border-width property can have from one to four values (for the top border, right border, bottom border, and the left border) <br>
+                e.g if 2 values - border-width: 5px 20px; - 5px top and bottom, 20px on right and left. <br>
+                e.g if 4 values - border-width: 25px 10px 4px 35px; - 25px top, 10px right, 4px bottom and 35px left. <br>
+                shorthand syntax - border-width: top right bottom left; <br>
+                or we can use - border-top-width, border-right-width, border-bottom-width, border-left-width.
+            </p>
+        </div>
+        <div>
+            <h3>border-style property:-</h3>
+            <p>
+                The border-style property sets the style of an element's four borders. <br>
+                if 4 values - top, right, bottom, left,; <br>
+                if 3 values - top, right and left, bottom, <br>
+                if 2 values - top and bottom, right and left. <br>
+                if 1 value - all four borders same. <br>
+                values - none, hidden, dotted, dashed, solid, double, groove, ridge, inset, outset, initial, inherit.
+            </p>
+        </div>
+        <div>
+            <h3>border-color property:-</h3>
+            <p>
+                The border-color property is used to set the color of the four borders. <br>
+                Note: If border-color is not set, it inherits the color of the element. <br>
+                shorthand - border-color: top right bottom left; <br>
+                also on specific sides - border-top-color, border-right-color, border-bottom-color, border-left-color. 
+            </p>
+        </div>
+
+        <div>
+            <h3>border-radius property:-</h3>
+            <p>
+                The border-radius property is used to add rounded borders to an element. <br>
+                shorthand - border-radius: top-left top-right bottom-right bottom-left <br>
+                there are also many more shorthand types. <br>
+                also we can assign to single border-top-left-radius, border-bottom-left-radius, border-bottom-right-radius, border-top-right-radius. <br>
+                to make circle border-radius: 50%; and height,width need to same otherwise oval shape.
+            </p>
+        </div>
+        <div>
+            <h3>box-shadow property:-</h3>
+            <p>
+                The box-shadow property attaches one or more shadows to an element. <br>
+                syntax - box-shadow: h-offset v-offset blur color; , e.g-  box-shadow: 10px 10px 8px #888888;<br>
+                also - box-shadow: h-offset v-offset blur spread color inset; <br>
+                To attach more than one shadow to an element, add a comma-separated list of shadows
+                <table>
+                    <caption>values</caption>
+                    <tr>
+                        <td>none</td>
+                        <td>Default value. No shadow is displayed</td>
+                    </tr>
+                    <tr>
+                        <td>h-offset</td>
+                        <td>Required. The horizontal offset of the shadow. A positive value puts shadow on right side of the box, negative value on the left</td>
+                    </tr>
+                    <tr>
+                        <td>v-offset</td>
+                        <td>Required. The vertical offset of the shadow. A positive value puts the shadow below the box, negative value puts shadow above</td>
+                    </tr>
+                    <tr>
+                        <td>blur</td>
+                        <td>Optional. The blur radius. The higher the number, the more blurred the shadow will be</td>
+                    </tr>
+                    <tr>
+                        <td>spread</td>
+                        <td>Optional. The spread radius.</td>
+                    </tr>
+                    <tr>
+                        <td>color</td>
+                        <td>Optional. The color of the shadow. The default value is the text color.</td>
+                    </tr>
+                    <tr>
+                        <td>inset</td>
+                        <td>Optional. Changes the shadow from an outer shadow (outset) to an inner shadow</td>
+                    </tr>
+                </table>
+            </p>
+        </div>
+        <div>
+            <h3>padding property:-</h3>
+            <p>
+                Padding is used to create space around an element's content, inside of any defined borders. <br>
+                shorthand:- <br>
+                if 4 values - top, right, bottom, left,; <br>
+                if 3 values - top, right and left, bottom, <br>
+                if 2 values - top and bottom, right and left. <br>
+                if 1 value - all four borders same. <br>
+                e.g - padding: 10px 20px 30px 40px; <br>
+                also for individual - padding-top, padding-right, padding-bottom, padding-left. <br>
+            </p>
+        </div>
+        <div>
+            <h3>margin property:-</h3>
+            <p>
+                Margins are used to create space around elements, outside of any defined borders. <br>
+                shorthand - margin: top right bottom left; or with 3,2,1 values also. <br>
+                also we can set individual - margin-top, margin-right, margin-bottom, margin-left. <br>
+                values - length, %, 0, auto, initial, inherit. and for approx all above box model properties.
+            </p>
+        </div>
+        <div>
+            <h3>display property:-</h3>
+            <p>
+                The display property in CSS is used to specify the display behavior of an element. <br> 
+                It determines how an element is rendered in the document flow. 
+                <table>
+                    <caption>display property values</caption>
+                    <tr>
+                        <th>Value</th>
+                        <th>Discription</th>
+                    </tr>
+                    <tr>
+                        <td>none</td>
+                        <td>The element is completely removed</td>
+                    </tr>
+                    <tr>
+                        <td>inline</td>
+                        <td>Displays an element as an inline element (like span). but Any height and width properties will have no effect. This is default.</td>
+                    </tr>
+                    <tr>
+                        <td>block</td>
+                        <td>Displays an element as a block element (like p). It starts on a new line, and takes up the whole width</td>
+                    </tr>
+                    <tr>
+                        <td>inline-block</td>
+                        <td>Combines the features of inline and block. It flows inline but allows setting width and height.</td>
+                    </tr>
+                    <tr>
+                        <td>flex</td>
+                        <td>Displays an element as a block-level flex container</td>
+                    </tr>
+                    <tr>
+                        <td>inline-flex</td>
+                        <td>Displays an element as an inline-level flex container</td>
+                    </tr>
+                    <tr>
+                        <td>grid</td>
+                        <td>Displays an element as a block-level grid container</td>
+                    </tr>
+                    <tr>
+                        <td>inline-grid</td>
+                        <td>Displays an element as an inline-level grid container</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">initial, inherit, e.t.c many many more...</td>
+                    </tr>
+                </table>
+                <p>
+                    When an element has display: inline, none, or contents, properties like height, width,<br> 
+                    and vertical margins (margin-top and margin-bottom) have no effect because inline elements <br>
+                    rely on their content size, none removes the element from rendering, and contents makes the <br>
+                    element visually disappear while only showing its children.
+                </p>
+                <table>
+                    <caption>Inline v/s block</caption>
+                    <tr>
+                        <th>Inline</th>
+                        <th>Block</th>
+                    </tr>
+                    <tr>
+                        <td>Do not start on a new line</td>
+                        <td>Always start on a new line</td>
+                    </tr>
+                    <tr>
+                        <td>Only use as much horizontal space as required by the content. <br> Do not accept width and height CSS properties</td>
+                        <td>Take up as much horizontal space as possible <br> (the full width of the container or browser window if there is no container)</td>
+                    </tr>
+                    <tr>
+                        <td>Margins will work horizontally, but not vertically.</td>
+                        <td>Will respect width and height CSS properties.</td>
+                    </tr>
+                    <tr>
+                        <td>Padding works on all sides, but the top and bottom may overlap other elements.</td>
+                        <td>Horizontal and vertical margins both work</td>
+                    </tr>
+                </table>
+            </p>
+        </div>
+    </section>
+
+     <!-- transition -->
+    <section>
+        <div>
+            <h2>transition property:-</h2>
+            <p>
+                Transitions enable you to define the transition between two states of an element. <br>
+                To create a transition effect, you must specify two things: the CSS property you want to add an effect to, the duration of the effect. <br>
+                Note: If the duration part is not specified, the transition will have no effect, because the default value is 0. <br>
+                we can add transition effect to many elements is same property e.g - transition: width 2s, height 4s; <br>
+                syntax(shorthand) - transition: transition-property transition-duration transition-timing-function transition-delay <br>
+            </p>
+        </div>
+        <div>
+            <h3>transition-property property:-</h3>
+            <p>
+                The transition-property property specifies the name of the CSS property the transition effect is for. <br>
+                Default value:	all, Inherited:	no. <br>
+                values - none, all, property, initial, inherit.
+                e.g - div { transition-property: width; } , div:hover { width: 300px; } - Hover over a div element, and change the width with a transition effect.
+            </p>
+        </div>
+        <div>
+            <h3>transition-duration property:-</h3>
+            <p>
+                The transition-duration property specifies how many seconds (s) or milliseconds (ms) a transition effect takes to complete. <br>
+                Default value: 0s, Inherited: no. <br>
+                values - time, initial, inherit. <br>
+                transition-duration: 5s; - Let the transition effect last for 5 seconds.
+            </p>
+        </div>
+        <div>
+            <h3>transition-timing-function:-</h3>
+            <p>
+                The transition-timing-function property specifies the speed curve of the transition effect. <br>
+                Default value: ease, Inherited: no. <br>
+                <table>
+                    <caption>values</caption>
+                    <tr>
+                        <th>Value</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>ease</td>
+                        <td>Default value. Specifies a transition effect with a slow start, then fast, then end slowly</td>
+                    </tr>
+                    <tr>
+                        <td>linear</td>
+                        <td>Specifies a transition effect with the same speed from start to end</td>
+                    </tr>
+                    <tr>
+                        <td>ease-in</td>
+                        <td>Specifies a transition effect with a slow start</td>
+                    </tr>
+                    <tr>
+                        <td>ease-out</td>
+                        <td>Specifies a transition effect with a slow end</td>
+                    </tr>
+                    <tr>
+                        <td>ease-in-out</td>
+                        <td>Specifies a transition effect with a slow start and end</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">and many more values also there.</td>
+                    </tr>
+                </table>
+            </p>
+        </div>
+        <div>
+            <h3>transition-delay property:-</h3>
+            <p>
+                The transition-delay property specifies when the transition effect will start. <br>
+                Value is defined in seconds (s) or milliseconds (ms). <br>
+                Default value:	0s, Inherited:	no <br>
+                e.g - transition-delay: 2s; - Wait 2 seconds before the transition effect starts.
+            </p>
+        </div>
+    </section>
+
+     <!-- transform -->
+    <section>
+        <div>
+            <h2>transform property:-</h2>
+            <p>
+                The transform property in CSS allows you to apply transformations to elements, such as scaling, rotating, translating, or skewing them. <br>
+                values: none, transform-functions; <br>
+                we can use multiple properties in single by using space  - {transform: translate(200px,200px) rotate(90deg)};
+            </p>
+        </div>
+        <div>
+            <h3>transform-functions:-</h3>
+            <h3>rotate(angle):-</h3>
+            <p>
+                Rotates the element clockwise or counterclockwise. <br>
+                e.g - transform: rotate(180deg); <br>
+                also we can give angle in negative and in other units.
+            </p>
+            <h3>scale(x,y):-</h3>
+            <p>
+                Scales the element by the specified x and y factors. <br>
+                e.g - transform: scale(1.5, 2); <br>
+                also there we can use scaleX, scaleY <br>
+                also shorthand scale(value) - same value for all direction.
+            </p>
+            <h3>translate(x, y):-</h3>
+            <p>
+                Moves the element from its original position. <br>
+                e.g - transform: translate(50px, 100px); <br>
+                also there we can use translateX, translateY <br>
+                also accept negative values.
+            </p>
+            <h3>skew(x,y):-</h3>
+            <p>
+                Skew applies a slanting transformation to an element along the x-axis and y-axis. <br>
+                e.g - transform: skew(30deg,60deg); , if one value skew(30deg) = skew(30deg,0deg) - but not use like this.<br>
+                also skewX(),skewY(). <br>
+                also accept negative values.
+            </p>
+        </div>
+    </section>
+
+    <!-- position -->
+    <section>
+        <div>
+            <h2>position property:-</h2>
+            <p>
+                The position property specifies the type of positioning method used for an element (static, relative, fixed, absolute or sticky). <br>
+                Elements are then positioned using the top, bottom, left, and right properties. <br>
+                However, these properties will not work unless the position property is set first. They also work differently depending on the position value.
+            </p>
+        </div>
+        <div>
+            <h3>position: static;</h3>
+            <p>
+                HTML elements are positioned static by default. <br>
+                Static positioned elements are not affected by the top, bottom, left, and right properties. <br>
+                An element with position: static; is not positioned in any special way; it is always positioned according to the normal flow of the page:
+            </p>
+        </div>
+        <div>
+            <h3>position: relative;</h3>
+            <p>
+                An element with position: relative; is positioned relative to its normal position. <br>
+                Setting the top, right, bottom, and left properties of a relatively-positioned element will cause it to be adjusted away from its normal position. <br>
+                Other content will not be adjusted to fit into any gap left by the element.
+            </p>
+        </div>
+        <div>
+            <h3>position: fixed;</h3>
+            <p>
+                An element with position: fixed; is positioned relative to the viewport, which means it always stays in the same place even if the page is scrolled. <br>
+                The top, right, bottom, and left properties are used to position the element. <br>
+                A fixed element does not leave a gap in the page where it would normally have been located.
+            </p>
+        </div>
+        <div>
+            <h3>position: absolute;</h3>
+            <p>
+                An element with position: absolute; is positioned relative to the nearest positioned ancestor (instead of positioned relative to the viewport, like fixed). <br>
+                If an absolutely positioned element has no ancestor with a defined positioning context (i.e., relative, absolute, or fixed), it will use the document body as its reference point. Consequently, the element's position will be calculated relative to the entire page, and it will move along with the content when the page is scrolled. <br>
+                Note: Absolute positioned elements are removed from the normal flow(other elements take their place), and can overlap elements. <br>
+
+            </p>
+        </div>
+        <div>
+            <h3>position: sticky;</h3>
+            <p>
+                An element with position: sticky; is positioned based on the user's scroll position. <br>
+                A sticky element toggles between relative and fixed, depending on the scroll position. It is positioned relative until a given offset position is met in the viewport - then it "sticks" in place (like position:fixed). <br>
+                Note: You must specify at least one of top, right, bottom or left for sticky positioning to work. <br>
+                e.g - div.sticky { position: sticky; top: 0;}
+            </p>
+        </div>
+    </section>
+
+     <!-- flexbox -->
+    <section>
+        <div>
+            <h2>Flexbox:-</h2>
+            <p>
+                Flexbox is short for the Flexible Box Layout module. <br>
+                Flexbox is a layout method for arranging items in rows or columns. <br>
+                Flexbox makes it easier to design a flexible responsive layout structure, without using float or positioning. <br>
+                To start using CSS Flexbox, you need to first define a flex container. <br>
+                The flex container becomes flexible by setting the display property to flex. <br>
+                Direct child of flex container become flex items.
+            </p>
+            <div>
+                <h3>flex-direction property:-</h3>
+                <p>
+                    The flex-direction property specifies the direction of the flexible items.  <br>
+                    Note: If the element is not a flexible item, the flex-direction property has no effect.
+                    <table>
+                        <caption>values</caption>
+                        <tr>
+                            <td>row</td>
+                            <td>Default value. The flexible items are displayed horizontally, as a row</td>
+                        </tr>
+                        <tr>
+                            <td>row-reverse</td>
+                            <td>Same as row, but in reverse order</td>
+                        </tr>
+                        <tr>
+                            <td>column</td>
+                            <td>The flexible items are displayed vertically, as a column</td>
+                        </tr>
+                        <tr>
+                            <td>column-reverse</td>
+                            <td>Same as column, but in reverse order</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Initial, Inherit</td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+            <div>
+                <h3>justify-content property:-</h3>
+                <p>
+                    The justify-content property aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally). <br>
+                    <table>
+                        <caption>values</caption>
+                        <tr>
+                            <td>flex-start</td>
+                            <td>Default value. Items are positioned at the beginning of the main-axis</td>
+                        </tr>
+                        <tr>
+                            <td>flex-end</td>
+                            <td>Items are positioned at the end of the main-axis</td>
+                        </tr>
+                        <tr>
+                            <td>center</td>
+                            <td>Items are positioned in the center of the main-axis</td>
+                        </tr>
+                        <tr>
+                            <td>space-between</td>
+                            <td>Items will have space between them</td>
+                        </tr>
+                        <tr>
+                            <td>space-around</td>
+                            <td>Items will have space before, between, and after them. In before and after space are half than at between</td>
+                        </tr>
+                        <tr>
+                            <td>space-evenly</td>
+                            <td>Items will have equal space around them</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Initial, Inherit</td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+            <div>
+                <h3>flex-wrap property:-</h3>
+                <p>
+                    The flex-wrap property in CSS is used to control whether the flex items should wrap onto multiple lines when there isn't enough space in the flex container. <br>
+                    This property is particularly useful for creating responsive layouts and managing content overflow. <br>
+                    <table>
+                        <caption>values</caption>
+                        <tr>
+                            <td>nowrap</td>
+                            <td>Default value. Specifies that the flexible items will not wrap</td>
+                        </tr>
+                        <tr>
+                            <td>wrap</td>
+                            <td>Specifies that the flexible items will wrap if necessary</td>
+                        </tr>
+                        <tr>
+                            <td>wrap-reverse</td>
+                            <td>Specifies that the flexible items will wrap, if necessary, in reverse order</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Initial, Inherit</td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+            <div>
+                <h3>align-items property:-</h3>
+                <p>
+                    The align-items property is used to align the flex items when they do not use all available space on the cross-axis (vertically). <br>
+                    <table>
+                        <caption>values</caption>
+                        <tr>
+                            <td>flex-start</td>
+                            <td>Aligns flex items to the start of the cross axis.</td>
+                        </tr>
+                        <tr>
+                            <td>flex-end</td>
+                            <td>Aligns flex items to the end of the cross axis.</td>
+                        </tr>
+                        <tr>
+                            <td>center</td>
+                            <td>Aligns flex items to the center of the cross axis.</td>
+                        </tr>
+                        <tr>
+                            <td>stretch</td>
+                            <td>(default).Stretch is the default behavior. Flex items are stretched to fill the entire container along the cross axis.</td>
+                        </tr>
+                        <tr>
+                            <td>baseline</td>
+                            <td>Aligns flex items such that their baselines (the bottom of their content) are aligned. <br> This is useful when items have different heights but you want their content to align along a common baseline.</td>
+                        </tr>
+                        <tr>
+                            <td>normal</td>
+                            <td>similar to stretch</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Initial, Inherit</td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+            <div>
+                <h3>align-content property:-</h3>
+                <p>
+                    The align-content property specifies how flex lines are distributed along the cross axis in a flexbox container.
+                    <table>
+                        <caption>values</caption>
+                        <tr>
+                            <td>stretch</td>
+                            <td>Default value.It stretches the lines of items to fill the container along the cross axis</td>
+                        </tr>
+                        <tr>
+                            <td>center</td>
+                            <td>This aligns all the flex lines to the center of the container along the cross axis, leaving equal space above and below the lines.</td>
+                        </tr>
+                        <tr>
+                            <td>flex-start</td>
+                            <td>This aligns all the flex lines to the start of the container along the cross axis.</td>
+                        </tr>
+                        <tr>
+                            <td>flex-end</td>
+                            <td>This aligns all the flex lines to the end of the container along the cross axis.</td>
+                        </tr>
+                        <tr>
+                            <td>space-between</td>
+                            <td>This distributes the flex lines with equal space between them, but no space before the first line or after the last line.</td>
+                        </tr>
+                        <tr>
+                            <td>space-around</td>
+                            <td>Items will have space before, between, and after them. In before and after space are half than at between</td>
+                        </tr>
+                        <tr>
+                            <td>space-evenly</td>
+                            <td>This distributes the flex lines with equal space between, before, and after them,</td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+            <div>
+                <h3>align-self property:-</h3>
+                <p>
+                    While the align-items property sets alignment for all items within the container, align-self can target individual items along the cross axis. <br>
+                    align-self has higher priority than &gt; align-items. <br>
+                    <table>
+                        <caption>values</caption>
+                        <tr>
+                            <td>auto</td>
+                            <td>(default). Inherits the value of the align-items property. If align-items is not defined, the default behavior is stretch.</td>
+                        </tr>
+                        <tr>
+                            <td>flex-start</td>
+                            <td>Aligns the item at the start of the cross axis.</td>
+                        </tr>
+                        <tr>
+                            <td>flex-end</td>
+                            <td>Aligns the item at the end of the cross axis.</td>
+                        </tr>
+                        <tr>
+                            <td>center</td>
+                            <td>Aligns the item at the center of the cross axis.</td>
+                        </tr>
+                        <tr>
+                            <td>baseline</td>
+                            <td>Aligns the item based on the baseline of its text.</td>
+                        </tr>
+                        <tr>
+                            <td>stretch</td>
+                            <td>(default for most items).Stretches the item to fill the container along the cross axis (only if the item's size is auto for that axis).</td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+            <div>
+                <h3>order property:-</h3>
+                <p>
+                    The order property specifies the order of a flexible item relative to the rest of the flexible items inside the same container. <br>
+                    value - number(Default value 0. Specifies the order for the flexible item)
+                </p>
+            </div>
+            <div>
+                <h3>Flex Sizing:-</h3>
+                <h3>flex-basis property:-</h3>
+                <p>
+                    The flex-basis property specifies the initial length of a flexible item (along main axix). <br>
+                    values - length, percentage, auto(Default value. The size of the item is determined by its content or width/height properties if specified.), initial, inherit. <br>
+                    If flex-basis is set, it overrides the width or height properties of the flex item for the initial sizing in the flex container.
+                </p>
+            </div>
+            <div>
+                <h3>flex-grow property:-</h3>
+                <p>
+                    flex-grow is a CSS property that specifies how much a flex item will grow relative to the other flex items inside a flex container when there is extra space available(along main axis). <br>
+                    It determines the proportion of the free space allocated to the item. <br>
+                    value - number(how many times e.g - 0.5, 4, 2 e.t.c - 2 means two times), initial, inherit. <br>
+                    default value - 0 (extra space remains unused) <br>
+                    e.g - .item1 { flex-grow: 1; - Grows equally } .item2 { flex-grow: 2; - Grows twice as much as item1 }
+                </p>
+            </div>
+            <div>
+                <h3>flex-shrink property:-</h3>
+                <p>
+                    flex-shrink is a CSS property that specifies how much a flex item will shrink relative to the other flex items in a flex container when there is not enough space (along main axis). <br>
+                    It determines the proportion of space a flex item gives up when the container size is reduced. <br>
+                    value - number <br>
+                    if value 0: The item will not shrink, even if there isn’t enough space. <br>
+                    if value 1: The item will shrink in proportion to others with the same shrink factor. <br>
+                    if value 2: The item will shrink twice as much as items with flex-shrink: 1. e.t.c
+                </p>
+            </div>
+            <div>
+                <h3>flex property:-</h3>
+                <p>
+                    The flex property is a shorthand CSS property used to set the flex-grow, flex-shrink, and flex-basis properties of a flex item in a single declaration. <br>
+                    if 3 values - flex: flex-grow | flex-shrink | flex-basis - e.g - flex: 2 2 100px; <br>
+                    if 2 values(one with unit) - flex: flex-grow | flex-basis - e.g - 2 100px; <br>
+                    if 2 values(both unitless) - flex: flex-grow | flex-shrink - e.g - 2 1; <br>
+                    if 1 value(unitless) - flex: flex-grow - e.g - flex: 1; <br>
+                    if 1 value(with unit) - flex: flex-basis - e.g - flex: 10px;
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- grid -->
+     <section>
+        <div>
+            <h2>Grid:-</h2>
+            <p>
+                CSS Grid is a powerful layout system in CSS that allows you to create two-dimensional layouts for web pages. <br>
+                It works by defining a grid container and placing child elements (grid items) within it. <br>
+                Grid Container: The parent element with display: grid or display: inline-grid. <br>
+                Grid Items: The direct children of the grid container. <br>
+            </p>
+            <div>
+                <h3>Grid Model:-</h3>
+                <p>
+                    Grid Lines - The dividing lines (both horizontal and vertical) that separate the grid into rows and columns. <br>
+                    Grid Track - The space between two adjacent grid lines, which can be either a row or column track. <br>
+                    Grid Cell - The smallest unit of the grid, defined by the intersection of a single row track and a single column track,where an item can be placed. <br>
+                    <img src="contentimages/Gridlayout.jpeg" alt="Gridlayout" width="500px">
+                </p>
+            </div>
+            <div>
+                <h3>grid-template-columns property:-</h3>
+                <p>
+                    The grid-template-columns property specifies the number (and the widths) of columns in a grid layout. <br>
+                    The values are a space separated list, where each value specifies the size of the respective column. <br>
+                    grid-template-columns: 30px 200px auto 100px; - 4 values means 4 columns.
+                    <table>
+                        <caption>values</caption>
+                        <tr>
+                            <td>none</td>
+                            <td>Default value. Columns are created if needed</td>
+                        </tr>
+                        <tr>
+                            <td>auto</td>
+                            <td>The size of the columns is determined by the size of the container and on the size of the content of the items in the column</td>
+                        </tr>
+                        <tr>
+                            <td>length</td>
+                            <td>Sets the size of the columns, by using a length value.</td>
+                        </tr>
+                        <tr>
+                            <td>repeat()</td>
+                            <td>Repeats a set of rows in the grid(used to divide all space available) <br>
+                                repeat(count, track-size); <br>
+                                count: The number of times the pattern should repeat. <br>
+                                track-size: fr,%,length,auto e.t.c. <br>
+                                e.g - grid-template-column: repeat(3, 1fr); == grid-template-column:  1fr 1fr 1fr - it equally divides <br>
+                                If you use 2fr instead of 1fr, it means the row (or column) will take twice the amount of available space compared to other tracks that use 1fr e.t.c.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">many many more....</td>
+                        </tr>
+                    </table>
+                </p>
+                <h3>grid-template-rows property:-</h3>
+                <p>
+                    The grid-template-rows property specifies the number (and the heights) of the rows in a grid layout. <br>
+                    The values are a space-separated list, where each value specifies the height of the respective row. <br>
+                    grid-template-rows: 100px auto 300px; - 3 values means 3 rows <br>
+                    values - see grid-template-columns values table same as there just replace column with row. <br>
+                    if height and width of elements is not set then they take full space of grid cell.
+                </p>
+            </div>
+            <div>
+                <h3>grid-gap property:-</h3>
+                <p>
+                    row-gap -&gt; controls the vertical space (space between rows) in the grid. <br>
+                    e.g - row-gap: 30px; <br> <br>
+
+                    column-gap -&gt; column-gap controls the horizontal space (space between columns) in the grid. <br>
+                    column-gap: 20px; <br> <br>
+
+                    grid-gap -&gt; grid-gap (or gap) is a shorthand property that sets both row-gap and column-gap at the same time. <br>
+                    e-g - grid-gap: rowGap columnGap  OR grid-gap: forboth <br>
+                    e.g - grid-gap:10px 20px, also we can use just gap:10px 20px<br>
+                    e.g - grid-gap:10px or gap:10px - set 10px for both row and column gap.
+                </p>
+            </div>
+            <div>
+                <h3>grid-column property:-</h3>
+                <p>
+                    the properties grid-column-start and grid-column-end are used to define how an item spans columns within a grid container. Together, they control the horizontal placement and size of a grid item. <br>
+                    grid-column-start: Specifies the starting grid line for a grid item. <br>
+                    e.g - grid-column-start: 2; <br>
+                    grid-column-end: Specifies the ending grid line for a grid item. <br>
+                    e.g - grid-column-end: 4; <br>
+                    Shorthand - grid-column: start / end; <br>
+                    e.g - grid-column: 2 / 4; <br>
+                    span keyword: To make an item span a specific number of columns. - grid-column: start_row / span number; <br>
+                    e.g - grid-column: 1 / span 3; - Starts at column 1 and spans 3 columns same as grid-column: 1 / 4;
+                </p>
+            </div>
+            <div>
+                <h3>grid-row property:-</h3>
+                <p> 
+                    control the vertical placement and size of a grid item within the grid. <br>
+                    grid-row-start: Specifies the starting grid line for a grid item along the row axis. <br>
+                    grid-row-start: 2; - Starts at row line 2 <br> <br>
+                    grid-row-end: Specifies the ending grid line for a grid item along the row axis. <br>
+                    grid-row-end: 4; - Ends at row line 4 <br> <br>
+                    Shorthand - grid-row: start / end; <br>
+                    grid-row: 2 / 4; - Same as above <br>
+                    using span - grid-row: 2 / span 2; - same as above, Starts at row line 2 and spans 2 rows.
+                </p>
+            </div>
+            <div>
+                <h3>place-items properties:-</h3>
+                <p>
+                    used to control the alignment of grid items inside their individual grid cells. <br> <br>
+                    justify-items: Controls the horizontal(inline) alignment of grid items within their cells. <br>
+                    align-items: Controls the vertical(block) alignment of grid items within their cells. <br>
+                    values - start, end, center, stretch(default), e.t.c.. <br>
+                    e.g - justify-items: start; , align-items: center; <br><br>
+                    Shorthand - place-items: align-items justify-items;
+                    e.g - place-items: center start; <br>
+                    If only one value is provided, it applies to both. <br><br>
+                    For pages in English, inline direction is left to right and block direction is downward. <br>
+                    For this property to have any alignment effect, the grid items need available space around themselves in the inline direction. <br>
+                </p>
+            </div>
+            <div>
+                <h3>place-self properties:-</h3>
+                <p>
+                    control the alignment of individual grid items within their own grid cells. <br>
+                    it also overides container-level settings applied with justify-items and align-items. <br> <br>
+
+                    justify-self: Controls the horizontal alignment of a single grid item within its grid cell. <br>
+                    align-self: Controls the vertical alignment of a single grid item within its grid cell. <br>
+                    values - start, end, center, stretch(default), e.t.c.. <br>
+                    e.g - justify-self: center;, align-self: start; <br><br>
+
+                    Shorthand - place-self: align-self justify-self; <br>
+                    e.g - place-self: start center; <br>
+                    If only one value is provided, it applies to both.
+                </p>
+            </div>
+        </div>
+     </section>
+     <section>
+        <div>
+            <h2>CSS Animations:-</h2>
+            <p>
+                CSS animations allow you to create smooth, dynamic effects by animating CSS properties over time. <br>
+                You can change as many CSS properties you want, as many times as you want. <br>
+                They are defined using the @keyframes rule and applied with the animation properties. <br>
+                Keyframes hold what styles the element will have at certain times. <br><br>
+
+                Shorthand of all properties:- <br>
+                animation: name | duration | timing-function | delay | iteration-count | direction | fill-mode | play-state;
+            </p>
+            <div>
+                <h3>@keyframes Rule:-</h3>
+                <p>
+                    The CSS @keyframes rule is used to control the steps in an animation sequence by defining CSS styles for points along the animation sequence. <br>
+                    syntax - <br> 
+                    @keyframes name {<br>
+                    keyframes-selector {css-styles;} <br>
+                    keyframes-selector {css-styles;}... }
+                    <table>
+                        <tr>
+                            <td>name</td>
+                            <td>Required. Defines a name for the keyframe</td>
+                        </tr>
+                        <tr>
+                            <td>keyframes-selector</td>
+                            <td>
+                                Required. Points along the animation sequence. <br>
+                                values: 0-100%, from (same as 0%), to (same as 100%) <br>
+                                Note: You can have many keyframes-selectors in one animation sequence
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>css-styles</td>
+                            <td>Required. One or more CSS properties and values</td>
+                        </tr>
+                    </table>
+                    e.g - <br>
+                    @keyframes mymove { <br>
+                    0% {top: 0px; background: red; width: 100px;} <br>
+                    100% {top: 200px; background: yellow; width: 300px;} <br>
+                    }
+                </p>
+            </div>
+            <div>
+                <h3>animantion-name property:-</h3>
+                <p>
+                    Specifies the name of the keyframe you want to bind to the selector <br>
+                    It essentially links the defined keyframe animation to an element, enabling the animation to be applied. <br>
+                    e.g -  <br>
+                    box { <br>
+                    animation-name: mymove; -  Binding the keyframes  <br>
+                    animation-duration: 2s; - Duration of the animation }
+                </p>
+            </div>
+            <div>
+                <h3>animation-duration property:-</h3>
+                <p>
+                    Specifies the length of time an animation takes to complete one cycle. <br>
+                    animation-duration: time; <br>
+                    time: Time value in seconds (s) or milliseconds (ms). <br>
+                    e.g - animation-duration: 2s; <br>
+                    If the animation-duration property is not specified, no animation will occur, because the default value is 0s (0 seconds).
+                </p>
+            </div>
+            <div>
+                <h3>animation-delay property:-</h3>
+                <p>
+                    Defines the amount of time to wait before starting the animation. <br>
+                    animation-delay: 2s; <br>
+                    Positive value: Delays the start. <br>
+                    Negative value: Starts the animation as if it has already been running.
+                </p>
+            </div>
+            <div>
+                <h3>animation-iteration-count property:-</h3>
+                <p>
+                    Specifies how many times the animation should repeat. <br>
+                    values - number, infinite(Repeats the animation indefinitely). <br>
+                    animation-iteration-count: 2; - repeat two times
+                </p>
+            </div>
+            <div>
+                <h3>animation-direction property:-</h3>
+                <p>
+                    Defines whether the animation should play forwards, backwards, or alternate between the two. <br>
+                    <table>
+                        <caption>values</caption>
+                        <tr>
+                            <td>normal</td>
+                            <td>Default value. The animation is played as normal (forwards)</td>
+                        </tr>
+                        <tr>
+                            <td>reverse</td>
+                            <td>The animation is played in reverse direction (backwards)</td>
+                        </tr>
+                        <tr>
+                            <td>alternate</td>
+                            <td>The animation is played forwards first, then backwards</td>
+                        </tr>
+                        <tr>
+                            <td>alternate-reverse</td>
+                            <td>The animation is played backwards first, then forwards</td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+            <div>
+                <h3>animation-timing-function property:-</h3>
+                <p>
+                    Controls the speed curve of the animation. <br>
+                    values - ease, linear, ease-in, ease-out, ease-in-out, cubic-bezier(). <br>
+                    e.g - animation-timing-function: ease-in;
+                </p>
+            </div>
+            <div>
+                <h3>animation-fill-mode property:-</h3>
+                <p>
+                    The animation-fill-mode property specifies a style for the element when the animation is not playing (before it starts, after it ends, or both). <br>
+                    CSS animations do not affect the element before the first keyframe is played or after the last keyframe is played. The animation-fill-mode property can override this behavior. <br>
+                    <table>
+                        <caption>values</caption>
+                        <tr>
+                            <td>none</td>
+                            <td>Default value. Animation will not apply any styles to the element before or after it is executing</td>
+                        </tr>
+                        <tr>
+                            <td>forwards</td>
+                            <td>The element will retain the style values that is set by the last keyfram</td>
+                        </tr>
+                        <tr>
+                            <td>backwards</td>
+                            <td>The element will get the style values that is set by the first keyframe</td>
+                        </tr>
+                        <tr>
+                            <td>both</td>
+                            <td>Combines both forwards and backwards</td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+        </div>
+     </section>
+
+     <!-- media quaries -->
+      <section>
+        <div>
+            <h2>CSS Media Queries:-</h2>
+            <p>
+                CSS media queries are a powerful tool for building responsive web designs, allowing you to apply styles based on specific conditions like screen size, resolution, orientation, and more. <br> <br>
+                syntax:- <br>
+                @media (condition) { <br>
+                    /* CSS rules */ <br>
+                } <br> <br>
+                e.g - <br>
+                @media (max-width: 768px) { <br>
+                    &nbsp;&nbsp;body { <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;background-color: lightblue; <br>
+                    &nbsp;&nbsp;} <br>
+                    &nbsp;&nbsp;div { <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;background-color: black; <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;color: red; <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                we can also target multiple element and properties like this.
+                
+                <table>
+                    <caption>Common media features</caption>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                    <tr>
+                        <td>max-width</td>
+                        <td>Maximum width of the viewport</td>
+                        <td>@media (max-width: 600px) <br>For screens smaller than 600px</td>
+                    </tr>
+                    <tr>
+                        <td>min-width</td>
+                        <td>Minimum width of the viewport</td>
+                        <td>@media (min-width: 769px) <br>For screens wider than 768px</td>
+                    </tr>
+                    <tr>
+                        <td>width</td>
+                        <td>Works at exact width(not recomanded)</td>
+                        <td>@media (width: 100px)</td>
+                    </tr>
+                    <tr>
+                        <td>max-height</td>
+                        <td>Maximum height of the viewport</td>
+                        <td>@media (max-height: 500px)</td>
+                    </tr>
+                    <tr>
+                        <td>min-height</td>
+                        <td>Minimum height of the viewport</td>
+                        <td>@media (min-height: 800px)</td>
+                    </tr>
+                    <tr>
+                        <td>height</td>
+                        <td>Works at exact height(not recomanded)</td>
+                        <td>@media (height: 100px)</td>
+                    </tr>
+                    <tr>
+                        <td>orientation</td>
+                        <td>Screen orientation</td>
+                        <td>@media (orientation: portrait)</td>
+                    </tr>
+                    <tr>
+                        <td>prefers-color-scheme</td>
+                        <td>User's color scheme preference</td>
+                        <td>@media (prefers-color-scheme: dark)</td>
+                    </tr>
+                    <tr>
+                        <td>pointer</td>
+                        <td>Accuracy of the pointing device</td>
+                        <td>@media (pointer: coarse)</td>
+                    </tr>
+                    <tr>
+                        <td>hover</td>
+                        <td>If the device supports hover</td>
+                        <td>@media (hover: hover)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">many many more...</td>
+                    </tr>
+                </table> <br>
+                we can use and to set a range:- <br>
+                @media (min-width: 600px) <b>and</b> (max-width: 1200px) { <br>
+                &nbsp;&nbsp;body { <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;padding: 20px; <br>
+                &nbsp;&nbsp;} <br>
+                } - Applies styles only when the screen width is between 600px and 1200px. <br> <br>
+
+                You can also link to different stylesheets for different media and different widths <br>
+                e.g - &lt;link rel="stylesheet" media="screen and (min-width: 480px)" href="example1.css"&gt;  etc....<br> <br>
+                tip - Start with a Mobile-First Approach: Write base styles for small screens and use media queries for larger devices.
+            </p>
+        </div>
+      </section>
+
+      <!-- z-index  -->
+       <section>
+        <div>
+            <h2>z-index property:-</h2>
+            <p>
+                The z-index property in CSS is used to control the stacking order of elements on a webpage. <br>
+                It determines how elements overlap each other when they are positioned on the same plane. <br>
+                values - <br>
+                Auto: Default value. The stacking order is determined by the element's order in the DOM (Document Object Model). <br>
+                Integer (Positive or Negative): Specifies the stack level of the element. Higher values appear in front of lower values. Negative values push the element behind. <br>
+                e.g - z-index: 10; - Appears in front of elements with lower z-index <br> <br>
+
+                z-index only works on positioned elements (position: absolute, position: relative, position: fixed, or position: sticky) and flex items <br>
+                A child element cannot escape the stacking context of its parent.
+            </p>
+        </div>
+       </section>
+
+       <hr>
+       <!-- ColorPsychology -->
+       <section>
+        <h2>Color Psychology:-</h2>
+        <p>
+            <img src="contentimages/ColorPsychology.webp" alt="ColorPsychology" width="60%">
+            <img src="contentimages/colorscheme.jpg" alt="ColorPsychology" width="60%">
+        </p>
+       </section>
+
+       <!-- font psychology -->
+       <section>
+        <h2>Font Psychology:-</h2>
+        <p>
+            <img src="contentimages/fontPsychology.jpg" alt="ColorPsychology" width="60%"> <br>
+            We can select fonts on <a href="https://fonts.google.com" target="_blank">fonts.google.com</a> and paste link in head tag.
+        </p>
+       </section>
+
+       <!-- Icons -->
+        <section>
+            <div>
+                <h2>Icons:-</h2>
+            </div>
+        </section>
+
+
+        <!-- Bootstrap -->
+         <section>
+            <div>
+                <h2>Bootstrap:-</h2>
+                <p>
+                    Bootstrap is a free front-end framework for faster and easier web development. <br>
+                    Bootstrap includes HTML and CSS based design templates for typography, forms, buttons, tables, navigation, modals, image carousels and many other, as well as optional JavaScript plugins. <br>
+                    Bootstrap also gives you the ability to easily create responsive designs. <br>
+                    Using Bootstrap is optional. It helps design quickly with pre-built styles, but for unique designs, CSS offers full customization.
+                </p>
+            </div>
+            <div>
+                <h3>Adding Bootstrap:-</h3>
+                <p>
+                    We can use link tag inside head tag to add bootstrap in our html. <br>
+                    &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"&gt; <br>
+                    add your css file link below it if you want to override bootstrap. <br>
+                    OR we can also download bootstrap to use it. <br> <br>
+                    To add bootstrap for JavaScript use script tag inside body tag. <br>
+                    &lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" &gt;
+                </p>
+            </div>
+         </section>
+</body>
+</html>
