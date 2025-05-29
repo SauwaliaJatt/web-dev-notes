@@ -1,68 +1,598 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Node JS notes</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node JS Notes</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet" />
+
     <style>
-        
+        /* Reset & Global */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f2f2;
+            color: #212121;
+            line-height: 1.8;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1a1a1a, #333);
+            color: #fff;
+            padding: 25px 18px;
+            overflow-y: auto;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin: 18px 0;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.15rem;
+            display: block;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #43a047;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            color: #e8f5e9;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 270px;
+            padding: 30px 40px;
+            width: calc(100% - 270px);
+            background-color: #f2f2f2;
+        }
+
+        /* Note Section Container */
+        .note-section {
+            background-color: #fff;
+            padding: 30px 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 50px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* .note-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+        } */
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Level 1 Notes */
+        .note-l1 {
+            margin-bottom: 30px;
+        }
+
+        .note-l1 h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            color: #2e7d32;
+            background-color: #e8f5e9;
+            padding: 5px 18px;
+            border-left: 5px solid #2e7d32;
+            border-radius: 5px;
+            /* position: sticky; */
+            /* top: 0; */
+            /* z-index: 10; */
+        }
+
+        .note-l1 p {
+            font-size: 1.25rem;
+            color: #232323;
+            margin-top: 15px;
+        }
+
+        /* Notes Grid */
+        .notes {
+            display: grid;
+            /* grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); */
+            gap: 22px;
+            margin-top: 25px;
+        }
+
+        /* Level 2 Notes */
+        .note-l2 {
+            background-color: #ffffff;
+            padding: 22px 20px;
+            border-top: 4px solid #0288d1;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        /* .note-l2:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+        } */
+
+        .note-l2 h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #014f86;
+            margin-bottom: 14px;
+        }
+
+        .note-l2 p {
+            font-size: 1.15rem;
+            color: #555;
+            margin-bottom: 18px;
+        }
+
+        /* Level 3 Notes */
+        .note-l3 {
+            background-color: #f9f9f9;
+            padding: 16px 14px;
+            margin-top: 18px;
+            margin-left: 12px;
+            border-left: 5px solid #7b1fa2;
+            border-radius: 7px;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .note-l3 h4 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #4a148c;
+            margin-bottom: 10px;
+        }
+
+        .note-l3 p {
+            font-size: 1.05rem;
+            color: #444;
+        }
+
+        /* Code Section Style */
+        .code-container {
+            background-color: #272822;
+            padding: 15px 20px;
+            /* border-left: 5px solid #66d9ef; */
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 0 0 25px;
+            width: 100%;
+            display: inline-block;
+            text-align: left;
+        }
+
+        .code-container code {
+            color: #f8f8f2;
+            font-size: 16px;
+            font-family: monospace;
+            white-space: pre-line;
+            display: block;
+            line-height: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .code-container code::first-line {
+            line-height: 0;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        table,th,td {
+            border: 1px solid #ddd;
+            padding: 14px 16px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: 700;
+            color: #222;
+        }
+
+        caption {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #2e7d32;
+        }
+
+        .bolder {
+            font-weight: 700;
+        }
+
+        /* lists ul, ol */
+        ul:not(.sidebar ul), ol:not(.sidebar ol)  {
+            padding-left: 25px;
+            margin-bottom: 20px;
+            color: #444;
+            font-size: 1.2rem;
+        }
+
+        ul :not(.sidebar) li {
+            list-style-type: disc;
+            margin-bottom: 10px;
+        }
+
+        ol :not(.sidebar) li {
+            list-style-type: decimal;
+            margin-bottom: 10px;
+        }
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-260px);
+                width: 220px;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 25px 20px;
+            }
+
+            .notes {
+                grid-template-columns: 1fr;
+            }
+
+            .note-l1 h2 {
+                position: static;
+                border-radius: 5px;
+            }
+        }
+
+        /* Mobile Menu Toggle Button */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 18px;
+            left: 18px;
+            background-color: #2e7d32;
+            color: #fff;
+            border: none;
+            padding: 11px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+        }
     </style>
 </head>
+
 <body>
-    <!-- Sidebar Section -->
-    <div class="sidebar">
+    <!-- Sidebar & Menu Toggle -->
+    <button class="menu-toggle" aria-label="Toggle menu">☰ Menu</button>
+    <nav class="sidebar" aria-label="Sidebar Navigation">
         <ul>
-            <li><a href="#section1">Node JS</a></li>
-            <li><a href="#section2">Variables</a></li>
-            <li><a href="#section3">Data Types</a></li>
-            <li><a href="#section4">Operators</a></li>
-            <li><a href="#section5">Operators</a></li>
+            <li><a href="#section1">Node.js Basics</a></li>
+            <li><a href="#section2">Modules</a></li>
+            <li><a href="#section3">File System</a></li>
+            <li><a href="#section4">HTTP Server</a></li>
+            <li><a href="#section5">Async Programming</a></li>
         </ul>
-    </div>
-
-
+    </nav>
 
     <main>
-        <section id="section1" class="note-section">
+        <section id="section1" class="note-section" tabindex="0">
             <div class="container">
                 <div class="note-l1">
-                    <h2>Create Elements</h2>
-                    <p></p>
-                </div>
-                <div class="note-l1">
-                    <h2>Create Elements</h2>
-                    <p></p>
+                    <h2>Node.js Basics</h2>
+                    <p>
+                        Essential concepts and methods for building server-side applications with Node.js.
+                    </p>
                 </div>
                 <div class="notes">
-                    <div class="note-l2">
-                        <h3>document.createElement()</h3>
-                        <p>
-                            To create elements using JavaScript, you can use the document.createElement() method. <br>
-                        </p>
+                    <article class="note-l2">
+                        <h3>require()</h3>
+                        <p>Import modules or files into your Node.js application.</p>
                         <div class="code-container">
-                            <code>Syntax:-
-                                document.createElement("tagName")
-                                //returns a new html element
+                            <code>
+                                Syntax:
+                                const module = require('module-name');
+                                // Imports a module
                             </code>
                         </div>
-                    </div>
-                    <div class="note-l2">
-                        <h3>document.createElement()</h3>
-                        <p>
-                            To create elements using JavaScript, you can use the document.createElement() method. <br>
-                        </p>
+                        <div class="notes">
+                            <!-- lvl 3  -->
+                            <div class="note-l3">
+                                <h4>Example:</h4>
+                                <p>Importing the built-in 'fs' module to work with the file system.</p>
+                                <div class="code-container">
+                                    <code>
+                                        const fs = require('fs');
+                                        // Use fs to read/write files
+                                    </code>
+                                </div>
+                            </div>
+        
+                            <!-- lvl 3 -->
+                            <div class="note-l3">
+                                <h4>Tip:</h4>
+                                <p>Use relative paths (e.g., './module') for local modules.</p>
+                            </div>
+                        </div>
+                    </article>
+        
+                    <!-- lvl 2  -->
+                    <article class="note-l2">
+                        <h3>module.exports</h3>
+                        <p>Export functions, objects, or values from a module to be used elsewhere.</p>
                         <div class="code-container">
-                            <code>Syntax:-
-                                document.createElement("tagName")
-                                //returns a new html element
+                            <code>
+                                Syntax:
+                                module.exports = { functionName };
+                                // Exports a function or object
                             </code>
                         </div>
-                    </div>
+                        <div class="notes">
+                            <!-- lvl 3 -->
+                            <div class="note-l3">
+                                <h4>Example:</h4>
+                                <p>
+                                    Exporting a function from a module.
+                                </p>
+                                <div class="code-container">
+                                    <code>
+                                        // math.js
+                                        module.exports = {
+                                            add: (a, b) => a + b
+                                        };
+                                        // In another file:
+                                        const math = require('./math');
+                                        console.log(math.add(2, 3)); // Output: 5
+                                    </code>
+                                </div>
+                            </div>
+                            <!-- lvl 3 -->
+                            <div class="note-l3">
+                                <h4>Note:</h4>
+                                <p>
+                                    Use <code>exports</code> for multiple exports, but avoid overwriting
+                                    <code>module.exports</code>.
+                                </p>
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
     </main>
 
-    <script src="node.js"></script>
+    <script>
+        // Toggle sidebar for mobile
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+    </script>
 </body>
+
 </html>
+
+
+
+
+<template>
+
+<section id="section1" class="note-section" tabindex="0">
+    <div class="container">
+        <!-- lvl 1 -->
+        <div class="note-l1">
+            <h2>Node.js Basics</h2>
+            <p>
+                Essential concepts and methods for building server-side applications with Node.js.
+            </p>
+        </div>
+        <div class="notes">
+            <!-- lvl 2  -->
+            <article class="note-l2">
+                <h3>require()</h3>
+                <p>
+                    Import modules or files into your Node.js application.
+                </p>
+                <div class="code-container">
+                    <code>
+                        Syntax:
+                        const module = require('module-name');
+                        // Imports a module
+                    </code>
+                </div>
+                <div class="notes">
+                    <!-- lvl 3  -->
+                    <div class="note-l3">
+                        <h4>Example:</h4>
+                        <p>
+                            Importing the built-in 'fs' module to work with the file system.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                const fs = require('fs');
+                                // Use fs to read/write files
+                            </code>
+                        </div>
+                    </div>
+
+                    <!-- lvl 3 -->
+                    <div class="note-l3">
+                        <h4>Tip:</h4>
+                        <p>
+                            Use relative paths (e.g., './module') for local modules.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- lvl 2  -->
+            <article class="note-l2">
+                <h3>module.exports</h3>
+                <p>
+                    Export functions, objects, or values from a module to be used elsewhere.
+                </p>
+                <div class="code-container">
+                    <code>
+                        Syntax:
+                        module.exports = { functionName };
+                        // Exports a function or object
+                    </code>
+                </div>
+                <div class="notes">
+                    <!-- lvl 3 -->
+                    <div class="note-l3">
+                        <h4>Example:</h4>
+                        <p>
+                            Exporting a function from a module.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                // math.js
+                                module.exports = {
+                                    add: (a, b) => a + b
+                                };
+                                // In another file:
+                                const math = require('./math');
+                                console.log(math.add(2, 3)); // Output: 5
+                            </code>
+                        </div>
+                    </div>
+                    <!-- lvl 3 -->
+                    <div class="note-l3">
+                        <h4>Note:</h4>
+                        <p>Use <code>exports</code> for multiple exports, but avoid overwriting
+                            <code>module.exports</code>.
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section id="section6" class="note-section" tabindex="0">
+    <div class="container">
+        <div class="note-l1">
+            <h2>Extras: Tables & Lists</h2>
+            <p>
+                Examples of HTML tables, unordered and ordered lists used in notes.
+            </p>
+        </div>
+
+        <div class="notes">
+            <!-- table lvl 2 -->
+            <article class="note-l2">
+                <h3>Example Table</h3>
+                <p>
+                    Simple data representation using HTML tables.
+                </p>
+                <!-- table -->
+                <table>
+                    <caption>Node.js Module Types</caption>
+                    <thead>
+                        <tr>
+                            <th>Module Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Core Modules</td>
+                            <td>Built-in modules provided by Node.js (e.g., fs, http).</td>
+                        </tr>
+                        <tr>
+                            <td>Local Modules</td>
+                            <td>Modules created within your project.</td>
+                        </tr>
+                        <tr>
+                            <td>Third-Party Modules</td>
+                            <td>Modules installed via npm (e.g., express).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <!-- ul lvl 2 -->
+            <article class="note-l2">
+                <h3>Unordered List (ul)</h3>
+                <p>Key features of Node.js:</p>
+                <ul>
+                    <li>Asynchronous and Event-Driven</li>
+                    <li>Single-Threaded but Highly Scalable</li>
+                    <li>Fast Execution with V8 Engine</li>
+                    <li>Open-source and Community Driven</li>
+                </ul>
+            </article>
+
+            <!-- ol lvl 2 -->
+            <article class="note-l2">
+                <h3>Ordered List (ol)</h3>
+                <p>Steps to create a simple Node.js server:</p>
+                <ol>
+                    <li>Initialize project with <code>npm init</code></li>
+                    <li>Create a JavaScript file (e.g., <code>app.js</code>)</li>
+                    <li>Import <code>http</code> module</li>
+                    <li>Create server using <code>http.createServer()</code></li>
+                    <li>Listen on a specific port using <code>server.listen()</code></li>
+                </ol>
+            </article>
+        </div>
+    </div>
+</section>
+
+</template>
