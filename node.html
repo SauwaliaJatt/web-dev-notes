@@ -36,7 +36,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 260px;
+            width: 250px;
             height: 100vh;
             background: linear-gradient(180deg, #1a1a1a, #333);
             color: #fff;
@@ -65,7 +65,7 @@
             transition: background-color 0.3s, box-shadow 0.3s;
         }
 
-        .sidebar a:hover {
+        .sidebar a:hover{
             background-color: #43a047;
             box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
             color: #e8f5e9;
@@ -73,9 +73,9 @@
 
         /* Main Content */
         main {
-            margin-left: 270px;
+            margin-left: 260px;
             padding: 30px 40px;
-            width: calc(100% - 270px);
+            width: calc(100% - 260px);
             background-color: #f2f2f2;
         }
 
@@ -84,7 +84,7 @@
             background-color: #fff;
             padding: 30px 25px;
             border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
             margin-bottom: 50px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -151,24 +151,24 @@
             font-size: 1.6rem;
             font-weight: 600;
             color: #014f86;
-            margin-bottom: 14px;
+            margin-bottom: 8px;
         }
 
         .note-l2 p {
             font-size: 1.15rem;
             color: #555;
             margin-bottom: 18px;
+            margin-top: 20px;
         }
 
         /* Level 3 Notes */
         .note-l3 {
             background-color: #f9f9f9;
             padding: 16px 14px;
-            margin-top: 18px;
-            margin-left: 12px;
+            margin: 18px 0 18px 10px;
             border-left: 5px solid #7b1fa2;
             border-radius: 7px;
-            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
         }
 
         .note-l3 h4 {
@@ -180,7 +180,7 @@
 
         .note-l3 p {
             font-size: 1.05rem;
-            color: #444;
+            color: #353535;
         }
 
         /* Code Section Style */
@@ -190,7 +190,7 @@
             /* border-left: 5px solid #66d9ef; */
             border-radius: 8px;
             overflow-x: auto;
-            margin: 0 0 25px;
+            margin: 0 0 15px;
             width: 100%;
             display: inline-block;
             text-align: left;
@@ -320,94 +320,216 @@
     <button class="menu-toggle" aria-label="Toggle menu">☰ Menu</button>
     <nav class="sidebar" aria-label="Sidebar Navigation">
         <ul>
-            <li><a href="#section1">Node.js Basics</a></li>
-            <li><a href="#section2">Modules</a></li>
-            <li><a href="#section3">File System</a></li>
-            <li><a href="#section4">HTTP Server</a></li>
+            <li><a href="#section1">Node.js</a></li>
+            <li><a href="#section2">process Object</a></li>
+            <li><a href="#section3">Export in files</a></li>
+            <li><a href="#section4">Export in directories</a></li>
             <li><a href="#section5">Async Programming</a></li>
         </ul>
     </nav>
 
     <main>
+        <!-- Node js -->
         <section id="section1" class="note-section" tabindex="0">
             <div class="container">
                 <div class="note-l1">
-                    <h2>Node.js Basics</h2>
+                    <h2>Node.js</h2>
                     <p>
-                        Essential concepts and methods for building server-side applications with Node.js.
+                        Node.js is a cross-platform runtime environment that allows you to run JavaScript outside of a web browser—usually on a server. It enables developers to build fast, scalable server-side and network applications using JavaScript. <br>
+                        extension → <span class="bolder">.js</span> (any js file).
                     </p>
                 </div>
                 <div class="notes">
                     <article class="note-l2">
-                        <h3>require()</h3>
-                        <p>Import modules or files into your Node.js application.</p>
+                        <h3>node REPL</h3>
+                        <p>
+                            REPL stands for: Read → Eval → Print → Loop. The Node.js REPL is an interactive shell that lets you run JavaScript line-by-line directly in the terminal.
+                        </p>
+                        <div class="notes">
+                            <div class="note-l3">
+                                <h4>How to Start REPL:</h4>
+                                <ol>
+                                    <li>Open your terminal</li>
+                                    <li>Type: node</li>
+                                    <li>You'll see a > prompt. Start typing JavaScript code.</li>
+                                    <li>To exit REPL, press: Ctrl + C (twice) or type .exit</code></li>
+                                </ol>
+                            </div>                   
+                        </div>
+                        <p>
+                            to run Javascript with node in terminal use "node fileName.js". You need to be in same folder where file is present
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Object -->
+        <section id="section2" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>process Object</h2>
+                    <p>
+                        In Node.js, the process object is a global object that provides information and control over the current Node.js process. It's part of the core process module, so you don't need to import it.
+                    </p>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Key Properties of the process Object</h3>
+                        <p>
+                            <span class="bolder">process.argv:</span> An array containing the command-line arguments passed when the Node.js process was launched. The first element is the path to the Node.js executable, the second is the path to the script, and subsequent elements are additional arguments.
+                        </p>
                         <div class="code-container">
                             <code>
-                                Syntax:
-                                const module = require('module-name');
-                                // Imports a module
+                                Example:
+                                // Example: node script.js arg1 arg2
+                                console.log(process.argv); 
+                                //Output like:  ['node', 'path/to/script.js', 'arg1', 'arg2']
                             </code>
                         </div>
-                        <div class="notes">
-                            <!-- lvl 3  -->
-                            <div class="note-l3">
-                                <h4>Example:</h4>
-                                <p>Importing the built-in 'fs' module to work with the file system.</p>
-                                <div class="code-container">
-                                    <code>
-                                        const fs = require('fs');
-                                        // Use fs to read/write files
-                                    </code>
-                                </div>
-                            </div>
-        
-                            <!-- lvl 3 -->
-                            <div class="note-l3">
-                                <h4>Tip:</h4>
-                                <p>Use relative paths (e.g., './module') for local modules.</p>
-                            </div>
-                        </div>
+                        <p>
+                            There are many more properties and Methods in process Object...
+                        </p>
                     </article>
-        
-                    <!-- lvl 2  -->
+                </div>
+            </div>
+        </section>
+
+        <!-- export in files -->
+        <section id="section3" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Export in files</h2>
+                    <p>
+                        In Node.js, module.exports and require() are core concepts for creating and using modules to organize and share code.
+                    </p>
+                </div>
+                <div class="notes">
                     <article class="note-l2">
                         <h3>module.exports</h3>
-                        <p>Export functions, objects, or values from a module to be used elsewhere.</p>
+                        <p>
+                            module.exports is an object in a Node.js module that defines what a module exposes to other parts of the application. By default, it's an empty object ({}), but you can assign functions, objects, or values to it.
+                        </p>
+                        <p>
+                            <span class="bolder">Purpose:</span> It determines what gets returned when another file uses require() to import the module. <br>
+                            Location: Every Node.js file has a module object, and module.exports is a property of it.
+                        </p>
                         <div class="code-container">
                             <code>
-                                Syntax:
-                                module.exports = { functionName };
-                                // Exports a function or object
+                                1. Example: Exporting a Single Function
+                                // math.js
+                                function add(a, b) {
+                                    &nbsp;&nbsp;return a + b;
+                                }
+                                module.exports = add; // Export the function
+
+
+                                2. Example: Exporting Multiple Items
+                                const add = (a, b) => a + b;
+                                const subtract = (a, b) => a - b;
+                                
+                                module.exports = {
+                                    &nbsp;&nbsp;add,
+                                    &nbsp;&nbsp;subtract
+                                }; // Export an object with multiple functions
+
+
+                                3. Alternative: Using exports Shorthand
+                                exports is an alias for module.exports. You can use it to add properties but cannot reassign it directly.
+                                exports.add = (a, b) => a + b;
                             </code>
                         </div>
-                        <div class="notes">
-                            <!-- lvl 3 -->
-                            <div class="note-l3">
-                                <h4>Example:</h4>
-                                <p>
-                                    Exporting a function from a module.
-                                </p>
-                                <div class="code-container">
-                                    <code>
-                                        // math.js
-                                        module.exports = {
-                                            add: (a, b) => a + b
-                                        };
-                                        // In another file:
-                                        const math = require('./math');
-                                        console.log(math.add(2, 3)); // Output: 5
-                                    </code>
-                                </div>
-                            </div>
-                            <!-- lvl 3 -->
-                            <div class="note-l3">
-                                <h4>Note:</h4>
-                                <p>
-                                    Use <code>exports</code> for multiple exports, but avoid overwriting
-                                    <code>module.exports</code>.
-                                </p>
-                            </div>
+                    </article>
+
+                    <article class="note-l2">
+                        <h3>require()</h3>
+                        <p>
+                            require() is a function used to import modules, whether they are built-in (e.g., fs, http), installed via npm, or local files.
+                        </p>
+
+                        <div class="note-l3">
+                            <h4>Syntax:</h4>
+                            <p>
+                                const moduleName = require('path-or-module-name');
+                            </p>
                         </div>
+
+                        <div class="code-container">
+                            <code>
+                                1. Example: Importing a Module
+                                // app.js
+                                const math = require('./math'); // Import math.js (local file, relative path)
+                                
+                                console.log(math.add(2, 3)); // 5
+
+
+                                2. Importing Built-in or npm Modules
+                                const fs = require('fs'); // Built-in module
+                                const express = require('express'); // npm-installed module
+                            </code>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- export in directories -->
+        <section id="section4" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Export in directories</h2>
+                    <p>
+                        When organizing large projects, you often group files into folders. You can export modules from an entire directory using a special file: index.js. It acts as the entry point of the folder.
+                    </p>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Steps:</h3>
+                        <ol>
+                            <li>Create an index.js file inside the directory from which you want to export modules.</li>
+                            <li>Import the modules (functions, variables, classes, etc.) from other files in that directory into index.js, and export them together using module.exports.</li>
+                            <li>Import the directory (folder) wherever needed — Node.js will automatically look for index.js inside that folder.</li>
+                        </ol>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                //file structure
+                                project/
+                                ├── utils/
+                                │ ├── math.js
+                                │ ├── string.js
+                                │ └── index.js
+                                ├── app.js
+
+                                //utils/math.js
+                                const add = (a, b) => a + b;
+                                module.exports = { add };
+
+                                // utils/string.js
+                                const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+                                module.exports = { capitalize };
+
+
+                                // utils/index.js
+                                const math = require('./math'); import all in one file
+                                const string = require('./string');
+
+                                module.exports = { //export
+                                math: math,
+                                string: string
+                                };
+
+
+                                // app.js
+                                const utils = require('./utils'); //import folder
+                                
+                                console.log(utils.math.add(2, 3)); // 5
+                                console.log(utils.string.capitalize('hello')); // 'Hello'
+                            </code>
+                        </div>
+                        <p>
+                            There are other way also other than index.js...
+                        </p>
                     </article>
                 </div>
             </div>
@@ -426,6 +548,63 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
