@@ -324,7 +324,7 @@
             <li><a href="#section2">process Object</a></li>
             <li><a href="#section3">Export in files</a></li>
             <li><a href="#section4">Export in directories</a></li>
-            <li><a href="#section5">Async Programming</a></li>
+            <li><a href="#section5">NPM</a></li>
         </ul>
     </nav>
 
@@ -534,6 +534,71 @@
                 </div>
             </div>
         </section>
+
+        <!-- export in directories -->
+        <section id="section5" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>NPM (Node Package Manager)</h2>
+                    <p>
+                        It is default package manager for Node.js, A large online library of packages (modules), A command-line tool to install, manage, and publish packages
+                    </p>
+                    <div class="note-l3">
+                        <p>
+                            A package is like a ready-made tool or library that you can install and use in your project instead of writing
+                            the code yourself.
+                        </p>
+                    </div>
+                    <p>
+                        <span class="bolder">Registry:</span> The npm registry (https://www.npmjs.com) hosts over 2 million packages, which are reusable JavaScript modules.
+                    </p>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Installing Packages</h3>
+                        <p>
+                            <span class="bolder">npm install package-name</span><br>
+                            OR npm i package-name (i is alias for install) <br>
+                        </p>
+                        <p>
+                            Install in same folder of project.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                npm install express
+                            </code>
+                        </div>
+                        <p>
+                            To Install globally: <br>
+                            npm install -g package-name
+                        </p>
+
+                        <div class="notes">
+                            <div class="note-l3">
+                                <h4>files/folders while installing</h4>
+                                <p>
+                                    <span class="bolder">node_modules/</span> is the folder where all installed packages are stored. It also includes sub-dependencies — packages required by other packages. You should NOT edit anything inside this folder manually. The node modules folder contains every installed dependency for your.                        
+                                </p>
+                                <p>
+                                    <span class="bolder">package-lock.json</span> It records the exact version of every installed dependency, including its sub-dependencies and their versions. <br>
+                                    there may many other things may install...                        
+                                </p>
+                                <p>
+                                    <span class="bolder">package.json</span> Purpose: package.json is a JSON file that stores metadata about a Node.js project, including: Project name, version, description and Dependencies e.t.c <br>
+                                    There's no need to transfer the node_modules folder if package.json is present — just run npm install to reinstall all dependencies.
+                                </p>
+                                <p>
+                                    <span class="bolder">Creating package.json with npm init:</span>
+                                    Command: npm init <br>
+                                    It Interactively prompts for details like name, version, description, entry point, etc. Generates a package.json file based on your input.
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script>
@@ -548,7 +613,6 @@
 </body>
 
 </html>
-
 
 
 
