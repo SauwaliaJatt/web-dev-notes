@@ -462,10 +462,65 @@
                                 
                                 console.log(math.add(2, 3)); // 5
 
-
+                                <hr>
                                 2. Importing Built-in or npm Modules
                                 const fs = require('fs'); // Built-in module
                                 const express = require('express'); // npm-installed module
+                            </code>
+                        </div>
+                    </article>
+
+                    <article class="note-l2">
+                        <h3>import</h3>
+                        <p>
+                            the import statement is used to bring in modules, functions, or variables from other files or packages, is part of the ECMAScript module system, introduced to standardize module handling in JavaScript. It's an alternative to the CommonJS require() system used in Node.js by default.
+                        </p>
+
+                        <div class="note-l3">
+                            <h4>To use import, you must configure your project for ES Modules:</h4>
+                            <ul>
+                                <li>
+                                    Option 1: Set <span class="bolder">"type": "module"</span> in package.json. (All .js files are treated as ES Modules, and you use import/export instead of require()/module.exports.)
+                                </li>
+                                <li>
+                                    Option 2: Use .mjs Extension. Name your files with .mjs to explicitly indicate ES Modules, even without "type": "module". Example: app.mjs instead of app.js.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="note-l3">
+                            <h4>import vs require()</h4>
+                            <ul>
+                                <li>
+                                    We can't selectively load only the pieces we need with require but with import, we can selectively load only the pieces we need, which can save memory.
+                                </li>
+                                <li>
+                                    Loading is synchronous for 'require' but can be asynchronous for 'import'. there are other differences also.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                (use .js if "type": "module" is set in package.json file OR use .mjs)
+
+                                1. Importing from a Local File:
+                                // utils.js 
+                                export const add = (a, b) => a + b;
+                                export const subtract = (a, b) => a - b;
+
+                                // app.js
+                                import { add } from './utils.js';  //we can import only selective things (import add here but not subtract).
+                                console.log(add(2, 3)); // 5
+
+                                <hr>
+                                2.Importing from an npm Package:
+                                npm install lodash
+
+                                // app.js
+                                import { map, filter } from 'lodash'; //imported multiple
+                                console.log(map([1, 2, 3], n => n * 2)); // [2, 4, 6]
                             </code>
                         </div>
                     </article>
@@ -557,11 +612,12 @@
                     <article class="note-l2">
                         <h3>Installing Packages</h3>
                         <p>
+                            Locally(Preffered way): <br>
                             <span class="bolder">npm install package-name</span><br>
                             OR npm i package-name (i is alias for install) <br>
                         </p>
                         <p>
-                            Install in same folder of project.
+                            Install in same folder of project. Locak install not work outside.
                         </p>
                         <div class="code-container">
                             <code>
@@ -571,7 +627,8 @@
                         </div>
                         <p>
                             To Install globally: <br>
-                            npm install -g package-name
+                            npm install -g package-name <br>
+                            then use - npm link package-name (need to link with the folder in which we want to use)
                         </p>
 
                         <div class="notes">
