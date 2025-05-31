@@ -326,7 +326,7 @@
             <li><a href="#section4">Export in directories</a></li>
             <li><a href="#section5">NPM</a></li>
             <hr>
-            <li><a href="#section5">Express.js</a></li>
+            <li><a href="#section6">Express.js</a></li>
         </ul>
     </nav>
 
@@ -653,6 +653,77 @@
                                     It Interactively prompts for details like name, version, description, entry point, etc. Generates a package.json file based on your input.
                                 </p>
                             </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Express js -->
+        <section id="section6" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Express.js</h2>
+                    <p>
+                        Express is a minimal and flexible web application framework for Node.js, designed to simplify the process of building  server-side applications and APIs.
+                    </p>
+                </div>
+                <div class="note-l3">
+                    <h4>Library</h4>
+                    <p>
+                        A library is a set of reusable code that you call to perform specific tasks — you control the flow of the program. e.g - axios e.t.c.
+                    </p>
+                </div>
+                <div class="note-l3">
+                    <h4>Framework</h4>
+                    <p>
+                        A framework is a complete structure that calls your code at the right time — it controls the flow, and you follow its rules. e.g - express e.t.c.
+                    </p>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Setup for express:</h3>
+                        <ul>
+                            <li>Step 1: Create a New Project Folder</li>
+                            <li>Step 2: Initialize package.json</li>
+                            <li>Step 3: Install Express.js: Install Express as a dependency.</li>
+                            <li>Step 4: Create a js file In the same folder.</li>
+                            <li>
+                                Step 5: Run Your Express App: <br>
+                                In the terminal - node filename OR <br>
+                                Open a browser and go to: http://localhost:portNumber <br>
+                                (you can acces you local computer server using localhost)
+                            </li>
+                        </ul>
+                        <div class="code-container">
+                            <code>
+                                Example code in js file:
+                                const express = require('express');
+                                const app = express(); 
+                                //name "app" is used generally we can also use other name
+                                
+                                console.log(app);
+                                //it shows a large object that represents the internal structure of the Express app. It includes: All built-in methods, Properties, Event listeners e.t.c.
+                                
+                                
+                                // Define a route
+                                app.get('/', (req, res) => {
+                                    &nbsp;&nbsp;res.send('Hello from Express!');
+                                });
+                                
+                                // Start the server
+                                app.listen(3000, () => {
+                                    &nbsp;&nbsp;console.log('Server is running at http://localhost:3000');
+                                });
+                            </code>
+                        </div>
+                        <div class="note-l3">
+                            <h4>listen()</h4>
+                            <p>
+                                listen() is a method that starts your Express server and makes it listen for incoming requests on a specified port. <br>
+                                Syntax - app.listen(port, [callback])
+                            </p>
                         </div>
                     </article>
                 </div>
