@@ -327,6 +327,8 @@
             <li><a href="#section5">NPM</a></li>
             <hr>
             <li><a href="#section6">Express.js</a></li>
+            <li><a href="#section7">Handling Requests</a></li>
+            <li><a href="#section8">Sending Response</a></li>
         </ul>
     </nav>
 
@@ -725,6 +727,116 @@
                                 Syntax - app.listen(port, [callback])
                             </p>
                         </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Handling Requests -->
+        <section id="section7" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Handling Requests in Express.js</h2>
+                    <p>
+                        In Express, handling requests means defining what your server should do when it receives a specific type of request (like a user visiting a page or submitting a form).
+                    </p>
+                </div>
+                <div class="note-l3">
+                    <h4>Basic Syntax:</h4>
+                    <p>
+                        app.METHOD(PATH, HANDLER)
+                    </p>
+                    <ul>
+                        <li>METHOD: HTTP method (get, post, put, delete, etc.)</li>
+                        <li>PATH: URL path (like '/', '/login', '/products')</li>
+                        <li>HANDLER: Function that runs when the route is matched</li>
+                    </ul>
+                </div>
+                <div class="code-container">
+                    <code>
+                        Example: Handling a GET Request:
+
+                        app.get('/', (req, res) => {
+                            &nbsp;&nbsp;res.send('Welcome to the homepage!');
+                        });
+                    </code>
+                </div>
+                <div class="note-l3">
+                    <h4>Understanding Request & Response Objects</h4>
+                    <ul>
+                        <li>req → request info from the client</li>
+                        <li>res → used to send a response back</li>
+                    </ul>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>app.use()</h3>
+                        <p>
+                            app.use() is used to handle all types of requests (GET, POST, etc.) for a specific path or globally — especially useful when you want to do something before reaching the final route (like logging, authentication, etc.).
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Basic Structure example:
+        
+                                app.use((req, res) => {
+                                    &nbsp;&nbsp;console.log('Middleware triggered');
+                                });
+                            </code>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sending Response -->
+        <section id="section8" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Sending Responses in Express.js</h2>
+                    <p>
+                        In Express, you send responses using the res (response) object, which is provided in every route handler.
+                    </p>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Common Methods to Send Responses</h3>
+                        <div class="note-l3">
+                            <h4>1. res.send()</h4>
+                            <p>
+                                Sends a text, HTML, or object e.t.c response. Automatically sets the Content-Type based on the data type.
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    example:
+                                    app.get('/', (req, res) => {
+                                        &nbsp;&nbsp;res.send('Hello, World!');
+                                    });
+                                </code>
+                            </div>
+                        </div>
+
+                        <div class="note-l3">
+                            <h4>2. res.redirect()</h4>
+                            <p>
+                                Redirects the client to another URL. Default status is 302 (temporary redirect).
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    example:
+                                    app.get('/old-route', (req, res) => {
+                                        &nbsp;&nbsp;res.redirect('/new-route');
+                                    });
+                                </code>
+                            </div>
+                        </div>
+
+                        <p>
+                            There are other methods/ways also...
+                        </p>
+                        <p>
+                            <span class="bolder">Single Response:</span> Only one response can be sent to one path per request. Calling res.send or similar methods multiple times causes an error.
+                        </p>
                     </article>
                 </div>
             </div>
