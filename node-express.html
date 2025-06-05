@@ -221,7 +221,7 @@
         }
 
         table,th,td {
-            border: 1px solid #ddd;
+            border: 3px solid #858080;
             padding: 14px 16px;
         }
 
@@ -329,6 +329,7 @@
             <li><a href="#section6">Express.js</a></li>
             <li><a href="#section7">Handling Requests</a></li>
             <li><a href="#section8">Sending Response</a></li>
+            <li><a href="#section9">Routing</a></li>
         </ul>
     </nav>
 
@@ -729,6 +730,18 @@
                         </div>
                     </article>
                 </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>nodemon</h3>
+                        <p>
+                            nodemon is a utility for Node.js that automatically restarts your application when file changes in the directory are detected.
+                        </p>
+                        <ul>
+                            <li>To install - <span class="bolder">npm install -g nodemon</span> (installing globally recommended)</li>
+                            <li>To run file  with <span class="bolder">nodemon - nodemon filename.js</span></li>
+                        </ul>
+                    </article>
+                </div>
             </div>
         </section>
 
@@ -810,7 +823,7 @@
                                 <code>
                                     example:
                                     app.get('/', (req, res) => {
-                                        &nbsp;&nbsp;res.send('Hello, World!');
+                                        &nbsp;&nbsp;res.send('/ means Home Page in paths');
                                     });
                                 </code>
                             </div>
@@ -837,6 +850,162 @@
                         <p>
                             <span class="bolder">Single Response:</span> Only one response can be sent to one path per request. Calling res.send or similar methods multiple times causes an error.
                         </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Routing -->
+        <section id="section9" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Routing</h2>
+                    <p>
+                        Routing in Express.js is the process of defining how an application responds to client requests to specific URLs (paths) using specific HTTP methods like GET, POST, etc.
+                    </p>
+                    <ul>
+                        <li>Routes are defined using methods of the app object corresponding to HTTP methods (app.get(), app.post(), app.put(), app.delete(), etc.).</li>
+                        <li>Each route maps a URL pattern to a handler function that processes the request and sends a response.</li>
+                        <li>Route paths can be strings, string patterns, or regular expressions. e.g - / matches the root path, /users matches requests to /users, /user/:id matches dynamic paths like /user/123, where :id is a route parameter.</li>
+                    </ul>
+                    <div class="code-container">
+                        <code>
+                            example:
+                            // GET request to the root path
+                            app.get('/', (req, res) => {
+                                &nbsp;&nbsp;res.send('Welcome to the homepage!');
+                            });
+
+                            // request with a route parameter
+                            app.get('/user/:id', (req, res) => {
+                                &nbsp;&nbsp;res.send(`User ID: ${req.params.id}`);
+                            });
+
+                            // Catch-all route for all unmatched paths
+                            app.get('*', (req, res) => {
+                                &nbsp;&nbsp;res.status(404).send('404 - Page Not Found');
+                            });
+                        </code>
+                    </div>
+                    <p>
+                        The app.get('*', ...) route matches any GET request to any path that hasn't been handled by previous routes.
+                    </p>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Route Parameters</h3>
+                        <p>
+                            In Express, route parameters (also called path parameters) allow you to capture dynamic values from the URL.
+                        </p>
+                        <p>
+                            They are defined in the route path using a colon (:) followed by the parameter name. These parameters become available in the req.params object in your route handler.
+                        </p>
+                        <div class="note-l3">
+                            <h4>Syntax:</h4>
+                            <p>
+                                app.get('/route/:paramName', (req, res) => { <br>
+                                    &nbsp;&nbsp;// Access object via req.params <br>
+                                    &nbsp;&nbsp;// Access paramName via req.params.paramName <br>
+                                });
+                            </p>
+                        </div>
+                        <div class="code-container">
+                            <code>
+                                example:
+                                // Route with a path parameter
+                                app.get('/users/:userId', (req, res) => {
+                                    &nbsp;&nbsp;const userId = req.params.userId; // Access the parameter
+                                    &nbsp;&nbsp;res.send(`User ID: ${userId}`);
+                                });
+
+                                Explanation: :userId in the route path captures the value 123 from the URL and stores it in req.params.userId.
+
+                                <hr>
+                                //Multiple Path Parameters:
+                                app.get('/users/:userId/posts/:postId', (req, res) => {
+                                    &nbsp;&nbsp;const { userId, postId } = req.params;
+                                    &nbsp;&nbsp;res.send(`User ID: ${userId}, Post ID: ${postId}`);
+                                });
+                            </code>
+                        </div>
+                        <p>
+                            <span class="bolder">Optional Parameters:</span> To make a parameter optional, add a <span class="bolder">?</span> after it.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                example:
+                                //optional perematers
+                                app.get('/files/:fileName?', (req, res) => {
+                                    &nbsp;&nbsp;const fileName = req.params.fileName || 'default.txt';
+                                    &nbsp;&nbsp;res.send(`File: ${fileName}`);
+                                });
+
+                                <hr>
+                                //Regular Expression in Parameters
+                                app.get('/items/:id(\\d+)', (req, res) => {
+                                    &nbsp;&nbsp;const id = req.params.id;
+                                    &nbsp;&nbsp;res.send(`Item ID: ${id}`);
+                                });
+                            </code>
+                        </div>
+                        <p>
+                            Note - Path parameters are different from query parameters (e.g., ?key=value), which are accessed via req.query.
+                        </p>
+                    </article>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Query Strings in Express</h3>
+                        <p>
+                            In Express, query strings are key-value pairs in a URL that come after a ? (e.g., ?key1=value1&key2=value2). They are used to pass additional data to the server and are accessible in Express via the req.query object.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //example syntax
+                                app.get('/route', (req, res) => {
+                                    &nbsp;&nbsp;// Access query parameters via req.query
+                                    &nbsp;&nbsp;const queryParams = req.query;
+                                    &nbsp;&nbsp;res.send(queryParams);
+                                });
+
+                                <hr>
+                                example:
+                                app.get('/search', (req, res) => {
+                                    &nbsp;&nbsp;const { q, page } = req.query; // Destructure query parameters
+                                    &nbsp;&nbsp;res.send(`Search Query: ${q}, Page: ${page || 1}`);
+                                });
+                                
+                                <hr>
+                                // Default values
+                                app.get('/filter', (req, res) => {
+                                    &nbsp;&nbsp;const { sort = 'asc', limit = 10 } = req.query; // Default values
+                                    &nbsp;&nbsp;res.send(`Sort: ${sort}, Limit: ${limit}`);
+                                });
+                            </code>
+                        </div>
+                        <p>
+                            <span class="bolder">Optional Query Parameters:</span> Query parameters are inherently optional. If not provided, req.query.key is undefined.
+                        </p>
+                        <table>
+                            <caption>Query Strings vs. Path Parameters</caption>
+                            <thead>
+                                <tr>
+                                    <th>Query Strings</th>
+                                    <th>Path Parameters</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Optional, used for filtering, sorting, or searching (e.g., /search?q=term)</td>
+                                    <td>Part of the URL path, used for identifying resources (e.g., /users/:id)</td>
+                                </tr>
+                                <tr>
+                                    <td>req.query</td>
+                                    <td>req.perams</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </article>
                 </div>
             </div>
