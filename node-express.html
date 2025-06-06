@@ -332,6 +332,8 @@
             <li><a href="#section9">Routing</a></li>
             <hr>
             <li><a href="#section10">EJS</a></li>
+            <li><a href="#section11">Interpolation Syntax</a></li>
+            <li><a href="#section12">Passing data to ejs</a></li>
         </ul>
     </nav>
 
@@ -845,7 +847,6 @@
                                 </code>
                             </div>
                         </div>
-
                         <p>
                             There are other methods/ways also...
                         </p>
@@ -1103,6 +1104,274 @@
                                 });
                             </code>
                         </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Interpolation Syntax -->
+        <section id="section11" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Interpolation Syntax</h2>
+                    <p>
+                        Interpolation syntax in EJS refers to the method of embedding dynamic values (such as variables or expressions or server-side values) directly into HTML templates using special EJS tags. It allows server-side data to be inserted into the rendered HTML output.
+                    </p>
+                    <div class="notes">
+                        <article class="note-l2">
+                            <h3>There are two main interpolation tags:</h3>
+                            <div class="note-l3">
+                                <p>
+                                    <h4>1. &lt;%= %&gt; — Escaped Output Tag</h4>
+                                </p>
+                                <p>
+                                    Prints the evaluated value of a variable or expression. HTML characters like &lt;,&gt;, &, etc., are escaped (converted to safe entities like &amp;lt;). Safe to use with user data to prevent XSS (cross-site scripting).
+                                </p>
+                                <div class="code-container">
+                                    <code>
+                                        example:
+                                        &lt;%= "&lt;h1&gt;Welcome&lt;/h1&gt;" %&gt;
+
+                                        //output for html:
+                                        &amp;lt;h1&amp;gt;Welcome&amp;lt;/h1&amp;gt;
+                                        //It shows the string as plain text, not HTML.
+
+                                        //in browser
+                                        &lt;h1&gt;Welcome&lt;/h1&gt;
+                                    </code>
+                                </div>
+                            </div>
+                            <div class="note-l3">
+                                <p>
+                                    <h4>2. &lt;%- %&gt; — Unescaped Output Tag</h4>
+                                </p>
+                                <p>
+                                    Prints the evaluated value as raw HTML. Useful when you want to render actual HTML from a variable. Not safe for user input unless sanitized — it can expose your page to XSS attacks.
+                                </p>
+                                <div class="code-container">
+                                    <code>
+                                        example:
+                                        &lt;%- "&lt;h1&gt;Welcome&lt;/h1&gt;" %&gt;
+
+                                        //output for html:
+                                        &lt;h1&gt;Welcome&lt;/h1&gt;
+                                        //It shows in bold after h1 works.
+
+                                        //in browser
+                                        <h1>Welcome</h1>
+                                    </code>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Control & Utility Tags</h3>
+                        <p>
+                            Used for Logic or Structure. These tags are used not to display data, but to control the flow of logic, structure your templates, or manage whitespace/comments. These are essential for adding loops, conditions, comments, and clean formatting in templates.
+                        </p>
+                        <div class="note-l3">
+                            <h4>1. &lt;% %&gt; - Scriptlet Tag (Control-Flow, No Output)</h4>
+                            <p>
+                                Executes JavaScript for control flow (e.g., loops, conditionals, variable assignments) without directly outputting to the HTML.
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    example:
+                                    &lt;% if (user.isAdmin) { %&gt;
+                                        &nbsp;&nbsp;&lt;p&gt; Welcome, Admin! &lt;/p&gt;
+                                    &lt;% } %&gt;
+                                </code>
+                            </div>
+                        </div>
+                        <div class="note-l3">
+                            <h4>2. &lt;%_ %&gt; - Whitespace Slurping Scriptlet Tag</h4>
+                            <p>
+                                Removes all whitespace (spaces, newlines) before the tag, useful for clean HTML output.
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    example:
+                                    &lt;ul&lt;
+                                        &nbsp;&nbsp;&lt;%_ notes.forEach(note => { %&gt;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;%= note.title %&gt;&lt;/li&gt;
+                                        &nbsp;&nbsp;&lt;%_ }) %&gt;
+                                    &lt;/ul&gt;
+
+                                    //output for html like:
+                                    &lt;ul&gt;
+                                        &nbsp;&nbsp;&lt;li&gt;JavaScript Async/Await&lt;/li&gt;
+                                    &lt;/ul&gt;
+
+                                    //without it may like:
+                                    &lt;ul&gt;
+
+                                        &nbsp;&nbsp;&lt;li&gt;JavaScript Async/Await&lt;/li&gt;
+                                    &lt;/ul&gt;
+                                </code>
+                            </div>
+                        </div>
+                        <div class="note-l3">
+                            <h4>3. &lt;%# %&gt; - Comment Tag</h4>
+                            <p>
+                                Adds comments in EJS that are not included in the rendered HTML and are not executed.
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    example:
+                                    &lt;%# This is a comment, not visible in the HTML %&gt;
+                                    &lt;p&gt;Visible content&lt;/p&gt;
+
+                                    //output for html like:
+                                    &lt;p&gt;Visible content&lt;/p&gt;
+                                </code>
+                            </div>
+                        </div>
+                        <div class="note-l3">
+                            <h4>4. &lt;%% %&gt; - Outputs a Literal</h4>
+                            <p>
+                                Escapes the &lt;% delimiter, rendering it as literal text in the output. If you want to print a literal &lt;% in the HTML (for educational content or documentation), use &lt;%%.
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    example:
+                                    &lt;%%= "example" %&gt;
+
+                                    //output:
+                                    &lt;%= "example" %&gt;
+                                </code>
+                            </div>
+                        </div>
+                        <div class="note-l3">
+                            <h4>5. %&gt; - Plain Ending Tag</h4>
+                            <p>
+                                Closes any EJS tag (&lt;%, &lt;%_, &lt;%=, &lt;%-, etc.).
+                            </p>
+                        </div>
+                        <div class="note-l3">
+                            <h4>6. -%&gt; - Trim-Mode (Newline Slurp) Tag</h4>
+                            <p>
+                                Removes the newline character after the tag, reducing extra line breaks in the output, helping keep HTML compact.
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    example:
+                                    &lt;ul&lt;
+                                        &nbsp;&nbsp;&lt;%_ notes.forEach(note => { %&gt;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;%= note.title %&gt;&lt;/li&gt;
+                                        &nbsp;&nbsp;&lt;%_ }) %&gt;
+                                    &lt;/ul&gt;
+                                    
+                                    //output for html like:
+                                    &lt;ul&gt;
+                                        &nbsp;&nbsp;&lt;li&gt;JavaScript Async/Await&lt;/li&gt;
+                                    &lt;/ul&gt;
+                                    
+                                    //without it may like:
+                                    &lt;ul&gt;
+                                    
+                                        &nbsp;&nbsp;&lt;li&gt;JavaScript Async/Await&lt;/li&gt;
+                                    &lt;/ul&gt;
+                                </code>
+                            </div>
+                        </div>
+                        <div class="note-l3">
+                            <h4>7. _%&gt; - Whitespace Slurping Ending Tag</h4>
+                            <p>
+                                Like -%&gt;, but removes all whitespace after the tag, not just the newline. Useful for super clean output.
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    example:
+                                    &lt;ul&lt;
+                                        &nbsp;&nbsp;&lt;%_ notes.forEach(note => { %&gt;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;%= note.title %&gt;&lt;/li&gt;
+                                        &nbsp;&nbsp;&lt;%_ }) %&gt;
+                                    &lt;/ul&gt;
+                                    
+                                    //output for html like:
+                                    &lt;ul&gt;
+                                        &nbsp;&nbsp;&lt;li&gt;JavaScript&lt;/li&gt;&lt;li&gt;Python&lt;/li&gt;
+                                    &lt;/ul&gt;
+                                </code>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Passing Data to ejs -->
+        <section id="section12" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Passing data to ejs</h2>
+                    <p>
+                        In EJS, data is passed from the Express server to the template via the res.render method.
+                    </p>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>res.render()</h3>
+                        <p>
+                            The res.render method in Express.js is used to render a view template (like an EJS file) and send the resulting HTML to the client.
+                        </p>
+                        <div class="note-l3">
+                            <h4>Syntax:</h4>
+                            <p>
+                                <span class="bolder">res.render('templateName', dataObject);</span><br>
+                                'templateName' → the name of your .ejs file (without .ejs) <br>
+                                dataObject → an optional object containing data to use in the template.
+                            </p>
+                        </div>
+                        <div class="code-container">
+                            <code>
+                                example:
+                                const express = require("express");
+                                const app = express();
+                                const path = require("path");
+                                app.set("view engine", "ejs");
+                                app.set("views", path.join(__dirname, "views"));
+                                
+
+                                app.get("/", (req, res) => {
+                                    &nbsp;&nbsp;res.render("home", { name: "Inderjit", age: 20 });
+                                });
+                                
+                                app.listen(3000, () => {
+                                    &nbsp;&nbsp;console.log("Server running on http://localhost:3000");
+                                });
+
+
+                                //views/home.ejs
+                                &lt;p&gt;Welcome, &lt;%= name %&gt;!&lt;/p&gt;
+                                &lt;p&gt;Your age is &lt;%= age %&gt;.&lt;/p&gt;
+
+                                //output:
+                                <p style="all: unset;">Welcome, Inderjit!</p>
+                                <p style="all: unset;">Your age is 20.</p>
+                            </code>
+                        </div>
+                        <p>
+                            In EJS, the variable name in the template and the key in the object passed to <code>res.render()</code> should match.
+                        </p>
+                        <p>
+                            If the key and value names are the same in the object, you can use shorthand syntax and write only one.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                app.get("/", (req, res) => {
+                                    &nbsp;&nbsp;const random = Math.random();
+                                    &nbsp;&nbsp;res.render("home", { random });  // shorthand for { random: random }
+                                });
+                          
+                                // views/home.ejs
+                                &lt;p&gt;Random number: &lt;%= random %&gt;&lt;/p&gt;
+                            </code>
+                        </div>                          
                     </article>
                 </div>
             </div>
