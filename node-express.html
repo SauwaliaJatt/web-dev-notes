@@ -330,6 +330,8 @@
             <li><a href="#section7">Handling Requests</a></li>
             <li><a href="#section8">Sending Response</a></li>
             <li><a href="#section9">Routing</a></li>
+            <hr>
+            <li><a href="#section10">EJS</a></li>
         </ul>
     </nav>
 
@@ -1006,6 +1008,101 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- EJS -->
+        <section id="section10" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>EJS(Embedded JavaScript)</h2>
+                    <p>
+                        EJS (Embedded JavaScript) is a templating engine for Node.js that lets you generate HTML dynamically by embedding JavaScript directly in your templates. It's lightweight, works well with Express.js, and is great for rendering dynamic web pages with data from your server.
+                    </p>
+                    <p>
+                        File Extension - <span class="bolder">.ejs</span>
+                    </p>
+                    <p>
+                        To Install - <span class="bolder">npm install ejs</span> <br>
+                        We need to require express to use this because it automatically requires ejs.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Example setup:
+                            const express = require('express');
+                            const app = express();
+                            
+                            // Set EJS as the templating engine
+                            app.set('view engine', 'ejs');
+
+                            app.set('views', './views');  
+                            // Setting the folder for EJS templates (commonly named 'views', but you can use any folder name)
+
+                            OR
+                            app.set('views', './templates'); // if your EJS files are in a 'templates' folder
+                        </code>
+                    </div>
+                    <div class="note-l3">
+                        <h4>to run ejs from other directory:</h4>
+                        <p>
+                            To run an EJS-based Express app from a parent directory, you need to ensure the Express server correctly locates the EJS templates and other resources, even when the server is started from a directory outside the project folder.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                example:
+                                const express = require('express');
+                                const path = require('path'); //require path first
+                                const app = express();
+                                app.set('view engine', 'ejs');
+
+                                // Set the views directory using an absolute path
+                                app.set('views', path.join(__dirname, 'views')); //set this always
+                            </code>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>res.render()</h3>
+                        <p>
+                            The res.render method in Express.js is used to render a view template (like an EJS file) and send the resulting HTML to the client.
+                        </p>
+                        <div class="note-l3">
+                            <h4>Syntax:</h4>
+                            <p>
+                                <span class="bolder">res.render('templateName', dataObject);</span><br>
+                                'templateName' → the name of your .ejs file (without .ejs) <br>
+                                dataObject → an optional object containing data to use in the template.
+                            </p>
+                        </div>
+                        <div class="code-container">
+                            <code>
+                                example:
+                                const express = require("express");
+                                const app = express();
+                                const path = require("path");
+                                
+                                app.set("view engine", "ejs");
+                                app.set("views", path.join(__dirname, "views"));
+                                
+                                //this
+                                app.get("/", (req, res) => {
+                                    &nbsp;&nbsp;res.render("home", { name: "Inderjit", age: 20 });
+                                });
+
+                                //OR like this
+                                app.get("/support", (req, res) => {
+                                    &nbsp;&nbsp;res.render("support");
+                                });
+                                
+                                app.listen(3000, () => {
+                                    &nbsp;&nbsp;console.log("Server running on http://localhost:3000");
+                                });
+                            </code>
+                        </div>
                     </article>
                 </div>
             </div>
