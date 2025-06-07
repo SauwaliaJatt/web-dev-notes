@@ -334,6 +334,7 @@
             <li><a href="#section10">EJS</a></li>
             <li><a href="#section11">Interpolation Syntax</a></li>
             <li><a href="#section12">Passing data to ejs</a></li>
+            <li><a href="#section13">Includes</a></li>
         </ul>
     </nav>
 
@@ -908,8 +909,8 @@
                             <h4>Syntax:</h4>
                             <p>
                                 app.get('/route/:paramName', (req, res) => { <br>
-                                    &nbsp;&nbsp;// Access object via req.params <br>
-                                    &nbsp;&nbsp;// Access paramName via req.params.paramName <br>
+                                    &nbsp;&nbsp;// to Access full object - req.params <br>
+                                    &nbsp;&nbsp;// to only Access paramName - req.params.paramName <br>
                                 });
                             </p>
                         </div>
@@ -1372,6 +1373,83 @@
                                 &lt;p&gt;Random number: &lt;%= random %&gt;&lt;/p&gt;
                             </code>
                         </div>                          
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Includes -->
+        <section id="section13" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Include</h2>
+                    <p>
+                        In EJS , the &lt;%- include %&gt; syntax is used to include one EJS file inside another. This is helpful for reusing common layouts like headers, footers, or navigation menus.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            &lt;%- include('path/to/file') %&gt;
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            example:
+                            //index.ejs:
+                            &lt;%- include('partials/header') %&gt; //include header ejs
+                            &lt;p&gt;Welcome to My Website&lt;/p&gt;
+                            &lt;%- include('partials/footer') %&gt; //include footer ejs
+
+                            //header.ejs:
+                            &lt;header&gt;
+                                &nbsp;&nbsp;&lt;p&gt;This is the header&lt;/p&gt;
+                            &lt;/header&gt;
+
+                            //footer.ejs:
+                            &lt;footer&gt;
+                                &nbsp;&nbsp;&lt;p&gt;Footer content goes here&lt;/p&gt;
+                            &lt;/footer&gt;
+
+                            <hr>
+                            //after rendering like:
+                            &lt;header&gt;
+                                &nbsp;&nbsp;&lt;p&gt;This is the header&lt;/p&gt;
+                            &lt;/header&gt;
+                            &lt;p&gt;Welcome to My Website&lt;/p&gt;
+                            &lt;footer&gt;
+                                &nbsp;&nbsp;&lt;p&gt;Footer content goes here&lt;/p&gt;
+                            &lt;/footer&gt;
+
+                            <hr>
+                            //in browser like:
+                            <p style="all: unset;">This is the header</p>
+                            <p style="all: unset;">Welcome to My Website</p>
+                            <p style="all: unset;">Footer content goes here</p>
+                        </code>
+                    </div>
+                    <p>
+                        Use different folder for these files like above partials folder is used or you can use "includes" also as folder name.
+                    </p>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Passing Data to Includes</h3>
+                        <p>
+                            You can pass variables to included files by adding a second argument to include like:
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                &lt;%- include('header', { title: 'My Custom Title' }) %&gt;
+                                //same like passing data to ejs
+                                
+                                In header.ejs, you can use the passed variable like:
+                                &lt;header&gt;
+                                    &lt;h1&gt; &lt;%= title %&gt; &lt;/h1&gt;
+                                &lt;/header&gt;
+                            </code>
+                        </div>              
                     </article>
                 </div>
             </div>
