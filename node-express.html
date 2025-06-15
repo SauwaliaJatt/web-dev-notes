@@ -330,11 +330,12 @@
             <li><a href="#section7">Handling Requests</a></li>
             <li><a href="#section8">Sending Response</a></li>
             <li><a href="#section9">Routing</a></li>
+            <li><a href="#section10">GET/POST Request</a></li>
             <hr>
-            <li><a href="#section10">EJS</a></li>
-            <li><a href="#section11">Interpolation Syntax</a></li>
-            <li><a href="#section12">Passing data to ejs</a></li>
-            <li><a href="#section13">Includes</a></li>
+            <li><a href="#section11">EJS</a></li>
+            <li><a href="#section12">Interpolation Syntax</a></li>
+            <li><a href="#section13">Passing data to ejs</a></li>
+            <li><a href="#section14">Includes</a></li>
         </ul>
     </nav>
 
@@ -1016,8 +1017,103 @@
         </section>
 
 
-        <!-- EJS -->
+        <!-- GET/POST Request -->
         <section id="section10" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>GET/POST Request in express</h2>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Get Request</h3>
+                        <p>
+                            An HTTP method used to retrieve data from a server. It sends parameters via the URL query string (e.g., /resource?key=value).
+                        </p>
+                        <p>
+                            In Express.js, app.get('/path', (req, res) => {...}) handles these requests, accessing parameters through req.query.
+                        </p>
+                        <p>
+                            It's idempotent (repeated requests yield the same result), suitable for fetching resources like web pages or API data, but less secure for sensitive data as parameters are visible in URLs.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //example:
+                                //html:
+                                &lt;h2&gt;GET Form&lt;/h2&gt;
+                                &lt;form action="http:localhost:3000/register" method="GET"&gt;
+                                    &nbsp;&nbsp;&lt;label&gt;User: &lt;input type="text" name="user"&gt;&lt;/label&gt;
+                                    &nbsp;&nbsp;&lt;label&gt;Password: &lt;input type="password" name="password"&gt;&lt;/label&gt;
+                                    &nbsp;&nbsp;&lt;button type="submit"&gt;Submit (GET)&lt;/button&gt;
+                                &lt;/form&gt;
+
+                                <hr>
+                                // server.js
+                                const express = require('express');
+                                const app = express();
+                                const port = 3000;
+                                
+                                // GET: Handle form submission
+                                app.get('/register', (req, res) => {
+                                    &nbsp;&nbsp;const { user, password } = req.query; //access data using req.query
+                                    &nbsp;&nbsp;res.send(`GET: Welcome ${user}!`);
+                                });
+                                
+                                app.listen(port, () => console.log(`Server on port ${port}`));
+                            </code>
+                        </div>
+                    </article>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Post Request</h3>
+                        <p>
+                            An HTTP method used to submit data to a server to create or update resources. Data is sent in the request body, supporting formats like JSON or URL-encoded form data.
+                        </p>
+                        <p>
+                            In Express.js, app.post('/path', (req, res) => {...}) handles these requests, accessing data via req.body (requires middleware like express.json() or express.urlencoded()).
+                        </p>
+                        <p>
+                            It's non-idempotent (repeated requests may create multiple resources) and ideal for secure data submission, such as forms or API payloads.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //example:
+                                //html:
+                                &lt;h2&gt;POST Form&lt;/h2&gt;
+                                &lt;form action="http:localhost:3000/register" method="POST"&gt;
+                                    &nbsp;&nbsp;&lt;label&gt;User: &lt;input type="text" name="user"&gt;&lt;/label&gt;
+                                    &nbsp;&nbsp;&lt;label&gt;Password: &lt;input type="password" name="password"&gt;&lt;/label&gt;
+                                    &nbsp;&nbsp;&lt;button type="submit"&gt;Submit (GET)&lt;/button&gt;
+                                &lt;/form&gt;
+
+                                <hr>
+                                // server.js
+                                const express = require('express');
+                                const app = express();
+                                const port = 3000;
+
+                                // Middleware to parse form data and JSON
+                                app.use(express.urlencoded({ extended: true }));
+                                app.use(express.json());
+                                //use these otherwise data is not accessible and it shows Undefined
+                                
+                                // POST: Handle form submission
+                                app.post('/register', (req, res) => {
+                                    &nbsp;&nbsp;const { user, password } = req.body; // access data using req.body
+                                    &nbsp;&nbsp;res.send(`POST: Welcome ${user}!`);
+                                });
+                                
+                                app.listen(port, () => console.log(`Server on port ${port}`));
+                            </code>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- EJS -->
+        <section id="section11" class="note-section" tabindex="0">
             <div class="container">
                 <div class="note-l1">
                     <h2>EJS(Embedded JavaScript)</h2>
@@ -1112,7 +1208,7 @@
 
 
         <!-- Interpolation Syntax -->
-        <section id="section11" class="note-section" tabindex="0">
+        <section id="section12" class="note-section" tabindex="0">
             <div class="container">
                 <div class="note-l1">
                     <h2>Interpolation Syntax</h2>
@@ -1305,7 +1401,7 @@
         </section>
 
         <!-- Passing Data to ejs -->
-        <section id="section12" class="note-section" tabindex="0">
+        <section id="section13" class="note-section" tabindex="0">
             <div class="container">
                 <div class="note-l1">
                     <h2>Passing data to ejs</h2>
@@ -1380,12 +1476,12 @@
 
 
         <!-- Includes -->
-        <section id="section13" class="note-section" tabindex="0">
+        <section id="section14" class="note-section" tabindex="0">
             <div class="container">
                 <div class="note-l1">
                     <h2>Include</h2>
                     <p>
-                        In EJS , the &lt;%- include %&gt; syntax is used to include one EJS file inside another. This is helpful for reusing common layouts like headers, footers, or navigation menus.
+                        In EJS , the <span class="bolder">&lt;%- include %&gt;</span> syntax is used to include one EJS file inside another. This is helpful for reusing common layouts like headers, footers, or navigation menus.
                     </p>
                     <div class="note-l3">
                         <h4>Syntax:</h4>
@@ -1450,7 +1546,7 @@
                                 &lt;/header&gt;
                             </code>
                         </div>              
-                    </article>
+                    </article> 
                 </div>
             </div>
         </section>
