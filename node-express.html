@@ -336,6 +336,10 @@
             <li><a href="#section12">Interpolation Syntax</a></li>
             <li><a href="#section13">Passing data to ejs</a></li>
             <li><a href="#section14">Includes</a></li>
+            <hr>
+            <li><a href="#section15">REST</a></li>
+            <li><a href="#section16">How to Create Unique IDs</a></li>
+            <li><a href="#section17">How to use PUT, PATCH, DELETE</a></li>
         </ul>
     </nav>
 
@@ -1546,6 +1550,183 @@
                                 &lt;/header&gt;
                             </code>
                         </div>              
+                    </article> 
+                </div>
+            </div>
+        </section>
+
+
+        <!-- REST -->
+        <section id="section15" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>REST</h2>
+                    <p>
+                        REST (Representational State Transfer) is a widely used architectural style for designing web APIs, networked applications, particularly web services. It relies on a stateless, client-server communication model, usually over HTTP.
+                    </p>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Key principles include:</h3>
+                        <ul>
+                            <li><span class="bolder">Resource-Based:</span> Everything is treated as a resource, and each resource is identified by a URI (Uniform Resource Identifier), like /users/1.</li>
+                            <li><span class="bolder">Stateless:</span> Each request from a client to a server must contain all the information needed to process it.</li>
+                            <li><span class="bolder">Client-Server Architecture:</span> The client and server operate independently. The client handles the user interface, and the server manages data and logic.</li>
+                            <li><span class="bolder">Representation:</span> Resources are represented in formats such as JSON, XML, or HTML. The client interacts with the resource by using these representations.</li>
+                            <li><span class="bolder">Stateless Communication:</span> No session data is stored on the server. Every request is independent.</li>
+                            <li>
+                                <span class="bolder">Uniform Interface:</span> A consistent way to access resources using standard HTTP methods - (CRUD operations):- <br> 
+                                To Retrieve data - GET (e.g., GET /users/123) <br> 
+                                To Create new data - POST (e.g., POST /users)<br>
+                                To Update data - PUT (e.g., PUT /users/123)<br>
+                                To Remove data - DELETE (e.g., DELETE /users/123)<br>
+                                To Partially update a resource - PATCH
+                            </li>
+                        </ul>        
+                    </article> 
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Unique IDs -->
+        <section id="section16" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>How to Creaete Unique IDs</h2>
+                    <p>
+                        To create unique IDs in your Express app (e.g. for each post), you have a few good options depending on how unique, readable, or persistent you want them to be.
+                    </p>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>1. Use crypto.randomUUID() (Built-in Node.js)</h3>
+                        <div class="code-container">
+                            <code>
+                                Use Like:
+                                //1.require:
+                                const { randomUUID } = require('crypto');
+
+                                //2.use
+                                const newPost = {
+                                    &nbsp;&nbsp;id: randomUUID(), //this
+                                    &nbsp;&nbsp;username: "alice",
+                                    &nbsp;&nbsp;content: "Hello world"
+                                };
+
+                                //Produces something like:
+                                "3f50d2b7-9a7e-40ae-9f0c-5071d2e426f5"
+
+                                //these are Universally unique, No extra dependencies
+                            </code>
+                        </div> 
+                    </article> 
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>2. Use the uuid package (Very common in real projects)</h3>
+                        <div class="code-container">
+                            <code>
+                                Use Like:
+                                //1.Install It:
+                                npm install uuid
+
+                                //2.require:
+                                const { v4: uuidv4 } = require('uuid');
+
+                                //3.use
+                                const newPost = {
+                                    &nbsp;&nbsp;id: uuidv4(), //this
+                                    &nbsp;&nbsp;username: "bob",
+                                    &nbsp;&nbsp;content: "Hello world"
+                                };
+
+                                Output is similar to randomUUID().
+                            </code>
+                        </div> 
+                    </article> 
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>3. Use a Simple Counter (for testing or in-memory arrays)</h3>
+                        <p>
+                            If you don't care about global uniqueness and just want simple incremental IDs (for development/testing only).
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Use Like:
+                                let idCounter = 1;
+
+                                const newPost = {
+                                    &nbsp;&nbsp;id: idCounter++,
+                                    &nbsp;&nbsp;username: "test",
+                                    &nbsp;&nbsp;content: "Simple ID test"
+                                };
+
+                                //IDs will reset every time the server restarts — not recommended for real use.
+                            </code>
+                        </div> 
+                        <p>
+                            There are many other methods also...
+                        </p>
+                    </article> 
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Method Override -->
+        <section id="section17" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Use PUT, PATCH, DELETE in html forms</h2>
+                    <p>
+                        Since HTML forms only support GET and POST methods via method attribute, but Express.js supports all HTTP methods (GET, POST, PUT, PATCH, DELETE), here's how you can use PUT, PATCH, and DELETE in HTML forms using a common workaround.
+                    </p>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Method Override in Express</h3>
+                        <p>
+                            Use a middleware called method-override.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Step by step guide:
+                                1. Install method-override:
+                                npm install method-override
+
+
+                                2. Set up in your Express app:
+                                const methodOverride = require('method-override'); //require it
+
+                                app.use(methodOverride('_method')); // looks for _method in form fields
+                                //also we can use other name than _method but this is commom
+                                
+
+                                3. Write HTML Form with POST but include _method hidden field:
+                                &lt;form action="/users/1?_method=PUT" method="POST"&gt; //use ?_method=PUT
+                                    &nbsp;&nbsp;//form fields
+                                &lt;/form&gt;
+
+                                Or using hidden input:
+                                &lt;form action="/users/1" method="POST"&gt;
+                                    &nbsp;&nbsp;&lt;input type="hidden" name="_method" value="PUT"&gt;
+                                    &nbsp;&nbsp;//other form fields
+                                &lt;/form&gt;
+
+                                Similarly, use _method=PATCH or _method=DELETE for other methods.
+
+                                
+                                4. Define routes in Express:
+                                app.put('/users/:id', (req, res) => { //use method you want to use
+                                    &nbsp;&nbsp;res.send('User updated');
+                                });                                  
+                            </code>
+                        </div> 
+                        <p>
+                            There are other ways also...
+                        </p>
                     </article> 
                 </div>
             </div>
