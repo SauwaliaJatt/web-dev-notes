@@ -47,7 +47,7 @@
         }
 
         .sidebar ul {
-            list-style: none;
+            list-style: none !important;
         }
 
         .sidebar li {
@@ -119,10 +119,11 @@
             /* z-index: 10; */
         }
 
-        .note-l1 p {
+        .note-l1>p {
             font-size: 1.3rem;
             color: #232323;
             margin-top: 15px;
+            margin-bottom: 20px;
         }
 
         /* Notes Grid */
@@ -170,7 +171,7 @@
             background-color: #f9f9f9;
             padding: 16px 14px;
             /* margin: 18px 0 18px 10px; */
-            margin-top: 10px;
+            margin-top: 20px;
             border-left: 5px solid #7b1fa2;
             border-radius: 7px;
             width: 100%;
@@ -196,7 +197,8 @@
             /* border-left: 5px solid #66d9ef; */
             border-radius: 8px;
             overflow-x: auto;
-            margin: 0 0 15px;
+            /* margin: 15px 0 10px; */
+            margin-top: 20px;
             width: 100%;
             display: inline-block;
             text-align: left;
@@ -257,13 +259,15 @@
             font-size: 1.2rem;
         }
 
-        ul :not(.sidebar) li {
-            list-style-type: disc;
+        ul:not(.sidebar)li {
             margin-bottom: 10px;
         }
+        ul:not(.sidebar){
+            list-style-type: disc;
+        }
 
-        ol :not(.sidebar) li {
-            list-style-type: decimal;
+        ol:not(.sidebar)li {
+            /* list-style-type: decimal; */
             margin-bottom: 10px;
         }
 
@@ -327,78 +331,1285 @@
     <button class="menu-toggle" aria-label="Toggle menu">☰ Menu</button>
     <nav class="sidebar" aria-label="Sidebar Navigation">
         <ul>
-            <li><a href="#section1">Node.js</a></li>
-            <li><a href="#section2">process Object</a></li>
-            <li><a href="#section3">Export in files</a></li>
-            <li><a href="#section4">Export in directories</a></li>
-            <li><a href="#section5">NPM</a></li>
+            <li><a href="#section1">Databases</a></li>
+            <li><a href="#section2">SQL, NoSQL Databases</a></li>
             <hr>
+            <li><a href="#section3">SQL</a></li>
+            <li><a href="#section4">Table in SQL</a></li>
+            <li><a href="#section5">Database Queries</a></li>
+            <li><a href="#section6">Table Queries</a></li>
+            <li><a href="#section7">Datatypes</a></li>
+            <li><a href="#section8">Constraints</a></li>
+            <li><a href="#section9">Clause</a></li>
+            <li><a href="#section10">Operators</a></li>
+            <li><a href="#section11">Aggregate Functions</a></li>
+            <li><a href="#section12">General Order</a></li>
         </ul>
     </nav>
 
 
     <main>
-
+        <!-- Databases -->
         <section id="section1" class="note-section" tabindex="0">
             <div class="note-l1">
-                <h2>Node.js Basics</h2>
+                <h2>Databases</h2>
                 <p>
-                    Essential concepts and methods for building server-side applications with Node.js.
+                    A database is an organized collection of data, typically stored and accessed electronically from a computer system. Databases are designed to manage, store, and retrieve information efficiently, allowing users and applications to perform operations like querying, updating, and managing data.
                 </p>
-                <article class="note-l2">
-                    <h3>require()</h3>
+                <div class="note-l3">
                     <p>
-                        Import modules or files into your Node.js application.
+                        Data: Information like names, dates, prices, etc.
                     </p>
+                </div>
+                <div class="note-l2">
+                    <h3>Types of Databases:</h3>
+                    <ol>
+                        <li><span class="bolder">Relational Databases (RDBMS)</span> - Store data in tables (rows and columns). Examples: MySQL, PostgreSQL, Oracle.</li>
+                        <li><span class="bolder">NoSQL Databases</span> - Store unstructured or semi-structured data (documents, key-value pairs, etc.). Examples: MongoDB, Redis, Cassandra.</li>
+                        <li><span class="bolder">Cloud Databases</span> - Hosted on cloud platforms for scalability and accessibility. Examples: AmazonRDS, Google Cloud Firestore.</li>
+                        <li><span class="bolder">In-Memory Databases</span> - Fast, temporary storage in RAM. Example: Redis.</li>
+                        <li>Other types are also there...</li>
+                    </ol>                     
+                </div>
+                <div class="note-l2">
+                    <h3>Main Components:</h3>
+                    <ul>
+                        <li><span class="bolder">Schema</span> - The structure defining how data is organized (e.g., tables, fields, relationships).</li>
+                        <li><span class="bolder">Fields (columns)</span> - Describe data type (e.g., name, age)</li>
+                        <li><span class="bolder">Records (rows)</span> - Individual entries</li>
+                        <li><span class="bolder">Queries</span> - Requests to retrieve or modify data (using SQL)</li>
+                        <li><span class="bolder">Indexes</span> - Speed up data search</li>
+                        <li><span class="bolder">Database Management System (DBMS)</span> - Software that manages the database, enabling users to interact with the data (e.g., MySQL, MongoDB).</li>
+                        <li><span class="bolder">Data</span> - The actual information stored.</li>
+                    </ul>                      
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SQL, NoSQL -->
+        <section id="section2" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>SQL, NoSQL</h2>
+                <p>
+                    SQL and NoSQL are two broad categories of database management systems (DBMS), each with distinct approaches to storing, managing, and querying data.
+                </p>
+                <div class="note-l2">
+                    <h3>SQL Databases (Relational Databases)</h3>
+                    <p>
+                        SQL stands for Structured Query Language. These databases are called relational because they store data in tables, and the tables can be related to each other.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li><span class="bolder">Structured data:</span> Data is stored in rows and columns (like a spreadsheet).</li>
+                            <li><span class="bolder">Schema-based:</span> You must define the structure (columns and their data types) before adding data.</li>
+                            <li><span class="bolder">Uses SQL language:</span> For example, SELECT * FROM students WHERE age > 18;</li>
+                            <li><span class="bolder">Strong consistency:</span> Ensures that all users see the same data at the same time.</li>
+                            <li><span class="bolder">Best suited for:</span> Applications that need complex queries, transactions, and consistent data (e.g., banking, school systems).</li>
+                            <li><span class="bolder">Examples:</span> MySQL, PostgreSQL, Oracle Database, Microsoft SQL Server e.t.c</li>
+                        </ul>
+                    </div>                   
+                </div>
+                <div class="note-l2">
+                    <h3>NoSQL Databases (Non-relational Databases)</h3>
+                    <p>
+                        NoSQL means Not Only SQL. These databases are more flexible and are designed to handle unstructured or semi-structured data.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li><span class="bolder">Flexible schema:</span> You don't need to define the structure beforehand.</li>
+                            <li><span class="bolder">Can store various data formats:</span> Documents, key-value pairs, graphs, etc.</li>
+                            <li><span class="bolder">Highly scalable:</span> Great for handling large volumes of data across multiple servers.</li>
+                            <li><span class="bolder">Eventual consistency:</span> Data might take some time to update across all systems, but it becomes consistent eventually.</li>
+                            <li><span class="bolder">Best suited for:</span> Real-time apps, large-scale systems, or when data structure is not fixed (e.g., social media, IoT).</li>
+                            <li><span class="bolder">Examples:</span> MongoDB (document-based), Cassandra (wide-column), Redis (key-value), Neo4j (graph-based), Firebase (real-time)</li>
+                        </ul>
+                    </div>                   
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SQL -->
+        <section id="section3" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>SQL</h2>
+                <p>
+                    SQL (Structured Query Language) is a standardized language used to manage and manipulate data in relational databases, which organize data into tables with rows and columns. It's designed for querying, inserting, updating, deleting(— this is often referred to as CRUD operations.), and managing database structures like tables and schemas.
+                </p>
+                <p>
+                    SQL works with a fixed schema, meaning the table structure (columns and data types) must be defined before adding data, ensuring consistency but requiring schema changes for modifications.
+                </p>
+                <div class="note-l3">
+                    <h4>Basic SQL Commands:</h4>
+                    <ul>
+                        <li>CREATE - Creates databases or tables</li>
+                        <li>INSERT - Adds new data</li>
+                        <li>SELECT - Retrieves data</li>
+                        <li>UPDATE - Modifies data</li>
+                        <li>DELETE - Removes data</li>
+                        <li>DROP - Deletes tables or databases</li>
+                        <li>ALTER - Changes table structure</li>
+                    </ul>
+                </div>  
+                <div class="note-l3">
+                    <h4>SQL Writing Style:</h4>
+                    <p>
+                        SQL is case-insensitive. But writing like this is recomended:-
+                    </p>
+                    <ul>
+                        <li>Use UPPERCASE for all SQL keywords and functions to make your code easier to read.</li>
+                        <li>Use lowercase or camelCase for: Table names, Column names, Aliases</li>
+                        <li>Split complex queries into multiple lines with proper indentation.</li>
+                    </ul>
+                </div>
+                <div class="code-container">
+                    <code>
+                        -- Create a table
+                        CREATE TABLE Students (
+                            &nbsp;&nbsp;ID INT,
+                            &nbsp;&nbsp;Name VARCHAR(100),
+                            &nbsp;&nbsp;Age INT
+                        );
+                        
+                        -- Insert data
+                        INSERT INTO Students (ID, Name, Age)
+                        VALUES (1, 'Inderjit', 20);
+                        
+                        -- Select data
+                        SELECT * FROM Students;
+                        
+                        -- Update data
+                        UPDATE Students
+                        SET Age = 21
+                        WHERE ID = 1;
+                        
+                        -- Delete data
+                        DELETE FROM Students
+                        WHERE ID = 1;
+                    </code>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Table in SQL -->
+        <section id="section4" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Table in SQL</h2>
+                <p>
+                    A table is the basic structure in a relational database where data is stored. Think of it like an Excel sheet — with rows and columns.
+                </p>
+                <div class="note-l3">
+                    <h4>Rows:</h4>
+                    <ul>
+                        <li>A row, also called a record or tuple, represents a single, complete data entry in a table. Each row contains values for all columns defined in the table's schema.</li>
+                        <li>Purpose: Rows store individual instances of the entity the table represents, such as a specific customer, order, or product.</li>
+                    </ul>
+                </div>                   
+                <div class="note-l3">
+                    <h4>Columns:</h4>
+                    <ul>
+                        <li>A column, also called a field or attribute, defines a specific property or attribute of the table's entity, with a fixed data type (e.g., INT, VARCHAR, DATE).</li>
+                        <li>The list of all columns in a table, along with their data types, forms the schema (structure) of the table.</li>
+                        <li>Purpose: Columns specify what kind of data is stored for each row and enforce consistency across all rows in the table.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Database Queries -->
+        <section id="section5" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Database Operations</h2>  
+                <div class="note-l2">
+                    <h3>Create a Database</h3>
+                    <p>
+                        The CREATE DATABASE statement is used to create a new SQL database.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">CREATE DATABASE database_name;</span>
+                        </p>
+                        <p>
+                            or <span class="bolder">CREATE DATABASE IF NOT EXISTS database_name;</span> - Without this, SQL will throw an error if you try to create a database that already exists.
+                        </p>
+                    </div> 
+                </div>                 
+                <div class="note-l2">
+                    <h3>Drop (Delete) a Database</h3>
+                    <p>
+                        The DROP DATABASE statement is used to drop an existing SQL database.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">DROP DATABASE database_name;</span>
+                        </p>
+                        <p>
+                            <span class="bolder">DROP DATABASE IF EXISTS database_name;</span> - Prevents an error if the database does not exist.
+                        </p>
+                    </div>
+                </div>  
+                <div class="note-l2">
+                    <h3>Show Databases</h3>
+                    <p>
+                        Lists all databases available on the SQL server.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">SHOW DATABASES;</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>Use</h3>
+                    <p>
+                        The USE statement tells MySQL to set the default database for the current session. Once you run this command, all subsequent SQL statements (like SELECT, INSERT, UPDATE, etc.) will be executed within the specified database unless stated otherwise.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">USE database_name;</span>
+                        </p>
+                    </div>
                     <div class="code-container">
                         <code>
-                            Syntax:
-                            const module = require('module-name');
-                            // Imports a module
+                            Think of it like this: If you have multiple databases (e.g., my_database, test_db, inventory_system), and you want to work inside my_database, you run:
+
+                            USE my_database;
                         </code>
                     </div>
+                </div>                                 
+            </div>
+        </section>
+
+
+        <!-- Table Queries -->
+        <section id="section6" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Table Operations</h2>  
+                <div class="note-l2">
+                    <h3>CREATE TABLE</h3>
+                    <p>
+                        The CREATE TABLE statement is used to create a new table in a database.
+                    </p>
                     <div class="note-l3">
-                        <h4>Example:</h4>
+                        <h4>Syntax:</h4>
                         <p>
-                            Importing the built-in 'fs' module to work with the file system.
+                            CREATE TABLE table_name ( <br>
+                                &nbsp;&nbsp;column_name1 datatype constraint, <br>
+                                &nbsp;&nbsp;column_name2 datatype constraint, <br>
+                                &nbsp;&nbsp;.... <br>
+                            );
+                        </p>
+                        <p>
+                            constraints are optional
+                        </p>
+                    </div>  
+                </div>                   
+                <div class="note-l2">
+                    <h3>INSERT</h3>
+                    <p>
+                        The INSERT operation is used to add new rows (records) to a table.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            Insert into all columns (in order): <br>
+                            <span class="bolder">INSERT INTO table_name <br>
+                            VALUES (value1, value2, ..., valueN); <br></span>
+                            Values must match the order and count of the columns defined in the table.
+                        </p>
+                        <hr>
+                        <p>
+                            Insert into specific columns: <br>
+                            <span class="bolder">INSERT INTO table_name (column1, column2, ...) <br>
+                            VALUES (value1, value2, ...);</span> <br>
+                            Safer and preferred — avoids confusion and errors.
                         </p>
                         <div class="code-container">
                             <code>
-                                const fs = require('fs');
-                                // Use fs to read/write files
+                                //Example Table
+                                CREATE TABLE Students (
+                                    &nbsp;&nbsp;roll_no INT PRIMARY KEY,
+                                    &nbsp;&nbsp;name VARCHAR(100),
+                                    &nbsp;&nbsp;age INT,
+                                    &nbsp;&nbsp;grade CHAR(1)
+                                );
+
+                                Example 1: Insert into all columns
+                                INSERT INTO Students
+                                VALUES (1, 'Inderjit', 20, 'A');
+
+                                Example 2: Insert into selected columns
+                                INSERT INTO Students (roll_no, name)
+                                VALUES (2, 'Lucy');
+                                //age and grade will be NULL if not specified and no default is set.
+
+
+                                Insert Multiple Rows at Once:
+                                INSERT INTO Students (roll_no, name, age, grade)
+                                VALUES
+                                (3, 'Raj', 21, 'B'),
+                                (4, 'Priya', 19, 'A');
+                            </code>
+                        </div>
+                    </div>  
+                </div> 
+                <div class="note-l2">
+                    <h3>UPDATE</h3>
+                    <p>
+                        The UPDATE statement in SQL is used to modify the values of existing records in a table. It does not add new rows—it only changes data in rows that already exist.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">UPDATE table_name <br>
+                            SET column1 = value1,  column2 = value2, ... </span> <br>
+                            WHERE condition;
+                        </p>
+                        <p>
+                            WHERE condition - Filters which rows to update. Without this, all rows will be updated.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //Example - Update a Single Column:
+                                UPDATE students
+                                SET grade = 'A'
+                                WHERE student_id = 101;
+                                
+
+                                //Example -Update Multiple Columns
+                                UPDATE employees
+                                SET salary = salary + 2000, bonus = 500
+                                WHERE department = 'HR';
+
+                                //This increases salary by 2000 and sets bonus to 500 for all employees in the HR department.
+                            </code>
+                        </div>
+                    </div>  
+                </div> 
+                <div class="note-l2">
+                    <h3>SELECT</h3>
+                    <p>
+                        The SELECT statement is used to retrieve data from one or more tables in a database.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Basic Syntax:</h4>
+                        <p>
+                            <span class="bolder">SELECT column1, column2, ... FROM table_name;</span> <br>
+                            You list the columns you want, and the table from which you want them.
+                        </p>
+                        <hr>
+                        <p>
+                            With DISTINCT (No Duplicates) <br>
+                            <span class="bolder">SELECT DISTINCT column1, column2, ... FROM table_name;</span>
+                            Shows only unique values.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //Example table
+                                CREATE TABLE Students (
+                                    &nbsp;&nbsp;roll_no INT,
+                                    &nbsp;&nbsp;name VARCHAR(100),
+                                    &nbsp;&nbsp;age INT,
+                                    &nbsp;&nbsp;grade CHAR(1)
+                                );
+                                
+                                1. To Select All Columns - use *
+                                SELECT * FROM Column_name;
+
+                                2. Select Specific Columns:
+                                SELECT name, grade FROM Students;
                             </code>
                         </div>
                     </div>
-                </article>
+                </div>
+                <div class="note-l2">
+                    <h3>Show Tables in a Database</h3>
+                    <p>
+                        Lists all tables present in the selected database.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">SHOW TABLES;</span>
+                        </p>
+                        <p>
+                            Before using this command, you need to select a database first: USE database_name;
+                        </p>
+                    </div>
+                </div>                                 
+            </div>
+        </section>
+
+
+        <!-- Datatypes -->
+        <section id="section7" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Datatypes</h2>  
                 <table>
-                    <caption>Node.js Module Types</caption>
                     <thead>
                         <tr>
-                            <th>Module Type</th>
+                            <th>Data Type</th>
                             <th>Description</th>
+                            <th>Syntax</th>
+                            <th>Example Usage</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Core Modules</td>
-                            <td>Built-in modules provided by Node.js (e.g., fs, http).</td>
+                            <td>CHAR(n)</td>
+                            <td>Fixed-length character string. Pads with spaces if input is shorter than n.</td>
+                            <td>CHAR(7)</td>
+                            <td>'Ind&nbsp;&nbsp;&nbsp;&nbsp;' (take all 7 characters)</td>
                         </tr>
                         <tr>
-                            <td>Local Modules</td>
-                            <td>Modules created within your project.</td>
+                            <td>VARCHAR(n)</td>
+                            <td>Variable-length character string (up to n characters).</td>
+                            <td>VARCHAR(100)</td>
+                            <td>'Inderjit Singh'</td>
                         </tr>
                         <tr>
-                            <td>Third-Party Modules</td>
-                            <td>Modules installed via npm (e.g., express).</td>
+                            <td>BLOB</td>
+                            <td>Binary Large Object. Used to store files, images, etc.</td>
+                            <td>BLOB</td>
+                            <td>ProfilePicture BLOB</td>
+                        </tr>
+                        <tr>
+                            <td>INT</td>
+                            <td>Integer (whole number).</td>
+                            <td>INT</td>
+                            <td>25, -10, 400</td>
+                        </tr>
+                        <tr>
+                            <td>TINYINT</td>
+                            <td>Very small integer (0 to 255).</td>
+                            <td>TINYINT</td>
+                            <td>1, 255</td>
+                        </tr>
+                        <tr>
+                            <td>BIGINT</td>
+                            <td>Very large integer (used for big numbers like IDs).</td>
+                            <td>BIGINT</td>
+                            <td>123456789012345</td>
+                        </tr>
+                        <tr>
+                            <td>BIT(n)</td>
+                            <td>Binary data (1s and 0s), often used for flags.</td>
+                            <td>BIT(1)</td>
+                            <td>0, 1</td>
+                        </tr>
+                        <tr>
+                            <td>FLOAT</td>
+                            <td>Approximate decimal number (less precision).</td>
+                            <td>FLOAT(6,2)</td>
+                            <td>3.14, 5.67</td>
+                        </tr>
+                        <tr>
+                            <td>DOUBLE</td>
+                            <td>Double-precision float (more precision).</td>
+                            <td>DOUBLE(10,4)</td>
+                            <td>123.4567</td>
+                        </tr>
+                        <tr>
+                            <td>BOOLEAN</td>
+                            <td>Stores TRUE or FALSE (internally 1 or 0).</td>
+                            <td>BOOLEAN</td>
+                            <td>TRUE, FALSE</td>
+                        </tr>
+                        <tr>
+                            <td>DATE</td>
+                            <td>Stores a date (YYYY-MM-DD).</td>
+                            <td>DATE</td>
+                            <td>'2025-06-16'</td>
+                        </tr>
+                        <tr>
+                            <td>YEAR</td>
+                            <td>Stores a year (4-digit format).</td>
+                            <td>YEAR</td>
+                            <td>2025</td>
                         </tr>
                     </tbody>
                 </table>
-                <ul>
-                    <li>Asynchronous and Event-Driven</li>
-                    <li>Single-Threaded but Highly Scalable</li>
-                    <li>Fast Execution with V8 Engine</li>
-                    <li>Open-source and Community Driven</li>
-                </ul>
+                <div class="note-l3">
+                    <h4>UNSIGNED</h4>
+                    <p>
+                        UNSIGNED is a modifier used with numeric data types to indicate that the column cannot store negative numbers — only 0 and positive values. It also doubles the positive range of a numeric type. e.g use like - datatype UNSIGNED.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Constraints -->
+        <section id="section8" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Constraints</h2> 
+                <p>
+                    Constraints are rules applied to columns in a table to ensure the validity, accuracy, and integrity of the data. They control what values are allowed in a column (like: no nulls, must be unique, must match another table, etc.)
+                </p> 
+                <div class="note-l3">
+                    <h4>NOT NULL</h4>
+                    <p>
+                        Ensures a column cannot have a NULL value.
+                    </p>
+                </div>
+                <div class="note-l3">
+                    <h4>UNIQUE</h4>
+                    <p>
+                        Ensures all values in a column are unique.
+                    </p>
+                </div>
+                <div class="note-l3">
+                    <h4>DEFAULT</h4>
+                    <p>
+                        Sets a default value for a column if no value is provided during INSERT.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            CREATE TABLE employees (
+                                &nbsp;&nbsp;id INT PRIMARY KEY,
+                                &nbsp;&nbsp;status VARCHAR(20) DEFAULT 'Active' // default value - active
+                            );
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l3">
+                    <h4>CHECK</h4>
+                    <p>
+                        Enforces a condition on column values. Ensures all values in a column meet a specified condition.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            CREATE TABLE employees (
+                                &nbsp;&nbsp;id INT PRIMARY KEY,
+                                &nbsp;&nbsp;age INT CHECK (age >= 18) //Ensures age is at least 18.
+                            );
+
+                            //Single CHECK With Multiple Conditions
+                            CREATE TABLE Students (
+                                &nbsp;&nbsp;id INT PRIMARY KEY,
+                                &nbsp;&nbsp;age INT,
+                                &nbsp;&nbsp;marks INT,
+                                &nbsp;&nbsp;CHECK (age >= 18 AND marks >= 0) //multiple checks like this
+                            );
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l3">
+                    <h4>PRIMARY KEY</h4>
+                    <p>
+                        A Primary Key is a column or a combination of columns in a table that uniquely identifies each row in that table.
+                    </p>
+                    <ul>
+                        <li>Primary keys must contain UNIQUE values, and cannot contain NULL values.</li>
+                        <li>A table can have only ONE primary key.</li>
+                    </ul>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            CREATE TABLE employees (
+                                &nbsp;&nbsp;id INT PRIMARY KEY,
+                                &nbsp;&nbsp;name VARCHAR(100)
+                            );
+
+                            //OR define like this
+                            CREATE TABLE employees (
+                                &nbsp;&nbsp;id,
+                                &nbsp;&nbsp;name VARCHAR(100)
+                                PRIMARY KEY (id) // Syntax: PRIMARY KEY (column_name)
+                            );
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l3">
+                    <h4>FOREIGN KEY</h4>
+                    <p>
+                        A Foreign Key is a column (or set of columns) in one table that refers to the Primary Key in another table.
+                    </p>
+                    <ul>
+                        <li>Foreign Key's can have duplicate & null values.</li>
+                        <li>It creates a relationship between two tables and ensures referential integrity.</li>
+                        <li>The table with the foreign key is called the child table, and the table with the primary key is called the referenced or parent table.</li>
+                    </ul>
+                    <div class="code-container">
+                        <code>
+                            Syntax:
+                            FOREIGN KEY (column_name) REFERENCES parent_table(parent_column)
+
+                            <hr>
+                            Example:
+                            //Parent Table
+                            CREATE TABLE Departments (
+                                &nbsp;&nbsp;dept_id INT PRIMARY KEY,
+                                &nbsp;&nbsp;dept_name VARCHAR(100)
+                            );
+
+                            //Child Table With Foreign Key
+                            CREATE TABLE Employees (
+                                &nbsp;&nbsp;emp_id INT PRIMARY KEY,
+                                &nbsp;&nbsp;dept_id INT,
+                                &nbsp;&nbsp;FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
+                            );
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Clause -->
+        <section id="section9" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Clause</h2>  
+                <p>
+                    A clause is a building block of an SQL statement. Each clause performs a specific function to retrieve, filter, or organize data from a database.
+                </p>
+                <div class="note-l2">
+                    <h3>SELECT Clause</h3>
+                    <p>
+                        Specifies the columns you want to retrieve from a table.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            SELECT name, age FROM students;
+                            //This tells SQL to fetch only the name and age columns from the students table.
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>FROM Clause</h3>
+                    <p>
+                        Tells SQL which table the data should come from.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            SELECT * FROM employees;
+                            //SQL will look into the employees table for data.
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>WHERE Clause</h3>
+                    <p>
+                        Filters the data using conditions and operators.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Syntax:
+                            SELECT column1, column2, ...
+                            FROM table_name
+                            WHERE condition;
+
+                            Example:
+                            SELECT name, marks
+                            FROM students
+                            WHERE marks > 80;
+                            //Returns only students whose marks are greater than 80.
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>UNIQUE Clause</h3>
+                    <p>
+                        Ensures all values in a column are unique.
+                    </p>
+                </div>
+                <div class="note-l2">
+                    <h3>DEFAULT Clause</h3>
+                    <p>
+                        Sets a default value for a column if no value is provided during INSERT.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            CREATE TABLE employees (
+                                &nbsp;&nbsp;id INT PRIMARY KEY,
+                                &nbsp;&nbsp;status VARCHAR(20) DEFAULT 'Active' // default value - active
+                            );
+                        </code>
+                    </div>
+                </div>                                
+                <div class="note-l2">
+                    <h3>LIMIT Clause</h3>
+                    <p>
+                        The LIMIT clause is used to restrict the number of rows returned in a result set.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            SELECT column1, column2, ... <br>
+                            FROM table_name <br>
+                            <span class="bolder">LIMIT number;</span> <br>
+                            number - how many rows you want to retrive
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            SELECT * FROM students
+                            LIMIT 5;
+                            //Show only 5 students.
+
+
+                            //Using OFFSET (Optional):
+                            LIMIT 5 OFFSET 10;
+                            //Meaning: Skip first 10 rows and return the next 5.
+                        </code>
+                    </div>
+                </div>                                
+                <div class="note-l2">
+                    <h3>ORDER BY Clause</h3>
+                    <p>
+                        The ORDER BY clause is used to sort the result set by one or more columns in ascending (ASC) or descending (DESC) order.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">ORDER BY column_name ASC|DESC;</span>
+                        </p>
+                        <p>
+                            For Multiple Columns: <br>
+                            <span class="bolder">ORDER BY column1 ASC|DESC, column2 ASC|DESC, ...;</span>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            //Example 1 - Ascending Order (Default):
+                            SELECT name, age FROM students
+                            ORDER BY age;
+                            //Result: Students listed from youngest to oldest.
+
+
+                            //Example 2 - Descending Order:
+                            SELECT name, marks FROM students
+                            ORDER BY marks DESC;
+                            //Result: Students listed from highest to lowest marks.
+
+
+                            //Example 3 - Multiple Columns:
+                            SELECT name, class, marks FROM students
+                            ORDER BY class ASC, marks DESC;
+                            //Result: First sorted by class in ascending order, Then within each class, sorted by marks in descending order
+                        </code>
+                    </div>
+                </div>                                
+                <div class="note-l2">
+                    <h3>GROUP BY Clause</h3>
+                    <p>
+                        The GROUP BY clause is used to group rows that have the same values in one or more columns. It is generally used with aggregate functions. It is used to summarize data.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            SELECT column1, AGGREGATE_FUNCTION(column2) <br>
+                            FROM table_name <br>
+                            <span class="bolder">GROUP BY column1;</span>
+                        </p>
+                        <p>
+                            For Multiple: <br>
+                            SELECT column1, column2, ..., AGGREGATE_FUNCTION(column) <br>
+                            FROM table_name <br>
+                            <span class="bolder">GROUP BY column1, column2, ...;</span>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            SELECT department_id, COUNT(*), AVG(salary)
+                            FROM employees
+                            GROUP BY department_id;
+                            //Groups rows by department_id and calculates the count and average salary for each department.
+
+
+                            Using Multiple group by:
+                            SELECT class, section, AVG(marks) AS avg_marks
+                            FROM students
+                            GROUP BY class, section;
+                            //Average marks per class and section
+
+                            <hr>
+                            Use with HAVING:
+                            If you want to filter groups, you cannot use WHERE. You must use HAVING.
+
+                            Example:
+                            SELECT class, COUNT(*) AS student_count
+                            FROM students
+                            GROUP BY class
+                            HAVING COUNT(*) > 2;
+                            //Only show classes with more than 2 students
+                        </code>
+                    </div>
+                    <p>
+                        Non-aggregated columns in the SELECT clause must appear in GROUP BY (e.g., SELECT name, AVG(salary) is invalid unless
+                        name is in GROUP BY).
+                    </p>
+                    <p>
+                        Groups are created for each unique combination of GROUP BY column values.
+                    </p>
+                </div>                                
+                <div class="note-l2">
+                    <h3>HAVING Clause</h3>
+                    <p>
+                        The HAVING clause is used to filter the results after grouping, just like the WHERE clause filters rows before grouping.
+                    </p>
+                    <p>
+                        WHERE filters rows before grouping. HAVING filters groups after aggregation. WHERE can't use with aggregate functions but HAVING can.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            SELECT column_name, AGGREGATE_FUNCTION(column) <br>
+                            FROM table_name <br>
+                            GROUP BY column_name <br>
+                            <span class="bolder">HAVING condition;</span>
+                            
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            SELECT class, COUNT(*) AS student_count
+                            FROM students
+                            GROUP BY class
+                            HAVING COUNT(*) > 2;
+                            //Selects Classes with more than 2 students
+                        </code>
+                    </div>
+                </div>                                
+            </div>
+        </section>
+
+
+        <!-- Operators -->
+        <section id="section10" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Operators</h2>  
+                <p>
+                    Operators in SQL are symbols or keywords that perform operations on values, columns, or expressions to filter, compare, combine, or compute data.
+                </p>
+                <div class="note-l2">
+                    <h3>1. Comparison Operators</h3>
+                    <p>
+                        These compare two values and return TRUE or FALSE.
+                    </p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Operator</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>=</td>
+                                <td>Equal to</td>
+                                <td>age = 18</td>
+                                <td>True if age is 18</td>
+                            </tr>
+                            <tr>
+                                <td>!=</td>
+                                <td>Not equal to</td>
+                                <td>name != 'John'</td>
+                                <td>True if name is not John</td>
+                            </tr>
+                            <tr>
+                                <td>&lt;&gt;</td>
+                                <td>Not equal to (same as !=)</td>
+                                <td>marks &lt;&gt; 100</td>
+                                <td>True if marks is not 100</td>
+                            </tr>
+                            <tr>
+                                <td>&gt;</td>
+                                <td>Greater than</td>
+                                <td>salary &gt; 50000</td>
+                                <td>True if salary &gt; 50000</td>
+                            </tr>
+                            <tr>
+                                <td>&gt;=</td>
+                                <td>Greater than or equal</td>
+                                <td>marks &gt;= 80</td>
+                                <td>True if marks is 80 or more</td>
+                            </tr>
+                            <tr>
+                                <td>&lt;</td>
+                                <td>Less than</td>
+                                <td>price &lt; 100</td>
+                                <td>True if price &lt; 100</td>
+                            </tr>
+                            <tr>
+                                <td>&lt;=</td>
+                                <td>Less than or equal</td>
+                                <td>age &lt;= 25</td>
+                                <td>True if age is 25 or less</td>
+                            </tr>
+                        </tbody>
+                    </table>                       
+                </div>                   
+                <div class="note-l2">
+                    <h3>2. Arithmetic Operators</h3>
+                    <p>
+                        Arithmetic operators are used to perform mathematical calculations on numeric data types.
+                    </p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Operator</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>+</td>
+                                <td>Addition</td>
+                                <td>10 + 5</td>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>-</td>
+                                <td>Subtraction</td>
+                                <td>10 - 5</td>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>*</td>
+                                <td>Multiplication</td>
+                                <td>4 * 3</td>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>/</td>
+                                <td>Division</td>
+                                <td>10 / 2</td>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>%</td>
+                                <td>Modulus (Remainder)</td>
+                                <td>10 % 3</td>
+                                <td>1</td>
+                            </tr>
+                        </tbody>
+                    </table>                       
+                </div> 
+                <div class="note-l2">
+                    <h3>3. Logical Operators</h3>
+                    <p>
+                        Logical operators are used in SQL to combine multiple conditions in a WHERE clause or control flow. They return TRUE, FALSE, or UNKNOWN based on the condition evaluation.
+                    </p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Operator</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>AND</td>
+                                <td>Returns TRUE if both conditions are TRUE</td>
+                                <td>age > 18 AND city = 'Delhi'</td>
+                                <td>TRUE only if age > 18 and city is Delhi</td>
+                            </tr>
+                            <tr>
+                                <td>OR</td>
+                                <td>Returns TRUE if at least one condition is TRUE</td>
+                                <td>marks > 90 OR grade = 'A'</td>
+                                <td>TRUE if either condition is met</td>
+                            </tr>
+                            <tr>
+                                <td>NOT</td>
+                                <td>Reverses the result of the condition</td>
+                                <td>NOT(status = 'inactive')</td>
+                                <td>TRUE if status is not inactive</td>
+                            </tr>
+                            <tr>
+                                <td>IN</td>
+                                <td>TRUE if value matches any value in a list</td>
+                                <td>dept IN ('HR', 'IT')</td>
+                                <td>TRUE if dept is either 'HR' or 'IT'</td>
+                            </tr>
+                            <tr>
+                                <td>BETWEEN</td>
+                                <td>TRUE if value lies within a range (inclusive)</td>
+                                <td>salary BETWEEN 30000 AND 50000</td>
+                                <td>TRUE if salary is 30000 to 50000</td>
+                            </tr>
+                            <tr>
+                                <td>ALL</td>
+                                <td>TRUE if condition is TRUE for all values</td>
+                                <td>marks > ALL (SELECT marks FROM students)</td>
+                                <td>TRUE if marks is greater than all students’ marks</td>
+                            </tr>
+                            <tr>
+                                <td>LIKE</td>
+                                <td>TRUE if value matches a pattern (uses % or _)</td>
+                                <td>name LIKE 'A%'</td>
+                                <td>TRUE for names starting with 'A'</td>
+                            </tr>
+                            <tr>
+                                <td>ANY</td>
+                                <td>TRUE if condition is TRUE for any value</td>
+                                <td>salary > ANY (SELECT salary FROM interns)</td>
+                                <td>TRUE if salary is greater than at least one intern</td>
+                            </tr>
+                        </tbody>
+                    </table>                      
+                </div>
+                <div class="note-l2">
+                    <h3>4. Bitwise Operators</h3>
+                    <p>
+                        Bitwise operators work at the binary level. They compare each bit of two numbers and return a new number based on binary logic.
+                    </p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Operator</th>
+                                <th>Name</th>
+                                <th>Example</th>
+                                <th>Binary Calculation</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>&amp;</td>
+                                <td>Bitwise AND</td>
+                                <td>6 &amp; 3</td>
+                                <td>110 &amp; 011 = 010</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>|</td>
+                                <td>Bitwise OR</td>
+                                <td>6 | 3</td>
+                                <td>110 | 011 = 111</td>
+                                <td>7</td>
+                            </tr>
+                        </tbody>
+                    </table>                      
+                </div>                                 
+            </div>
+        </section>
+
+
+        <!-- Aggregate Functions -->
+        <section id="section11" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Aggregate Functions</h2>  
+                <p>
+                    Aggregate functions perform a calculation on a set of values and return a single value as the result.
+                </p>
+                <div class="note-l2">
+                    <h3>COUNT Function</h3>
+                    <p>
+                        Counts the number of rows (or non-NULL values in a column) in a result set.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            SELECT <span class="bolder"> COUNT(Column_name)</span> <br>
+                            FROM table_name;
+                        </p>
+                        <p>
+                            <span class="bolder">COUNT(*) (all rows)</span> <br>
+                            //COUNT(*) counts all rows, including those with NULL values.
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example 1:
+                            SELECT COUNT(*) AS total_employees
+                            FROM employees;
+
+
+                            SELECT department_id, COUNT(salary) AS salaried_employees
+                            FROM employees
+                            GROUP BY department_id;
+                            Counts employees with non-NULL salaries per department
+                        </code>
+                    </div>
+                </div>                                                                                              
+                <div class="note-l2">
+                    <h3>SUM Function</h3>
+                    <p>
+                        Calculates the total of numerical values in a column.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            SELECT <span class="bolder"> SUM(Column_name)</span> <br>
+                            FROM table_name;
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            SELECT SUM(salary) AS total_salary 
+                            FROM employees; //Returns sum of all salaries
+
+
+                            Example with GROUP BY:
+                            SELECT department_id, SUM(salary) AS dept_salary
+                            FROM employees
+                            GROUP BY department_id; //Returns total salaries per department
+                        </code>
+                    </div>
+                </div>                                                                                              
+                <div class="note-l2">
+                    <h3>AVG Function</h3>
+                    <p>
+                        Calculates the average (arithmetic mean) of numerical values in a column. Computes the sum of non-NULL values divided by the count of non-NULL values.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            SELECT <span class="bolder"> AVG(Column_name)</span> <br>
+                            FROM table_name;
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            SELECT AVG(salary) AS avg_salary
+                            FROM employees;
+                        </code>
+                    </div>
+                    <p>
+                        Can be formatted: SELECT ROUND(AVG(salary), 2) FROM employees; rounds to 2 decimal places.
+                    </p>
+                </div>                                                                                              
+                <div class="note-l2">
+                    <h3>MIN Function</h3>
+                    <p>
+                        Returns the smallest value in a column. Finds the minimum value for numeric, string, or date columns.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            SELECT <span class="bolder"> MIN(Column_name)</span> <br>
+                            FROM table_name;
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            SELECT MIN(salary) AS lowest_salary
+                            FROM employees; //Returns lowest salary.
+                        </code>
+                    </div>
+                </div>                                                                                              
+                <div class="note-l2">
+                    <h3>MAX Function</h3>
+                    <p>
+                        Returns the largest value in a column. Finds the maximum value for numeric, string, or date columns.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            SELECT <span class="bolder"> MAX(Column_name)</span> <br>
+                            FROM table_name;
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example 1:
+                            SELECT MAX(salary) AS highest_salary
+                            FROM employees; //Returns highest salary.
+                        </code>
+                    </div>
+                </div>                                                                                              
+            </div>
+        </section>
+
+
+        <!-- General Order -->
+        <section id="section12" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>General Order</h2>  
+                <div class="note-l2">
+                    <h3>Syntactic Order of SELECT Query Clauses:</h3>
+                    <p>
+                        The clauses in a SELECT query must be written in a specific order to be syntactically correct. Below is the standard sequence:
+                    </p>
+                    <ol>
+                        <li><span class="bolder">SELECT:</span> Specifies the columns, expressions, or aggregate functions to retrieve.</li>
+                        <li><span class="bolder">FROM:</span> Identifies the table(s) or data source(s) to query.</li>
+                        <li><span class="bolder">JOIN:</span> Combines multiple tables based on relationships (e.g., using PRIMARY KEY and FOREIGN KEY).</li>
+                        <li><span class="bolder">WHERE:</span> Filters individual rows based on conditions.</li>
+                        <li><span class="bolder">GROUP BY:</span> Groups rows with identical values in specified columns for aggregation.</li>
+                        <li><span class="bolder">HAVING:</span> Filters groups based on aggregate conditions.</li>
+                        <li><span class="bolder">ORDER BY:</span> Sorts the final result set.</li>
+                        <li><span class="bolder">LIMIT/OFFSET:</span> (DBMS-specific): Restricts the number of rows returned or skips rows.</li>
+                    </ol>
+                    <div class="code-container">
+                        <code>
+                            Example:
+
+                            SELECT column1, AGG_FUNC(column2)
+                            FROM table_name
+                            JOIN other_table ON condition
+                            WHERE condition
+                            GROUP BY column1
+                            HAVING condition
+                            ORDER BY column1
+                            LIMIT number;
+                        </code>
+                    </div>
+                </div>                                                                                             
+                <div class="note-l2">
+                    <h3>Logical(Execution) Order:</h3>
+                    <p>
+                        The DBMS processes a SELECT query in a different order than the syntactic sequence, which affects how data is filtered, grouped, and returned. The logical processing order is:
+                    </p>
+                    <ol>
+                        <li>
+                            <span class="bolder">FROM and JOIN:</span> Identifies the data source(s) and combines tables using joins (e.g., INNER JOIN, LEFT JOIN).
+                        </li>
+                        <li>
+                            <span class="bolder">WHERE:</span> Filters individual rows based on conditions, reducing the dataset before grouping.
+                        </li>
+                        <li>
+                            <span class="bolder">GROUP BY:</span> Groups remaining rows by specified columns, creating groups for aggregation.
+                        </li>
+                        <li>
+                            <span class="bolder">HAVING:</span> Filters groups based on aggregate conditions, removing groups that don't meet the criteria.
+                        </li>
+                        <li>
+                            <span class="bolder">SELECT:</span> Evaluates the columns, expressions, or aggregate functions to include in the result set.
+                        </li>
+                        <li>
+                            <span class="bolder">DISTINCT (if used):</span> Removes duplicate rows from the result set.
+                        </li>
+                        <li>
+                            <span class="bolder">ORDER BY:</span> Sorts the final result set based on specified columns or expressions.
+                        </li>
+                        <li>
+                            <span class="bolder">LIMIT/OFFSET (if used):</span> Restricts the number of rows returned or skips rows.
+                        </li>
+                    </ol>                      
+                    <p>
+                        Why It Matters: The logical order explains why certain operations occur before others. For example, WHERE filters rows before GROUP BY, so it cannot use aggregate functions (e.g., WHERE COUNT(*) &gt; 2 is invalid), while HAVING can because it's applied after grouping.
+                    </p>
+                </div>                                                                                             
             </div>
         </section>
     </main>
@@ -431,6 +1642,42 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- new  -->
  <template>
     <section id="section1" class="note-section" tabindex="0">
@@ -441,7 +1688,7 @@
                 Essential concepts and methods for building server-side applications with Node.js.
             </p>
             <!-- lvl 2  -->
-            <article class="note-l2">
+            <div class="note-l2">
                 <h3>require()</h3>
                 <p>
                     Import modules or files into your Node.js application.
@@ -466,7 +1713,7 @@
                         </code>
                     </div>
                 </div>
-            </article>
+            </div>
             <!-- table -->
             <table>
                 <caption>Node.js Module Types</caption>
@@ -491,12 +1738,16 @@
                     </tr>
                 </tbody>
             </table>
-            <ul>
+            <ol>
                 <li>Asynchronous and Event-Driven</li>
                 <li>Single-Threaded but Highly Scalable</li>
                 <li>Fast Execution with V8 Engine</li>
-                <li>Open-source and Community Driven</li>
-            </ul>
+                <li>Open-source and Community Driven
+                    <ul>
+                        <li>asfa</li>
+                    </ul>
+                </li>
+            </ol>
         </div>
     </section>
     <section id="section1" class="note-section" tabindex="0">
@@ -507,7 +1758,7 @@
                 Essential concepts and methods for building server-side applications with Node.js.
             </p>
         </div>
-        <article class="note-l2">
+        <div class="note-l2">
             <h3>require()</h3>
             <p>
                 Import modules or files into your Node.js application.
@@ -519,7 +1770,7 @@
                     // Imports a module
                 </code>
             </div>
-        </article>
+        </div>
         <div class="note-l3">
             <h4>Example:</h4>
             <p>
