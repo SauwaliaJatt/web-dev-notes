@@ -338,6 +338,7 @@
             <li><a href="#section4">Table in SQL</a></li>
             <li><a href="#section5">Database Queries</a></li>
             <li><a href="#section6">Table Queries</a></li>
+            <li><a href="#section6i">Alter Table</a></li>
             <li><a href="#section7">Datatypes</a></li>
             <li><a href="#section8">Constraints</a></li>
             <li><a href="#section9">Clause</a></li>
@@ -633,34 +634,34 @@
                             VALUES (value1, value2, ...);</span> <br>
                             Safer and preferred — avoids confusion and errors.
                         </p>
-                        <div class="code-container">
-                            <code>
-                                //Example Table
-                                CREATE TABLE Students (
-                                    &nbsp;&nbsp;roll_no INT PRIMARY KEY,
-                                    &nbsp;&nbsp;name VARCHAR(100),
-                                    &nbsp;&nbsp;age INT,
-                                    &nbsp;&nbsp;grade CHAR(1)
-                                );
+                    </div> 
+                    <div class="code-container">
+                        <code>
+                            //Example Table
+                            CREATE TABLE Students (
+                                &nbsp;&nbsp;roll_no INT PRIMARY KEY,
+                                &nbsp;&nbsp;name VARCHAR(100),
+                                &nbsp;&nbsp;age INT,
+                                &nbsp;&nbsp;grade CHAR(1)
+                            );
 
-                                Example 1: Insert into all columns
-                                INSERT INTO Students
-                                VALUES (1, 'Inderjit', 20, 'A');
+                            Example 1: Insert into all columns
+                            INSERT INTO Students
+                            VALUES (1, 'Inderjit', 20, 'A');
 
-                                Example 2: Insert into selected columns
-                                INSERT INTO Students (roll_no, name)
-                                VALUES (2, 'Lucy');
-                                //age and grade will be NULL if not specified and no default is set.
+                            Example 2: Insert into selected columns
+                            INSERT INTO Students (roll_no, name)
+                            VALUES (2, 'Lucy');
+                            //age and grade will be NULL if not specified and no default is set.
 
 
-                                Insert Multiple Rows at Once:
-                                INSERT INTO Students (roll_no, name, age, grade)
-                                VALUES
-                                (3, 'Raj', 21, 'B'),
-                                (4, 'Priya', 19, 'A');
-                            </code>
-                        </div>
-                    </div>  
+                            Insert Multiple Rows at Once:
+                            INSERT INTO Students (roll_no, name, age, grade)
+                            VALUES
+                            (3, 'Raj', 21, 'B'),
+                            (4, 'Priya', 19, 'A');
+                        </code>
+                    </div> 
                 </div> 
                 <div class="note-l2">
                     <h3>UPDATE</h3>
@@ -677,24 +678,102 @@
                         <p>
                             WHERE condition - Filters which rows to update. Without this, all rows will be updated.
                         </p>
-                        <div class="code-container">
-                            <code>
-                                //Example - Update a Single Column:
-                                UPDATE students
-                                SET grade = 'A'
-                                WHERE student_id = 101;
-                                
-
-                                //Example -Update Multiple Columns
-                                UPDATE employees
-                                SET salary = salary + 2000, bonus = 500
-                                WHERE department = 'HR';
-
-                                //This increases salary by 2000 and sets bonus to 500 for all employees in the HR department.
-                            </code>
-                        </div>
                     </div>  
+                    <div class="code-container">
+                        <code>
+                            //Example - Update a Single Column:
+                            UPDATE students
+                            SET grade = 'A'
+                            WHERE student_id = 101;
+                            
+
+                            //Example - Update Multiple Columns
+                            UPDATE employees
+                            SET salary = salary + 2000, bonus = 500
+                            WHERE department = 'HR';
+
+                            //This increases salary by 2000 and sets bonus to 500 for all employees in the HR department.
+                        </code>
+                    </div>
                 </div> 
+                <div class="note-l2">
+                    <h3>DELETE</h3>
+                    <p>
+                        The DELETE statement is used to remove one or more rows from a table in a database — permanently. It does not delete the table itself, only the data inside it.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">DELETE FROM table_name <br>
+                            WHERE condition;</span>
+                        </p>
+                        <p>
+                            WHERE condition - Filters which rows to delete. Without it deletes all rows in a table, But the table structure remains same. Always use a WHERE clause unless you really intend to delete everything.
+                        </p>
+                    </div>  
+                    <div class="code-container">
+                        <code>
+                            //Example 1- Delete a Single Row:
+                            DELETE FROM students
+                            WHERE student_id = 101;
+                            //This deletes the row where the student_id is 101.
+
+
+                            //Example 2- Delete Multiple Rows:
+                            DELETE FROM orders
+                            WHERE status = 'Cancelled';
+
+                            //Deletes all orders that are marked as "Cancelled".
+                        </code>
+                    </div>
+                </div> 
+                <div class="note-l2">
+                    <h3>RENAME TABLE</h3>
+                    <p>
+                        RENAME TABLE is used to change the name of a table without affecting its data, structure, indexes, or constraints.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">RENAME TABLE old_table_name TO new_table_name;</span>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            RENAME TABLE employees TO staff;
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>DROP and TRUNCATE</h3>
+                    <p>
+                        DROP TABLE - Completely removes a table and its structure (including indexes, triggers, and constraints) from the database. The table and its data are permanently deleted.
+                    </p>
+                    <p>
+                        TRUNCATE TABLE - Removes all rows from a table but keeps the table structure, indexes, triggers, and constraints intact. Essentially, it resets the table to its empty state.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            DROP:- <span class="bolder">DROP TABLE table_name;</span>
+                        </p>
+                        <p>
+                            TRUNCATE:- <span class="bolder">TRUNCATE TABLE table_name;</span>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            //Remove table completely
+                            DROP TABLE old_data;
+                            
+                            
+                            //Clear all rows but keep table structure
+                            TRUNCATE TABLE logs;
+                        </code>
+                    </div>
+                </div>
                 <div class="note-l2">
                     <h3>SELECT</h3>
                     <p>
@@ -744,6 +823,122 @@
                         <p>
                             Before using this command, you need to select a database first: USE database_name;
                         </p>
+                    </div>
+                </div>                                 
+            </div>
+        </section>
+
+
+        <!-- Alter Table -->
+        <section id="section6i" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <div class="note-l2">
+                    <h2>ALTER TABLE</h2>
+                    <p>
+                        The ALTER TABLE statement is used to change the structure of an existing table.
+                    </p>
+                    <p>
+                        It does not affect the existing data, unless a change (like reducing column size) makes it incompatible.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Basic Syntax:</h4>
+                        <p>
+                            <span class="bolder">ALTER TABLE table_name <br>
+                            action;</span>
+                        </p>
+                    </div>  
+                    <div class="note-l2">
+                        <h3>ADD COLUMN:</h3>
+                        <p>
+                            The ADD COLUMN clause is used with the ALTER TABLE statement to add a new column to an existing table.
+                        </p>
+                        <div class="note-l3">
+                            <h4>Syntax:</h4>
+                            <p>
+                                <span class="bolder">ALTER TABLE table_name <br>
+                                ADD column_name datatype constraint;</span>
+                            </p>
+                        </div> 
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                ALTER TABLE employees
+                                ADD department VARCHAR(50);
+                            </code>
+                        </div>
+                        <p>
+                            New columns are NULL for all existing rows, unless a DEFAULT is specified.
+                        </p>
+                    </div>  
+                    <div class="note-l2">
+                        <h3>DROP COLUMN:</h3>
+                        <p>
+                            The ADD COLUMN clause is used with the ALTER TABLE statement to add a new column to an existing table.
+                        </p>
+                        <p>
+                            All the data stored in that column will be lost. The table structure is updated — the column is removed from the schema.
+                        </p>
+                        <div class="note-l3">
+                            <h4>Syntax:</h4>
+                            <p>
+                                <span class="bolder">ALTER TABLE table_name <br>
+                                DROP COLUMN column_name;</span>
+                            </p>
+                        </div>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                ALTER TABLE employees
+                                DROP COLUMN middle_name;
+
+                                //This removes the middle_name column and all its data from the employees table.
+                            </code>
+                        </div>
+                    </div>  
+                </div>                                 
+                <div class="note-l2">
+                    <h3>CHANGE (Rename column)</h3>
+                    <p>
+                        To rename a column, you use the ALTER TABLE statement with the CHANGE keyword.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">ALTER TABLE table_name <br>
+                            CHANGE old_column_name new_column_name data_type;</span>
+                        </p>
+                        <p>
+                            You must always provide the data type when renaming a column, even if the data type is not changing.
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            ALTER TABLE employees
+                            CHANGE full_name name VARCHAR(100);
+
+                            //This renames the column from full_name to name and keeps its data type as VARCHAR(100).
+                        </code>
+                    </div>
+                </div>                                 
+                <div class="note-l2">
+                    <h3>MODIFY</h3>
+                    <p>
+                        The MODIFY COLUMN clause in MySQL is used with the ALTER TABLE statement to change the data type, constraints, or position of an existing column without changing its name.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">ALTER TABLE table_name <br>
+                            MODIFY COLUMN column_name new_datatype new_constraint;</span>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example - Change data type and make it NOT NULL:
+                            ALTER TABLE employees
+                            MODIFY COLUMN age SMALLINT NOT NULL;
+                        </code>
                     </div>
                 </div>                                 
             </div>
