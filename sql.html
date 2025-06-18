@@ -832,70 +832,68 @@
         <!-- Alter Table -->
         <section id="section6i" class="note-section" tabindex="0">
             <div class="note-l1">
-                <div class="note-l2">
-                    <h2>ALTER TABLE</h2>
+                <h2>ALTER TABLE</h2>
+                <p>
+                    The ALTER TABLE statement is used to change the structure of an existing table.
+                </p>
+                <p>
+                    It does not affect the existing data, unless a change (like reducing column size) makes it incompatible.
+                </p>
+                <div class="note-l3">
+                    <h4>Basic Syntax:</h4>
                     <p>
-                        The ALTER TABLE statement is used to change the structure of an existing table.
+                        <span class="bolder">ALTER TABLE table_name <br>
+                        action;</span>
                     </p>
+                </div>  
+                <div class="note-l2">
+                    <h3>ADD COLUMN:</h3>
                     <p>
-                        It does not affect the existing data, unless a change (like reducing column size) makes it incompatible.
+                        The ADD COLUMN clause is used with the ALTER TABLE statement to add a new column to an existing table.
                     </p>
                     <div class="note-l3">
-                        <h4>Basic Syntax:</h4>
+                        <h4>Syntax:</h4>
                         <p>
                             <span class="bolder">ALTER TABLE table_name <br>
-                            action;</span>
+                            ADD column_name datatype constraint;</span>
                         </p>
-                    </div>  
-                    <div class="note-l2">
-                        <h3>ADD COLUMN:</h3>
+                    </div> 
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            ALTER TABLE employees
+                            ADD department VARCHAR(50);
+                        </code>
+                    </div>
+                    <p>
+                        New columns are NULL for all existing rows, unless a DEFAULT is specified.
+                    </p>
+                </div>  
+                <div class="note-l2">
+                    <h3>DROP COLUMN:</h3>
+                    <p>
+                        The ADD COLUMN clause is used with the ALTER TABLE statement to add a new column to an existing table.
+                    </p>
+                    <p>
+                        All the data stored in that column will be lost. The table structure is updated — the column is removed from the schema.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
                         <p>
-                            The ADD COLUMN clause is used with the ALTER TABLE statement to add a new column to an existing table.
+                            <span class="bolder">ALTER TABLE table_name <br>
+                            DROP COLUMN column_name;</span>
                         </p>
-                        <div class="note-l3">
-                            <h4>Syntax:</h4>
-                            <p>
-                                <span class="bolder">ALTER TABLE table_name <br>
-                                ADD column_name datatype constraint;</span>
-                            </p>
-                        </div> 
-                        <div class="code-container">
-                            <code>
-                                Example:
-                                ALTER TABLE employees
-                                ADD department VARCHAR(50);
-                            </code>
-                        </div>
-                        <p>
-                            New columns are NULL for all existing rows, unless a DEFAULT is specified.
-                        </p>
-                    </div>  
-                    <div class="note-l2">
-                        <h3>DROP COLUMN:</h3>
-                        <p>
-                            The ADD COLUMN clause is used with the ALTER TABLE statement to add a new column to an existing table.
-                        </p>
-                        <p>
-                            All the data stored in that column will be lost. The table structure is updated — the column is removed from the schema.
-                        </p>
-                        <div class="note-l3">
-                            <h4>Syntax:</h4>
-                            <p>
-                                <span class="bolder">ALTER TABLE table_name <br>
-                                DROP COLUMN column_name;</span>
-                            </p>
-                        </div>
-                        <div class="code-container">
-                            <code>
-                                Example:
-                                ALTER TABLE employees
-                                DROP COLUMN middle_name;
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            ALTER TABLE employees
+                            DROP COLUMN middle_name;
 
-                                //This removes the middle_name column and all its data from the employees table.
-                            </code>
-                        </div>
-                    </div>  
-                </div>                                 
+                            //This removes the middle_name column and all its data from the employees table.
+                        </code>
+                    </div>
+                </div>                        
                 <div class="note-l2">
                     <h3>CHANGE (Rename column)</h3>
                     <p>
