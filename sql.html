@@ -494,6 +494,17 @@
                         WHERE ID = 1;
                     </code>
                 </div>
+                <div class="note-l3">
+                    <h4>How to Use SQL in  Terminal:</h4>
+                    <ol>
+                        <li>Login to MySQL from Terminal Use - <span class="bolder">/usr/local/mysql/bin/mysql -u root -p</span></li>
+                        <li>Then enter your MySQL root password when prompted</li>
+                        <li>You will see the MySQL CLI: mysql></li>
+                        <li>Select a Database - USE database_name;</li>
+                        <li>Run SQL Commands in Terminal</li>
+                        <li>To Exit - exit; OR press Ctrl + D</li>
+                    </ol>
+                </div>
             </div>
         </section>
 
@@ -1987,11 +1998,18 @@
                     <p>
                         Each ? corresponds to a value in an array provided to connection.query. The order of values in the array matches the order of ? placeholders in the query.
                     </p>
-                </div> 
+                </div>
                 <div class="note-l2">
                     <h3>Common SQL Operations Example</h3>
                     <div class="code-container">
                         <code>
+                            Select Data:-
+                            connection.query('SELECT * FROM users', (err, results, fields) => {
+                                &nbsp;&nbsp;if (err) throw err;
+                                &nbsp;&nbsp;console.log('All Users:', results);
+                            });
+
+                            <hr>
                             Insert Data:-
                             db.query('INSERT INTO users (name) VALUES ('John Doe')', [name, email], (err, result) => {
                                 &nbsp;&nbsp;if (err) throw err;
