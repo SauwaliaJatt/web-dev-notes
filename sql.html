@@ -121,7 +121,7 @@
 
         .note-l1>p {
             font-size: 1.3rem;
-            color: #232323;
+            color: #202020;
             margin-top: 15px;
             margin-bottom: 20px;
         }
@@ -161,7 +161,7 @@
 
         .note-l2 p {
             font-size: 1.15rem;
-            color: #555;
+            color: #2e2e2e;
             margin-bottom: 18px;
             margin-top: 20px;
         }
@@ -187,7 +187,7 @@
 
         .note-l3 p {
             font-size: 1.15rem;
-            color: #353535;
+            color: #313131;
         }
 
         /* Code Section Style */
@@ -345,6 +345,8 @@
             <li><a href="#section10">Operators</a></li>
             <li><a href="#section11">Aggregate Functions</a></li>
             <li><a href="#section12">General Order</a></li>
+            <hr>
+            <li><a href="#section13">SQL with NodeJs</a></li>
         </ul>
     </nav>
 
@@ -1803,6 +1805,215 @@
                         Why It Matters: The logical order explains why certain operations occur before others. For example, WHERE filters rows before GROUP BY, so it cannot use aggregate functions (e.g., WHERE COUNT(*) &gt; 2 is invalid), while HAVING can because it's applied after grouping.
                     </p>
                 </div>                                                                                             
+            </div>
+        </section>
+
+
+        <!-- SQL with NodeJs -->
+        <section id="section13" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>SQL with NodeJs</h2>
+                <div class="note-l2">
+                    <h3>mysql2 Package</h3>
+                    <p>
+                        To use Node.js with MySQL, the mysql2 package is a popular choice due to its support for both callbacks and promises, making it suitable for modern JavaScript applications.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Installation:</h4>
+                        <p>
+                            <span class="bolder">npm install mysql2</span>
+                        </p>
+                    </div> 
+                    <div class="code-container">
+                        <code>
+                            Setup Example: Connect Node.js to MySQL:
+                            // db.js
+                            const mysql = require('mysql2'); //1 - require it
+
+                            // 2 - Create a connection
+                            const connection = mysql.createConnection({
+                                &nbsp;&nbsp;host: 'localhost',
+                                &nbsp;&nbsp;user: 'root',
+                                &nbsp;&nbsp;password: 'your_password',
+                                &nbsp;&nbsp;database: 'your_database'
+                            });
+
+
+                            // Connect to the database
+                            connection.connect((err) => {
+                                &nbsp;&nbsp;if (err) throw err;
+                                &nbsp;&nbsp;console.log('Connected to MySQL database');
+                            });
+
+                            module.exports = connection;
+                        </code>
+                    </div>
+                </div>  
+                <div class="note-l2">
+                    <h3>mysql.createConnection(config)</h3>
+                    <p>
+                        This method creates a single connection to a MySQL database. It returns a connection object used to interact with the database.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Syntax:
+                            const mysql = require('mysql2');
+                            const connection = mysql.createConnection({
+                                &nbsp;&nbsp;host: 'localhost',
+                                &nbsp;&nbsp;user: 'root',
+                                &nbsp;&nbsp;database: 'your_database'
+                                &nbsp;&nbsp;password: 'your_password',
+                            });
+
+                            Parameters:
+                            host: The address of the MySQL server (usually 'localhost').
+                            user: The MySQL username.
+                            database: The name of the database to connect to.
+                            password: The MySQL password for that user.
+                            Optional: port (default: 3306), ssl, connectTimeout, etc.
+
+
+                            //Returns: An object (connection) that lets you: Send SQL queries, Connect/disconnect from MySQL, Handle events and errors
+                        </code>
+                    </div>
+                </div>                        
+                <div class="note-l2">
+                    <h3>connection.connect(callback)</h3>
+                    <p>
+                        This method explicitly establishes the connection to the MySQL database. It's optional, as connection.query implicitly connects if not already connected.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            connection.connect((err) => {
+                                &nbsp;&nbsp;if (err) {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;console.error('Error connecting to MySQL:', err.message);
+                                    &nbsp;&nbsp;&nbsp;&nbsp;return;
+                                &nbsp;&nbsp;}
+                                &nbsp;&nbsp;console.log('Connected to MySQL database!');
+                            });
+                            //Useful if you want to check explicitly whether the connection is successful.
+                            You can handle errors before running queries.
+                        </code>
+                    </div>
+                </div>                                 
+                <div class="note-l2">
+                    <h3>connection.query(sql, values, callback)</h3>
+                    <p>
+                        Sends an SQL query to the database. It can handle SELECT, INSERT, UPDATE, DELETE, and other SQL statements.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Basic Syntax:</h4>
+                        <p>
+                            <span class="bolder">connection.query(sql, [params], (err, results, fields) => { <br>
+                                &nbsp;&nbsp;if (err) throw err; <br>
+                                &nbsp;&nbsp;console.log('Query results:', results); <br>
+                            });</span>
+                        </p>
+                        <p>
+                            Parameters: <br>
+                            <ul>
+                                <li>sql: The SQL query string (e.g., SELECT * FROM users).</li>
+                                <li>params (optional): Array of values for parameterized queries</li>
+                                <li>Callback function with:</li>
+                                <ul>
+                                    <li>err: Error object (null if successful).</li>
+                                    <li>results: Query results (array for SELECT, object for INSERT/UPDATE/DELETE).</li>
+                                    <li>fields(optional): Metadata about result columns (optional, mostly for SELECT).</li>
+                                </ul>
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            // Simple query
+                            connection.query('SELECT * FROM users', (err, results) => {
+                                &nbsp;&nbsp;if (err) throw err;
+                                &nbsp;&nbsp;console.log('Users:', results);
+                            });
+
+                            // Parameterized query
+                            connection.query(
+                                &nbsp;&nbsp;'INSERT INTO users (name, email) VALUES (?, ?)',
+                                &nbsp;&nbsp;['John Doe', 'john@example.com'],
+                                &nbsp;&nbsp;(err, results) => {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;if (err) throw err;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;console.log('Inserted ID:', results.insertId);
+                                &nbsp;&nbsp;}
+                            );
+                        </code>
+                    </div>
+                    <p>
+                        In a parameterized query, the ? symbol is used as a placeholder for values that will be safely inserted into the SQL query. This approach prevents SQL injection attacks and ensures proper handling of data types.
+                    </p>
+                    <p>
+                        Each ? corresponds to a value in an array provided to connection.query. The order of values in the array matches the order of ? placeholders in the query.
+                    </p>
+                </div> 
+                <div class="note-l2">
+                    <h3>connection.end()</h3>
+                    <p>
+                        connection.end() closes the connection to the MySQL database gracefully after all pending queries are completed.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">connection.end([callback]);</span>
+                        </p>
+                        <p>
+                            callback (optional): A function called when the connection is fully closed or if an error occurs.
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            // Simple way:
+                            connection.end();
+
+                            //With callback:
+                            connection.end((err) => {
+                                &nbsp;&nbsp;if (err) {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;console.error('Error closing connection:', err.message);
+                                    &nbsp;&nbsp;return;
+                                &nbsp;&nbsp;}
+                                &nbsp;&nbsp;console.log('MySQL connection closed.');
+                            });
+                        </code>
+                    </div>
+                    <p>
+                        In a parameterized query, the ? symbol is used as a placeholder for values that will be safely inserted into the SQL query. This approach prevents SQL injection attacks and ensures proper handling of data types.
+                    </p>
+                    <p>
+                        Each ? corresponds to a value in an array provided to connection.query. The order of values in the array matches the order of ? placeholders in the query.
+                    </p>
+                </div> 
+                <div class="note-l2">
+                    <h3>Common SQL Operations Example</h3>
+                    <div class="code-container">
+                        <code>
+                            Insert Data:-
+                            db.query('INSERT INTO users (name) VALUES ('John Doe')', [name, email], (err, result) => {
+                                &nbsp;&nbsp;if (err) throw err;
+                                &nbsp;&nbsp;console.log('Inserted ID:', result.insertId);
+                            });
+
+                            <hr>
+                            Update Data:-
+                            db.query('UPDATE users SET name = ? WHERE id = ?', ['John Doe', 1], (err, result) => {
+                                &nbsp;&nbsp;if (err) throw err;
+                                &nbsp;&nbsp;console.log('Rows updated:', result.affectedRows);
+                            });
+
+                            <hr>
+                            Delete Data:-
+                            db.query('DELETE FROM users WHERE id = ?', [1], (err, result) => {
+                                &nbsp;&nbsp;if (err) throw err;
+                                &nbsp;&nbsp;console.log('Rows deleted:', result.affectedRows);
+                            });
+                        </code>
+                    </div>
+                </div>                                
             </div>
         </section>
     </main>
