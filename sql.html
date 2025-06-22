@@ -346,7 +346,8 @@
             <li><a href="#section11">Aggregate Functions</a></li>
             <li><a href="#section12">General Order</a></li>
             <hr>
-            <li><a href="#section13">SQL with NodeJs</a></li>
+            <li><a href="#section13">MySql with NodeJs</a></li>
+            <li><a href="#section14">@faker-js/faker Package</a></li>
         </ul>
     </nav>
 
@@ -495,7 +496,7 @@
                     </code>
                 </div>
                 <div class="note-l3">
-                    <h4>How to Use SQL in  Terminal:</h4>
+                    <h4>How to Use SQL in Terminal:</h4>
                     <ol>
                         <li>Login to MySQL from Terminal Use - <span class="bolder">/usr/local/mysql/bin/mysql -u root -p</span></li>
                         <li>Then enter your MySQL root password when prompted</li>
@@ -503,6 +504,18 @@
                         <li>Select a Database - USE database_name;</li>
                         <li>Run SQL Commands in Terminal</li>
                         <li>To Exit - exit; OR press Ctrl + D</li>
+                    </ol>
+                </div>
+                <div class="note-l3">
+                    <h4>How to Use SQL using .sql file</h4>
+                    <p>
+                        A .sql file contains SQL commands.
+                    </p>
+                    <ol>
+                        <li>Create a file fileName.sql with your SQL code inside it.</span></li>
+                        <li>Login to MySQL from Terminal Use - <span class="bolder">/usr/local/mysql/bin/mysql -u root -p</span></li>
+                        <li>Select a Database - USE database_name;</span></li>
+                        <li>then use - <span class="bolder">source fileName.sql;</span></li>
                     </ol>
                 </div>
             </div>
@@ -1820,10 +1833,10 @@
         </section>
 
 
-        <!-- SQL with NodeJs -->
+        <!-- MySql with NodeJs -->
         <section id="section13" class="note-section" tabindex="0">
             <div class="note-l1">
-                <h2>SQL with NodeJs</h2>
+                <h2>MySql with NodeJs</h2>
                 <div class="note-l2">
                     <h3>mysql2 Package</h3>
                     <p>
@@ -2029,11 +2042,110 @@
                                 &nbsp;&nbsp;if (err) throw err;
                                 &nbsp;&nbsp;console.log('Rows deleted:', result.affectedRows);
                             });
+
+                            <hr>
+                            We can also write query in seprate Variable:-
+                            inserting multiple data:-
+                            
+                            let query = "INSERT INTO user (id, username, email, password) VALUES ?";
+                            //need only single question mark as we want to pass one array that is nested
+
+                            let users = [
+                                &nbsp;&nbsp;["123", "123_username", "abc@gmail.com", "abc"],
+                                &nbsp;&nbsp;["456", "456_username", "def@gmail.com", "def"]
+                            ]; //multiple sub arrays for multiple rows we do like this also
+                            
+                            connection.query(query, [users], (err, result) => {
+                                &nbsp;&nbsp;//and users here in [] brackets as it is complete array
+                                &nbsp;&nbsp;if(err) throw err;
+                                &nbsp;&nbsp;console.log(result);
+                            });
                         </code>
                     </div>
                 </div>                                
             </div>
         </section>
+
+
+        <!-- @faker-js/faker Package -->
+        <section id="section14" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>@faker-js/faker Package</h2>  
+                <p>
+                    Generates massive amounts of fake but realistic data, such as names, emails, addresses, dates, and more.
+                </p>
+                <div class="note-l3">
+                    <h4>Installation:</h4>
+                    <p>
+                        <span class="bolder">npm install @faker-js/faker</span>
+                    </p>
+                    <p>
+                        require - <span class="bolder">const { faker } = require('@faker-js/faker');</span>
+                    </p>
+                </div>  
+                <div class="code-container">
+                    <code>
+                        // Step 1: Import faker
+                        const { faker } = require('@faker-js/faker');
+
+                        // Example - Generate fake user
+                        const user = {
+                            &nbsp;&nbsp;faker.string.uuid(),                       //Unique id
+                            &nbsp;&nbsp;name: faker.person.fullName(),             // full name
+                            &nbsp;&nbsp;username: faker.internet.userName(),       // username
+                            &nbsp;&nbsp;email: faker.internet.email(),             // email
+                            &nbsp;&nbsp;password: faker.internet.password(10),     // strong password
+                            &nbsp;&nbsp;gender: faker.person.sex(),                // gender
+                            &nbsp;&nbsp;dob: faker.date.birthdate(),               // date of birth
+                            &nbsp;&nbsp;phone: faker.phone.number(),               // phone number
+                            &nbsp;&nbsp;address: faker.location.streetAddress(),   // street address
+                            &nbsp;&nbsp;city: faker.location.city(),               // city
+                            &nbsp;&nbsp;state: faker.location.state(),             // state/province
+                            &nbsp;&nbsp;country: faker.location.country(),         // country name
+                            &nbsp;&nbsp;zip: faker.location.zipCode(),             // postal/ZIP code
+                            &nbsp;&nbsp;avatar: faker.image.avatar(),              // URL to a random avatar image
+                            &nbsp;&nbsp;bio: faker.lorem.sentence(),               // short sentence for user bio
+                            &nbsp;&nbsp;job: faker.person.jobTitle(),              // job title
+                            &nbsp;&nbsp;company: faker.company.name(),             // company name
+                            &nbsp;&nbsp;website: faker.internet.url(),             // website URL
+                            &nbsp;&nbsp;// all these data generate will be random but like real
+                        };  
+                        
+                        console.log(user);
+                    </code>
+                </div>  
+                <div class="note-l3">
+                    <h4>Inserting in bulk Example:</h4>
+                    <div class="code-container">
+                        <code>
+                            let getRandomUsers = () => {
+                                &nbsp;&nbsp;return[ //return an array as we need array
+                                    &nbsp;&nbsp;&nbsp;&nbsp;faker.person.uuid(),
+                                    &nbsp;&nbsp;&nbsp;&nbsp;faker.internet.userName(),
+                                    &nbsp;&nbsp;&nbsp;&nbsp;faker.internet.email(), 
+                                    &nbsp;&nbsp;&nbsp;&nbsp;faker.internet.password(10)
+                                &nbsp;&nbsp;];
+                            }
+
+                            let query = "INSERT INTO user (id, username, email, password) VALUES ?";
+                            let data = [];
+
+                            //generating 100 fake users
+                            for(let i = 1; i &lt;= 100; i++){
+                                &nbsp;&nbsp;data.push(getRandomUsers());
+                            }
+
+                            connection.query(query, [data], (err, result) => {
+                                &nbsp;&nbsp;if(err) throw err;
+                                &nbsp;&nbsp;console.log(result);
+                            });                            
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
     </main>
 
     <script>
