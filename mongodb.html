@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node JS Notes</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        /* Reset & Global */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f2f2;
+            color: #212121;
+            line-height: 1.8;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1a1a1a, #333);
+            color: #fff;
+            padding: 25px 18px;
+            overflow-y: auto;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        .sidebar ul {
+            list-style: none !important;
+        }
+
+        .sidebar li {
+            margin: 18px 0;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.15rem;
+            display: block;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #43a047;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            color: #e8f5e9;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 260px;
+            padding: 30px 40px;
+            width: calc(100% - 260px);
+            background-color: #f2f2f2;
+        }
+
+        /* Note Section Container */
+        .note-section {
+            background-color: #fff;
+            padding: 30px 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* .note-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+        } */
+
+        /* .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        } */
+
+        /* Level 1 Notes */
+        .note-l1 {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .note-l1 h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            color: #2e7d32;
+            background-color: #e8f5e9;
+            padding: 5px 18px;
+            border-left: 5px solid #2e7d32;
+            border-radius: 5px;
+            /* position: sticky; */
+            /* top: 0; */
+            /* z-index: 10; */
+        }
+
+        .note-l1>p {
+            font-size: 1.3rem;
+            color: #202020;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Notes Grid */
+        /* .notes {
+            display: grid;
+            //grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 22px;
+            margin-top: 25px;
+        } */
+
+        /* Level 2 Notes */
+        .note-l2 {
+            background-color: #ffffff;
+            padding: 22px 20px;
+            margin-top: 15px;
+            margin-bottom: 30px;
+            border-top: 4px solid #0288d1;
+            border-radius: 10px;
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        /* .note-l2:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+        } */
+
+        .note-l2 h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #014f86;
+            margin-bottom: 8px;
+        }
+
+        .note-l2 p {
+            font-size: 1.15rem;
+            color: #2e2e2e;
+            margin-bottom: 18px;
+            margin-top: 20px;
+        }
+
+        /* Level 3 Notes */
+        .note-l3 {
+            background-color: #f9f9f9;
+            padding: 16px 14px;
+            /* margin: 18px 0 18px 10px; */
+            margin-top: 20px;
+            border-left: 5px solid #7b1fa2;
+            border-radius: 7px;
+            width: 100%;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .note-l3 h4 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #4a148c;
+            margin-bottom: 10px;
+        }
+
+        .note-l3 p {
+            font-size: 1.15rem;
+            color: #313131;
+        }
+
+        /* Code Section Style */
+        .code-container {
+            background-color: #272822;
+            padding: 15px 20px;
+            /* border-left: 5px solid #66d9ef; */
+            border-radius: 8px;
+            overflow-x: auto;
+            /* margin: 15px 0 10px; */
+            margin-top: 20px;
+            width: 100%;
+            display: inline-block;
+            text-align: left;
+        }
+
+        .code-container code {
+            color: #f8f8f2;
+            font-size: 16px;
+            font-family: monospace;
+            white-space: pre-line;
+            display: block;
+            line-height: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .code-container code::first-line {
+            line-height: 0;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        table,
+        th,
+        td {
+            border: 3px solid #858080;
+            padding: 14px 16px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: 700;
+            color: #222;
+        }
+
+        caption {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #2e7d32;
+        }
+
+        .bolder {
+            font-weight: 700;
+        }
+
+        /* lists ul, ol */
+        ul:not(.sidebar ul),
+        ol:not(.sidebar ol) {
+            padding-left: 25px;
+            margin-bottom: 20px;
+            color: #444;
+            font-size: 1.2rem;
+        }
+
+        ul:not(.sidebar)li {
+            margin-bottom: 10px;
+        }
+
+        ul:not(.sidebar) {
+            list-style-type: disc;
+        }
+
+        ol:not(.sidebar)li {
+            /* list-style-type: decimal; */
+            margin-bottom: 10px;
+        }
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-260px);
+                width: 220px;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 25px 20px;
+            }
+
+            .notes {
+                grid-template-columns: 1fr;
+            }
+
+            .note-l1 h2 {
+                position: static;
+                border-radius: 5px;
+            }
+        }
+
+        /* Mobile Menu Toggle Button */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 18px;
+            left: 18px;
+            background-color: #2e7d32;
+            color: #fff;
+            border: none;
+            padding: 11px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar & Menu Toggle -->
+    <button class="menu-toggle" aria-label="Toggle menu">☰ Menu</button>
+    <nav class="sidebar" aria-label="Sidebar Navigation">
+        <ul>
+            <li><a href="#section1">MongoDB</a></li>
+            <li><a href="#section2">Document & Collections</a></li>
+
+        </ul>
+    </nav>
+
+
+    <main>
+        <!-- MongoDB -->
+        <section id="section1" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>MongoDB</h2>
+                <p>
+                    MongoDB is a NoSQL database that stores data in JSON-like documents (called BSON - Binary JSON). Unlike traditional SQL databases, MongoDB does not use tables and rows; instead, it uses collections and documents.
+                </p>
+                <div class="note-l2">
+                    <h3>Key Features:</h3>
+                    <ol>
+                        <ul>
+                            <li><span class="bolder">Schema-less</span>: You can store different fields in each document.</li>
+                            <li><span class="bolder">Scalable</span>: Designed for horizontal scalability via sharding.</li>
+                            <li><span class="bolder">High Performance</span>: Fast reads/writes with indexes and memory usage.</li>
+                            <li><span class="bolder">Aggregation Framework</span>: Similar to SQL GROUP BY.</li>
+                            <li><span class="bolder">Replication</span>: Data redundancy using replica sets.</li>
+                            <li><span class="bolder">Ad-hoc Queries</span>: Rich query language with support for filtering and projections.</li>
+                        </ul>                          
+                    </ol>
+                </div>
+                <div class="note-l3">
+                    <h4>BSON</h4>
+                    <p>
+                        BSON (Binary JSON) is a binary-encoded serialization format used by MongoDB to store and exchange data. It extends JSON to provide additional data types and efficient storage, making it ideal for MongoDB's document-oriented database.
+                    </p> <br>
+                    <p>
+                        we provide data to MongoDB in JSON-like syntax (actually JavaScript objects in the shell or JSON in drivers), but… MongoDB automatically converts that data into BSON internally when storing it.
+                    </p>
+                </div>
+                <div class="note-l2">
+                    <h3>mongosh (Mongo Shell):</h3>
+                    <p>
+                        mongosh (MongoDB Shell) is a modern command-line tool for interacting with MongoDB databases.
+                    </p>
+                    <p>
+                        Modern JavaScript Support: Built on Node.js, supports ES6+ features (e.g., async/await, arrow functions). Interactive REPL: Provides a JavaScript-based environment for querying and managing MongoDB databases.
+                    </p>
+                    <div class="note-l3">
+                        <p>
+                            To start mongosh use: mongosh
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Then use commands example:
+
+                                show dbs // Show all databases
+                                use mydb // Create/switch to database
+                                show collections // List collections
+                                e.t.c.
+                            </code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Document & Collections -->
+        <section id="section2" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Document & Collections</h2>
+                <p>
+                    In MongoDB, documents and collections are core components of its data model, used to store and organize data in a NoSQL, document-oriented database.
+                </p>
+                <div class="note-l2">
+                    <h3>Document</h3>
+                    <p>
+                        A document is the basic unit of data in MongoDB. It's similar to a row in a SQL table. Stored in BSON Format. Contains key-value pairs. Each document has a unique _id field (like a primary key).
+                    </p>
+                    <p>
+                        <span class="bolder">Structure:</span> Documents are composed of fields (keys) and values, where values can be strings, numbers, arrays, nested documents, or special types like ObjectId, Date, or Binary.
+                    </p>
+                    <p>
+                        <span class="bolder">Flexibility:</span> Each document in a collection can have a different structure (no fixed schema).
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Example:
+
+                            {
+                                &nbsp;&nbsp;"_id": ObjectId("507f1f77bcf86cd799439011"),
+                                &nbsp;&nbsp;"name": "Alice",
+                                &nbsp;&nbsp;"age": 25,
+                                &nbsp;&nbsp;"address": {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;"city": "New York",
+                                    &nbsp;&nbsp;&nbsp;&nbsp;"country": "USA"
+                                &nbsp;&nbsp;},
+                                &nbsp;&nbsp;"hobbies": ["reading", "gaming"],
+                                &nbsp;&nbsp;"createdAt": ISODate("2025-06-24T15:23:00Z")
+                            }
+
+                            _id: A unique identifier (auto-generated if not provided)
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>Collection</h3>
+                    <p>
+                        A collection is a group of documents. Similar to a table in SQL. You don't need to define a fixed schema. Each document inside a collection can have a different structure. Created automatically when you insert your first document.
+                    </p>
+                    <p>
+                        <span class="bolder">Naming:</span> Collections are identified by a name (e.g., users, products). Names are case-sensitive and should avoid special characters.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Example - A collection named users may contain:
+
+                            // Document 1
+                            { name: "Inderjit", age: 20 }
+                            
+                            // Document 2
+                            { name: "Doe", email: "doe@gmail.com", hobbies: ["music", "yoga"] }
+                            
+                            // Document 3
+                            { name: "John", isActive: false, city: "Delhi" }
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+    </main>
+
+    <script>
+        // Toggle sidebar for mobile
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- MongoDB  -->
+<template>
+    <section id="section1" class="note-section" tabindex="0">
+        <!-- lvl 1 -->
+        <div class="note-l1">
+            <h2>Node.js Basics</h2>
+            <p>
+                Essential concepts and methods for building server-side applications with Node.js.
+            </p>
+            <!-- lvl 2  -->
+            <div class="note-l2">
+                <h3>require()</h3>
+                <p>
+                    Import modules or files into your Node.js application.
+                </p>
+                <div class="code-container">
+                    <code>
+                        Syntax:
+                        const module = require('module-name');
+                        // Imports a module
+                    </code>
+                </div>
+                <!-- lvl 3  -->
+                <div class="note-l3">
+                    <h4>Example:</h4>
+                    <p>
+                        Importing the built-in 'fs' module to work with the file system.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            const fs = require('fs');
+                            // Use fs to read/write files
+                        </code>
+                    </div>
+                </div>
+            </div>
+            <!-- table -->
+            <table>
+                <caption>Node.js Module Types</caption>
+                <thead>
+                    <tr>
+                        <th>Module Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Core Modules</td>
+                        <td>Built-in modules provided by Node.js (e.g., fs, http).</td>
+                    </tr>
+                    <tr>
+                        <td>Local Modules</td>
+                        <td>Modules created within your project.</td>
+                    </tr>
+                    <tr>
+                        <td>Third-Party Modules</td>
+                        <td>Modules installed via npm (e.g., express).</td>
+                    </tr>
+                </tbody>
+            </table>
+            <ol>
+                <li>Asynchronous and Event-Driven</li>
+                <li>Single-Threaded but Highly Scalable</li>
+                <li>Fast Execution with V8 Engine</li>
+                <li>Open-source and Community Driven
+                    <ul>
+                        <li>asfa</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </section>
+    <section id="section1" class="note-section" tabindex="0">
+        <!-- lvl 1 -->
+        <div class="note-l1">
+            <h2>Node.js Basics</h2>
+            <p>
+                Essential concepts and methods for building server-side applications with Node.js.
+            </p>
+        </div>
+        <div class="note-l2">
+            <h3>require()</h3>
+            <p>
+                Import modules or files into your Node.js application.
+            </p>
+            <div class="code-container">
+                <code>
+                    Syntax:
+                    const module = require('module-name');
+                    // Imports a module
+                </code>
+            </div>
+        </div>
+        <div class="note-l3">
+            <h4>Example:</h4>
+            <p>
+                Importing the built-in 'fs' module to work with the file system.
+            </p>
+            <div class="code-container">
+                <code>
+                    const fs = require('fs');
+                    // Use fs to read/write files
+                </code>
+            </div>
+        </div>
+    </section>
+</template>
