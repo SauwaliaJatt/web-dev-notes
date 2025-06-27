@@ -339,6 +339,7 @@
             <li><a href="#section3">Insert</a></li>
             <li><a href="#section4">View Data</a></li>
             <li><a href="#section5">Query Operators</a></li>
+            <li><a href="#section6">Update</a></li>
         </ul>
     </nav>
 
@@ -821,6 +822,204 @@
                 </div>  
                 <p>
                     There are other types of operators also like Element, Array, Evaluation, Geospatial, Bitwise Operators...
+                </p>                
+            </div>
+        </section>
+
+
+        <!-- Update -->
+        <section id="section6" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Update in DB</h2>
+                <p>
+                    In MongoDB, you can update documents in a database using mongosh with methods like updateOne(), updateMany(), or replaceOne().
+                </p>
+                <div class="note-l2">
+                    <h3>updateOne()</h3>
+                    <p>
+                        Updates only the first document that matches the filter condition.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">db.collection.updateOne( { filter }, { update }, { options } )</span>
+                        </p>
+                        <p>
+                            <ul>
+                                <li>filter - The condition to find the document</li>
+                                <li>update - The update operation</li>
+                                <li>options(Optional) - Can include { upsert: true } to insert if not found</li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            db.users.updateOne( { name: "Inderjit" }, { $set: { age: 21 } } )
+                            //Only the first user document with name "Inderjit" will have their age updated to 21
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>updateMany()</h3>
+                    <p>
+                        Updates all documents that match the filter condition.
+                    </p>
+                    <p>
+                        Same syntax as above.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            db.users.updateMany( { status: "inactive" }, { $set: { status: "active" } } )
+                            //Every document with status: "inactive" will be updated to "active"
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>replaceOne()</h3>
+                    <p>
+                        Replaces the entire first matching document (except _id) with a new one.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">db.collection.replaceOne( { filter }, { replacement_document } )</span>
+                        </p>
+                        <p>
+                            replacement_document - You must provide the full new document (excluding _id) — anything not included will be deleted from that document.
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            db.users.replaceOne(
+                                &nbsp;&nbsp;{ name: "Inderjit" },
+                                &nbsp;&nbsp;{ name: "Inderjit", age: 21, city: "Amritsar" }
+                            )
+
+                            //Replaces the matched document completely. Any fields not in the replacement will be deleted (except _id, it will remain same).
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>Update and Aggregation Opertators</h3>
+                    <div class="note-l3">
+                        <h4>$set</h4>
+                        <p>
+                            Add a new field or update an existing field.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.updateOne( { name: "Inderjit" }, { $set: { age: 20 } } )
+    
+                                // Adds or updates the "age" field to 20
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>$unset</h4>
+                        <p>
+                            Remove a field from the document.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.updateOne( { name: "Inderjit" }, { $unset: { phone: "" } } )
+    
+                                //Removes the "phone" field from the document
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>$inc</h4>
+                        <p>
+                            Increment (or decrement) a numeric field.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.updateOne( { name: "Inderjit" }, { $inc: { views: 1 } } )
+    
+                                //Increases the "views" field by 1
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>$addFields (Aggregation)</h4>
+                        <p>
+                            Add new fields in aggregation pipeline.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.aggregate([ { $addFields: { isAdult: { $gte: ["$age", 18] } } } ])
+
+                                // Adds "isAdult": true/false based on age
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>$project (Aggregation)</h4>
+                        <p>
+                            Include/exclude fields in aggregation output.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.aggregate([ { $project: { name: 1, age: 1, _id: 0 } } ])
+                                // Shows only "name" and "age", hides "_id"
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>$replaceRoot (Aggregation)</h4>
+                        <p>
+                            Replace the current document with a subdocument.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.aggregate([ { $replaceRoot: { newRoot: "$profile" } } ])
+                                // Replaces each document with the "profile" subdocument
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>$replaceWith (Aggregation)</h4>
+                        <p>
+                            Same as $replaceRoot, but more flexible.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.aggregate([ { $replaceWith: "$profile" } ])
+                                // Same effect as $replaceRoot: replaces doc with "profile"
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            replacement_document - You must provide the full new document (excluding _id) — anything not included will be deleted from that document.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.replaceOne(
+                                    &nbsp;&nbsp;{ name: "Inderjit" },
+                                    &nbsp;&nbsp;{ name: "Inderjit", age: 21, city: "Amritsar" }
+                                )
+    
+                                //Replaces the matched document completely. Any fields not in the replacement will be deleted (except _id, it will remain same).
+                            </code>
+                        </div>
+                    </div>
+                </div>
+
+                <p>
+                    There are other methods to update in DB...
                 </p>                
             </div>
         </section>
