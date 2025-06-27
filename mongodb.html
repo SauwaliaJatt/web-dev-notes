@@ -336,7 +336,9 @@
         <ul>
             <li><a href="#section1">MongoDB</a></li>
             <li><a href="#section2">Document & Collections</a></li>
-
+            <li><a href="#section3">Insert</a></li>
+            <li><a href="#section4">View Data</a></li>
+            <li><a href="#section5">Query Operators</a></li>
         </ul>
     </nav>
 
@@ -463,6 +465,365 @@
             </div>
         </section>
 
+
+        <!-- Insert -->
+        <section id="section3" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Insert in MongoDB</h2>
+                <p>
+                    To insert data into a MongoDB database using mongosh, you can use methods like insertOne() for a single document or insertMany() for multiple documents.
+                </p>
+                <p>
+                    Steps to Insert Data - 1. Connect to MongoDB, 2. Select a Database, 3. Insert into a Collection.
+                </p>
+                <div class="note-l2">
+                    <h3>insertOne</h3>
+                    <p>
+                        The insertOne() method in MongoDB is used to insert a single document into a collection.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">db.collection_name.insertOne({ document })</span>
+                        </p>
+                        <p>
+                            collection_name: Name of the collection (automatically created if not present).
+                        </p>
+                        <p>
+                            document: A single JavaScript object or JSON-like document.
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            db.students.insertOne({
+                                &nbsp;&nbsp;name: "Inderjit",
+                                &nbsp;&nbsp;age: 20,
+                                &nbsp;&nbsp;course: "CSE"
+                            });
+
+                            //This will create a document like:
+                            {
+                                &nbsp;&nbsp;_id: ObjectId("66a93d...."),
+                                &nbsp;&nbsp;name: "Inderjit",
+                                &nbsp;&nbsp;age: 20,
+                                &nbsp;&nbsp;course: "CSE"
+                            }
+
+                            _id: A unique identifier (auto-generated if not provided)
+                            //we can also use our custom id while inserting like _id: "stu001"
+
+                            //collection(named students here) is automatically created if not there
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>insertMany</h3>
+                    <p>
+                        insertMany() is used to insert multiple documents into a MongoDB collection at once.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">db.collection_name.insertMany([ { doc1 }, { doc2 }, ... ])</span>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            db.students.insertMany([
+                                &nbsp;&nbsp;{ name: "Inderjit", age: 20, city: "Ludhiana" },
+                                &nbsp;&nbsp;{ name: "john", age: 22, city: "Delhi" },
+                                &nbsp;&nbsp;{ name: "Smith", age: 24, city: "Amritsar" }
+                            ]);
+                        </code>
+                    </div>
+                </div>
+                <p>
+                    There are other methods also to insert...
+                </p>
+            </div>
+        </section>
+
+
+        <!-- View Data -->
+        <section id="section4" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Insert in MongoDB</h2>
+                <p>
+                    MongoDB provides a method called find() to query and view documents inside a collection.
+                </p>
+                <div class="note-l2">
+                    <h3>find()</h3>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">db.collection.find()</span>
+                        </p>
+                        <p>
+                            This displays all documents in the specified collection.
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            db.students.find()
+
+                            Output like:
+                            { _id: ObjectId("66a950..."), name: "Inderjit", age: 20 }
+                            { _id: ObjectId("66a951..."), name: "John", age: 22 }
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>find({ key: value })</h3>
+                    <p>
+                        Returns all documents that match the given key-value condition.
+                    </p>
+                    <p>
+                        It returns a cursor object — not the actual documents directly. You can iterate over the cursor to access documents.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">db.collection.find({ key: value })</span>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            db.students.find({ age: 20 })
+                            //Returns all students with age = 20
+
+
+                            //OR multiple conditions:
+                            db.students.find({ age: 20, city: "jalandhar" })
+                            //Returns all students with age = 20 AND city = jalandhar
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>find({ key: value })</h3>
+                    <p>
+                        Returns only the first document that matches the condition.
+                    </p>
+                    <p>
+                        It returns a single document object. If no match is found, it returns null.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">db.collection.findOne({ key: value })</span>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            db.students.findOne({ age: 20 })
+                            //Returns only the first match with age = 20
+
+
+                            //OR multiple conditions:
+                            db.students.find({ age: 20, city: "jalandhar" })
+                            //Returns all students with age = 20 AND city = jalandhar
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>find().pretty()</h3>
+                    <p>
+                        This formats the output to make it more readable.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">db.collection.find().pretty()</span>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            db.students.find().pretty()
+
+                            Output like:
+                            {
+                                &nbsp;&nbsp;"_id" : ObjectId("66a950..."),
+                                &nbsp;&nbsp;"name" : "Inderjit",
+                                &nbsp;&nbsp;"age" : 20
+                            }
+                            {
+                                &nbsp;&nbsp;"_id" : ObjectId("66a951..."),
+                                &nbsp;&nbsp;"name" : "John",
+                                &nbsp;&nbsp;"age" : 22
+                            }
+                        </code>
+                    </div>
+                </div>
+                <p>
+                    There are other methods also...
+                </p>
+            </div>
+        </section>
+
+
+        <!-- Query Operators -->
+        <section id="section5" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Query Operators</h2>
+                <p>
+                    Query operators in MongoDB allow you to filter data using conditions like greater than, less than, not equal, matching arrays, etc. Used inside find() or findOne() to make powerful queries.
+                </p>
+                <div class="note-l2">
+                    <h3>1. Comparison Operators</h3>
+                    <p>
+                        Match values based on comparisons.
+                    </p>
+                    <div class="note-l3">
+                        <h4>$eq</h4>
+                        <p>
+                            Matches values equal to the specified value.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.find({ age: { $eq: 25 } })
+                                //Output: Documents where age is exactly 25
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>$ne</h4>
+                        <p>
+                            Matches values not equal to the specified value.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.find({ status: { $ne: "active" } })
+                                //Output: Documents where status is not "active"
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>$gt, $gte</h4>
+                        <p>
+                            $gt - Greater than, $gte - greater than or equa
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.find({ age: { $gt: 25 } })
+                                //Output: Documents where age &gt; 25
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>$lt, $lte</h4>
+                        <p>
+                            $lt - Less than, $lte - less than or equal.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.find({ age: { $lte: 28 } })
+                                //Output: Documents where age &lt;= 28
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>$in</h4>
+                        <p>
+                            Matches any value in an array.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.find({ name: { $in: ["Alice", "Bob"] } })
+                                //Output: Documents where name is "Alice" or "Bob"
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>$nin</h4>
+                        <p>
+                            Matches any value in an array.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.find({ name: { $nin: ["Alice", "Bob"] } })
+                                //Output: Documents where name is neither "Alice" nor "Bob"
+                            </code>
+                        </div>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>2. Logical Operators</h3>
+                    <p>
+                      Combine multiple conditions using logical expressions like AND, OR, NOT, NOR.
+                    </p>
+                  
+                    <div class="note-l3">
+                        <h4>$and</h4>
+                        <p>
+                            Returns documents that match all specified conditions.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.find({ $and: [ { age: { $gt: 20 } }, { status: "active" } ] })
+                                //Output: Documents where age &gt; 20 AND status is "active"
+                            </code>
+                        </div>
+                    </div>
+                  
+                    <div class="note-l3">
+                        <h4>$or</h4>
+                        <p>
+                            Returns documents that match at least one of the conditions.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.find({ $or: [ { age: 25 }, { status: "inactive" } ] })
+                                //Output: Documents where age is 25 OR status is "inactive"
+                            </code>
+                        </div>
+                    </div>
+                  
+                    <div class="note-l3">
+                        <h4>$not</h4>
+                        <p>
+                            Returns documents that do not match the condition.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.find({ age: { $not: { $gt: 30 } } })
+                                //Output: Documents where age is NOT greater than 30
+                            </code>
+                        </div>
+                    </div>
+                  
+                    <div class="note-l3">
+                        <h4>$nor</h4>
+                        <p>
+                            Returns documents that match none of the specified conditions.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                db.users.find({ $nor: [ { age: 25 }, { status: "active" } ] })
+                                //Output: Documents where age is NOT 25 AND status is NOT "active"
+                            </code>
+                        </div>
+                    </div>
+                </div>  
+                <p>
+                    There are other types of operators also like Element, Array, Evaluation, Geospatial, Bitwise Operators...
+                </p>                
+            </div>
+        </section>
 
 
     </main>
