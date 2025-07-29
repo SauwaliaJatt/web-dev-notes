@@ -340,6 +340,16 @@
             <li><a href="#section4">View Data</a></li>
             <li><a href="#section5">Query Operators</a></li>
             <li><a href="#section6">Update</a></li>
+            <li><a href="#section7">Delete</a></li>
+            <hr>
+            <li><a href="#section8">Mongoose</a></li>
+            <li><a href="#section9">Schema</a></li>
+            <li><a href="#section10">Models</a></li>
+            <li><a href="#section11">Insert using Mongoose</a></li>
+            <li><a href="#section12">Find using Mongoose</a></li>
+            <li><a href="#section13">Update using Mongoose</a></li>
+            <li><a href="#section14">Delete using Mongoose</a></li>
+            <li><a href="#section15">Schema Validations</a></li>
         </ul>
     </nav>
 
@@ -832,7 +842,7 @@
             <div class="note-l1">
                 <h2>Update in DB</h2>
                 <p>
-                    In MongoDB, you can update documents in a database using mongosh with methods like updateOne(), updateMany(), or replaceOne().
+                    In MongoDB, you can update documents in a database using methods like updateOne(), updateMany(), or replaceOne().
                 </p>
                 <div class="note-l2">
                     <h3>updateOne()</h3>
@@ -1024,6 +1034,917 @@
             </div>
         </section>
 
+
+        <!-- Delete -->
+        <section id="section7" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Delete in DB</h2>
+                <p>
+                    In MongoDB, you can delete documents from a database using methods like deleteOne() and deleteMany().
+                </p>
+                <div class="note-l2">
+                    <h3>deleteOne()</h3>
+                    <p>
+                        Deletes only the first document that matches the filter.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">db.collection.deleteOne(filter, options)</span>
+                        </p>
+                        <p>
+                            <ul>
+                                <li>filter - The condition to find the document</li>
+                                <li>options - Optional settings, such as: writeConcern</li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            db.users.deleteOne({ name: "Inderjit" })
+                            //Deletes the first document with name: "Inderjit"
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>deleteMany()</h3>
+                    <p>
+                        Deletes all documents that match the given filter condition.
+                    </p>
+                    <p>
+                        Same syntax as above.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            db.users.deleteMany({ status: "inactive" })
+                            //Deletes all users with status: "inactive".
+
+                            <hr>
+                            deleteMany({}) — Delete All Docs (Not Collection)
+                            Example:
+                            db.users.deleteMany({})
+                            //Deletes all data from users, but keeps the collection.
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>drop() — Drop Entire Collection</h3>
+                    <p>
+                        Deletes the entire collection and its documents.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">db.collection_name.drop()</span>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            db.users.drop()
+                            //Deletes users collection permanently.
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>dropDatabase() — Drop Entire Database</h3>
+                    <p>
+                        Deletes the entire current database, including all collections.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">db.dropDatabase()</span>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            Example:
+                            //first select that database which you want to delete
+                            use shopDB
+
+                            db.dropDatabase()
+                            //Deletes shopDB with all its collections.
+                        </code>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- Mongoose -->
+        <section id="section8" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Mongoose</h2>
+                <p>
+                    Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. It provides a schema-based solution to model your application data and includes built-in type casting, validation, query building, and business logic hooks.
+                </p>
+                <div class="note-l2">
+                    <h3>Key Features of Mongoose:</h3>
+                    <ul>
+                        <li>Schema Definition: Define structured schemas for your MongoDB collections.</li>
+                        <li>Validation: Built-in validation for data integrity.</li>
+                        <li>Middleware: Hooks for pre- and post-save operations.</li>
+                        <li>Query Building: Simplifies MongoDB queries with a fluent API.</li>
+                        <li>Population: Easily reference related documents (like JOINs in SQL).</li>
+                    </ul>
+                </div>
+                <div class="note-l2">
+                    <h3>Setup:</h3>
+                    <div class="code-container">
+                        <code>
+                            Install Mongoose - npm install mongoose
+
+                            <hr>
+                            Connect to MongoDB using Mongoose:
+                            const mongoose = require('mongoose'); //require it
+
+
+                            // Use the async function to connect and handle errors
+                            main()
+                                &nbsp;&nbsp;.catch((err) => {
+                                &nbsp;&nbsp;console.log("Connection error:", err);
+                            });
+                            
+                            async function main() {
+                                &nbsp;&nbsp;// Try to connect
+                                &nbsp;&nbsp;await mongoose.connect("mongodb://127.0.0.1:27017/test");
+                            }
+                        </code>
+                    </div>
+                    <ul>
+                        <li><span class="bolder">mongoose.connect(...)</span> - This function connects your Node.js app to a MongoDB database using Mongoose.</li>
+                        <li><span class="bolder">mongodb:// (Protocol)</span> -&gt; tells Mongoose to use the MongoDB connection</li>
+                        <li><span class="bolder">127.0.0.1 (Host)</span> —&gt; this is the localhost IP address (means MongoDB is running on your own computer)</li>
+                        <li><span class="bolder">27017 (Port)</span> -&gt; this is the default port MongoDB runs on</li>
+                        <li><span class="bolder">/test (Database name)</span>  —&gt; this tells Mongoose to connect to the test database (it will be created if it doesn't exist)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Schema -->
+        <section id="section9" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Schema</h2>
+                <p>
+                    In Mongoose, a schema defines the structure of documents within a MongoDB collection (like blueprint for each document). It specifies fields, their data types, validation rules, and other constraints. Schemas are used to create models, which allow you to interact with the database.
+                </p>
+                <div class="code-container">
+                    <code>
+                        // Exampls - Define a schema
+                        const userSchema = new mongoose.Schema({
+                            &nbsp;&nbsp;name: { type: String, required: true },
+                            &nbsp;&nbsp;age: Number,
+                            &nbsp;&nbsp;email: { type: String, unique: true },
+                            &nbsp;&nbsp;createdAt: { type: Date, default: Date.now }
+                        });
+                        //also String is shorthand of {type: String}
+
+                        <hr>
+                        Example - Nested Schemas:
+                        const addressSchema = new mongoose.Schema({
+                            &nbsp;&nbsp;street: String,
+                            &nbsp;&nbsp;city: String
+                        });
+                        const userSchema = new mongoose.Schema({
+                            &nbsp;&nbsp;name: String,
+                            &nbsp;&nbsp;address: addressSchema
+                        });
+                    </code>
+                </div>
+                <div class="note-l3">
+                    <h4>Common Mongoose Schema Types</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data Type</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>String</code></td>
+                                <td>Text/string data</td>
+                                <td><code>name: String</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>Number</code></td>
+                                <td>Integer or float</td>
+                                <td><code>age: Number</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>Boolean</code></td>
+                                <td><code>true</code> or <code>false</code></td>
+                                <td><code>isActive: Boolean</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>Date</code></td>
+                                <td>Stores date and time</td>
+                                <td><code>createdAt: Date</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>Buffer</code></td>
+                                <td>Binary data (e.g., images/files)</td>
+                                <td><code>avatar: Buffer</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>ObjectId</code></td>
+                                <td>References another document</td>
+                                <td><code>userId: mongoose.Schema.Types.ObjectId</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>Array</code></td>
+                                <td>List of any type</td>
+                                <td><code>tags: [String]</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>Mixed</code></td>
+                                <td>Any type (not strict)</td>
+                                <td><code>anyField: mongoose.Schema.Types.Mixed</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>Map</code></td>
+                                <td>Key-value pairs with same type values</td>
+                                <td><code>meta: Map</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>Decimal128</code></td>
+                                <td>High-precision decimal (money, etc.)</td>
+                                <td><code>price: mongoose.Schema.Types.Decimal128</code></td>
+                            </tr>
+                        </tbody>
+                    </table>                      
+                    <div class="code-container">
+                        <code>
+                            Example Schema Using most Types:
+                            const userSchema = new mongoose.Schema({
+                                &nbsp;&nbsp;name: String,
+                                &nbsp;&nbsp;age: Number,
+                                &nbsp;&nbsp;email: { type: String, required: true },
+                                &nbsp;&nbsp;isActive: Boolean,
+                                &nbsp;&nbsp;createdAt: { type: Date, default: Date.now },
+                                &nbsp;&nbsp;profilePic: Buffer,
+                                &nbsp;&nbsp;role: { type: mongoose.Schema.Types.ObjectId, ref: 'Role' }, // foreign key
+                                &nbsp;&nbsp;tags: [String],
+                                &nbsp;&nbsp;extraInfo: mongoose.Schema.Types.Mixed,
+                                &nbsp;&nbsp;stats: { type: Map, of: Number },
+                                &nbsp;&nbsp;salary: mongoose.Schema.Types.Decimal128
+                            });
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Models -->
+        <section id="section10" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Models</h2>
+                <p>
+                    A Model in Mongoose is a constructor function created from a Schema. It represents a collection in your MongoDB database and provides an interface to interact with the documents (records) in that collection.
+                </p>
+                <div class="note-l3">
+                    <h4>Syntax:</h4>
+                    <p>
+                        <span class="bolder">const ModelName = mongoose.model('CollectionName', schemaName);</span>
+                    </p>
+                    <p>
+                        'CollectionName': Mongoose auto-pluralizes and makes it lowercase (e.g., 'User' → users collection).
+                    </p>
+                    <p>
+                        Generelly we take same ModelName and CollectionName.
+                    </p>
+                </div>
+                <div class="code-container">
+                    <code>
+                        // Example
+                        const User = mongoose.model('User', userSchema);
+                    </code>
+                </div>
+            </div>
+        </section>
+
+        <!-- Insert using Mongoose -->
+        <section id="section11" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Insert using Mongoose</h2>
+                <p>
+                    Mongoose provides several methods to insert documents into a MongoDB collection using a model. Below, are the primary methods for inserting data.
+                </p>
+                <p>
+                    In Mongoose insert methods, an _id is automatically assigned to every document by default, unless you manually specify one.
+                </p>
+                <p>
+                    First Connect to database and Define a schema and model then:
+                </p>
+                <div class="note-l2">
+                    <h3>1. new and .save()</h3>
+                    <p>
+                        Create a new document instance and save it to the database.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            // Example
+                            const newUser = new User({
+                                &nbsp;&nbsp;name: 'Alice',
+                                &nbsp;&nbsp;age: 25,
+                                &nbsp;&nbsp;email: 'alice@example.com'
+                            });
+                            newUser.save() //it writes it to MongoDB
+                                &nbsp;&nbsp;.then(user => console.log('User saved:', user))
+                                &nbsp;&nbsp;.catch(err => console.error('Error:', err));
+
+                            //.save() Returns a promise with the created document.
+                            //When to use: Best for single document creation, Good for validation and middleware
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>2. Model.create()</h3>
+                    <p>
+                        Insert one or multiple documents directly.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            // Example - Insert Single document
+                            User.create({
+                                &nbsp;&nbsp;name: 'Bob',
+                                &nbsp;&nbsp;age: 30,
+                                &nbsp;&nbsp;email: 'bob@example.com'
+                            })
+                                &nbsp;&nbsp;.then(user => console.log('User created:', user))
+                                &nbsp;&nbsp;.catch(err => console.error('Error:', err));
+
+                            <hr>
+                            // Insert Multiple documents
+                            User.create([
+                                &nbsp;&nbsp;{ name: 'Charlie', age: 28, email: 'charlie@example.com' },
+                                &nbsp;&nbsp;{ name: 'Diana', age: 22, email: 'diana@example.com' }
+                            ])
+                                &nbsp;&nbsp;.then(users => console.log('Users created:', users))
+                                &nbsp;&nbsp;.catch(err => console.error('Error:', err));
+
+                            
+                            //When to use: Convenient for quick inserts, especially for multiple documents.
+                            //Note: Returns a promise with the created document(s) and triggers validation/middleware.
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>3. Model.insertMany()</h3>
+                    <p>
+                        Insert multiple documents efficiently in a single operation.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            // Example
+                            User.insertMany([
+                                &nbsp;&nbsp;{ name: 'Eve', age: 35, email: 'eve@example.com' },
+                                &nbsp;&nbsp;{ name: 'Frank', age: 40, email: 'frank@example.com' }
+                            ])
+                                &nbsp;&nbsp;.then(users => console.log('Users inserted:', users))
+                                &nbsp;&nbsp;.catch(err => console.error('Error:', err));
+
+                            //also returns promise
+                            //When to use: Optimized for bulk inserts, faster than multiple .create() calls.
+                            //Note: By default, stops on the first error unless { ordered: false } is specified to continue inserting valid documents.
+                        </code>
+                    </div>
+                </div>
+                <p>There may other ways also to insert...</p>
+                <div class="note-l2">
+                    <h3>Operation Buffering in Mongoose</h3>
+                    <p>
+                        Mongoose buffers operations (like Model.create(), Model.find(), or document.save()) if the MongoDB connection isn't ready (e.g., the database is still connecting). Once the connection is established, Mongoose executes the buffered operations in the order they were queued.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Find using Mongoose -->
+        <section id="section12" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Find using Mongoose</h2>
+                <p>
+                    Mongoose provides several methods to query documents in a MongoDB collection using a model. These methods allow you to retrieve data based on criteria, sort results, limit fields, and more. Below, are the primary methods for finding data.
+                </p>
+                <p>
+                    They return a Query object, not the actual user array. The actual data comes after the query executes (with .then() or await). <br>
+                    Mongoose queries are "thenable" — meaning they behave like promises, even though they are not full Promise objects internally.
+                </p>
+                <div class="note-l2">
+                    <h3>1. find()</h3>
+                    <p>
+                        Fetches all documents that match the given query criteria. Returns an array of matching documents (or an empty array if no matches are found).
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">Model.find(query, [projection], [options])</span>
+                        </p>
+                        <p>
+                            <ul>
+                                <li>Model: model name</li>
+                                <li>query: An object specifying the search criteria (e.g., { age: { $gte: 18 } })</li>
+                                <li>projection (optional): Specifies which fields to include/exclude (e.g., { name: 1, _id: 0 })</li>
+                                <li>options (optional): Additional query options (e.g., { sort: { age: -1 }, limit: 10 })</li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            // Example - Find all users aged 18 or older
+                            User.find({ age: { $gte: 18 } })
+                                &nbsp;&nbsp;.then(users => console.log('Users:', users))
+                                &nbsp;&nbsp;.catch(err => console.error('Error:', err));
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>2. Model.findOne()</h3>
+                    <p>
+                        Retrieves the first document that matches the provided query criteria. Returns a single document or null if no match is found.
+                    </p>
+                    <p>
+                        Syntax - same as above
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            // Example - Find the first user with a specific email
+                            User.findOne({ email: "alice@example.com" })
+                                &nbsp;&nbsp;.then(user => console.log('User:', user || 'Not found'))
+                                &nbsp;&nbsp;.catch(err => console.error('Error:', err));
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>3. Model.findById()</h3>
+                    <p>
+                        Retrieves a single document by its _id field (MongoDB's unique ObjectID). Returns a single document or null if no match is found.
+                    </p>
+                    <p>
+                        Syntax - same as above, just at place of query id of object
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            // Find a user by their _id
+                            User.findById("507f1f77bcf86cd799439011")
+                                &nbsp;&nbsp;.then(user => console.log('User:', user || 'Not found'))
+                                &nbsp;&nbsp;.catch(err => console.error('Error:', err));
+                        </code>
+                    </div>
+                </div>
+                <p>There may other ways also to find...</p>
+            </div>
+        </section>
+
+
+        <!-- Update using Mongoose -->
+        <section id="section13" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Update using Mongoose</h2>
+                <p>
+                    You can update documents in MongoDB using Mongoose with several methods, primarily updateOne(), updateMany(), findByIdAndUpdate() and findOneAndUpdate() e.t.c.
+                </p>
+                <div class="note-l2">
+                    <h3>1. updateOne()</h3>
+                    <p>
+                        Updates first matching document that matches your filter.
+                    </p>
+                    <p>
+                        Does not return the updated document.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">Model.updateOne(filter, update, options)</span>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            User.updateOne({ email: "test@example.com" }, { $set: { name: "Inderjit" } });
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>2. updateMany()</h3>
+                    <p>
+                        Updates all documents that matches filter condition. Syntax same as above.
+                    </p>
+                    <p>
+                        Does not return the updated documents.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            User.updateMany({ role: "guest" }, { $set: { active: false } });
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>3. findOneAndUpdate()</h3>
+                    <p>
+                        This method finds the first matching document, updates it, and returns the document.
+                    </p>
+                    <p>
+                        Syntax - same as above.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            User.findOneAndUpdate({ email: "a@b.com" }, { name: "Ajay" }, { new: true });
+                            //setting new = true returns new updated document.
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>4. findByIdAndUpdate()</h3>
+                    <p>
+                        This is a convenient shorthand for findOneAndUpdate(). It works exactly the same way but uses the document's unique _id as the filter.
+                    </p>
+                    <p>
+                        Syntax - same as above just id at place of query.
+                    </p>
+                    <p>
+                        Return Value: Same as findOneAndUpdate(). It returns the document (original by default, updated if { new: true } is set) or null if the ID doesn't exist.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            User.findByIdAndUpdate("64d3...f6", { age: 22 }, { new: true });
+                        </code>
+                    </div>
+                </div>
+                <p>There may other ways also to update...</p>
+            </div>
+        </section>
+
+
+        <!-- Delete using Mongoose -->
+        <section id="section14" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Delete using Mongoose</h2>
+                <p>
+                    Here are the different methods to delete documents in Mongoose, each with its specific use case:
+                </p>
+                <div class="note-l2">
+                    <h3>1. deleteOne()</h3>
+                    <p>
+                        Deletes first matching document that matches your query.
+                    </p>
+                    <p>
+                        Return Value: An object confirming the operation, like { acknowledged: true, deletedCount: 1 }. It does not return the deleted document.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">Model.deleteOne(query)</span>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            User.deleteOne({ email: "test@example.com" })
+                                &nbsp;&nbsp;.then(result =&gt; console.log(result))
+                                &nbsp;&nbsp;.catch(err =&gt; console.error(err));
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>2. deleteMany()</h3>
+                    <p>
+                        Deletes all documents that match the query. Syntax - same as above.
+                    </p>
+                    <p>
+                        Return Value: An object confirming the operation, like { acknowledged: true, deletedCount: 5 }, where deletedCount is the number of documents removed.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            User.deleteMany({ role: "guest" })
+                                &nbsp;&nbsp;.then(result =&gt; console.log(result))
+                                &nbsp;&nbsp;.catch(err =&gt; console.error(err));
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>3. findByIdAndDelete()</h3>
+                    <p>
+                        This is a convenient method to find a document by its unique _id and delete it.
+                    </p>
+                    <p>
+                        Unlike the others, this method returns the document that was deleted or null if no document was found with that ID. Syntax - same as above just id at place of query.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            User.findByIdAndDelete("64e4...abc")
+                                &nbsp;&nbsp;.then(deletedDoc => console.log(deletedDoc))
+                                &nbsp;&nbsp;.catch(err => console.error(err));
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>4. findOneAndDelete()</h3>
+                    <p>
+                        Finds the first matching document and deletes it.
+                    </p>
+                    <p>
+                        Return Value: The deleted document object, or null if no document matched the query condition.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">Model.findOneAndDelete(filter, options)</span>
+                            <p>
+                                options (optional)
+                            </p>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            User.findOneAndDelete({ email: "user@example.com" })
+                                &nbsp;&nbsp;.then(deletedDoc => console.log(deletedDoc))
+                                &nbsp;&nbsp;.catch(err => console.error(err));
+                        </code>
+                    </div>
+                </div>
+                <p>There may other ways also to delete...</p>
+            </div>
+        </section>
+
+
+        <!-- Schema Validations -->
+        <section id="section15" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Schema Validations</h2>
+                <p>
+                    Mongoose schema validations are rules defined in the schema to ensure that documents meet specific criteria before being saved to the MongoDB database. If a document violates these rules, Mongoose throws a ValidationError and prevents the operation.
+                </p>
+                <div class="note-l2">
+                    <h3>Some Validators/ Options</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Validator / Option</th>
+                                <th>Description</th>
+                                <th>Data Types</th>
+                                <th>Example Usage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>required</code></td>
+                                <td>Field is mandatory</td>
+                                <td>All</td>
+                                <td><code>{ type: String, required: true }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>default</code></td>
+                                <td>Sets a default value if none is provided</td>
+                                <td>All</td>
+                                <td><code>{ type: Boolean, default: true }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>unique</code></td>
+                                <td>Creates a unique index in MongoDB (not a real validator)</td>
+                                <td>All</td>
+                                <td><code>{ type: String, unique: true }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>minlength</code></td>
+                                <td>Minimum string length</td>
+                                <td>String</td>
+                                <td><code>{ type: String, minlength: 5 }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>maxlength</code></td>
+                                <td>Maximum string length</td>
+                                <td>String</td>
+                                <td><code>{ type: String, maxlength: 50 }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>min</code></td>
+                                <td>Minimum numeric or date value</td>
+                                <td>Number, Date</td>
+                                <td><code>{ type: Number, min: 18 }</code> or <code>{ type: Date, min: '2022-01-01' }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>max</code></td>
+                                <td>Maximum numeric or date value</td>
+                                <td>Number, Date</td>
+                                <td><code>{ type: Number, max: 100 }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>match</code></td>
+                                <td>Value must match given regular expression</td>
+                                <td>String</td>
+                                <td><code>{ type: String, match: /.+\@.+\..+/ }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>enum</code></td>
+                                <td>Value must be one of a fixed set</td>
+                                <td>String, Number</td>
+                                <td><code>{ type: String, enum: ['admin', 'user', 'guest'] }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>validate</code></td>
+                                <td>Custom sync or async validator function</td>
+                                <td>All</td>
+                                <td>
+                                    <code>
+                                        { type: Number,
+                                            validate: { validator: v => v % 2 === 0, message: props => `${props.value} is not even!`}
+                                        }
+                                    </code>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>immutable</code></td>
+                                <td>Prevents changes once value is set</td>
+                                <td>All</td>
+                                <td><code>{ type: String, immutable: true }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>alias</code></td>
+                                <td>Creates a virtual alias for a field</td>
+                                <td>All</td>
+                                <td><code>{ type: String, alias: 'nickname' }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>select</code></td>
+                                <td>Whether the field is included by default in queries</td>
+                                <td>All</td>
+                                <td><code>{ type: String, select: false }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>get / set</code></td>
+                                <td>Transforms value on get/set</td>
+                                <td>All</td>
+                                <td><code>{ type: Number, get: v => Math.round(v) }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>lowercase</code></td>
+                                <td>Converts string to lowercase automatically</td>
+                                <td>String</td>
+                                <td><code>{ type: String, lowercase: true }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>uppercase</code></td>
+                                <td>Converts string to uppercase automatically</td>
+                                <td>String</td>
+                                <td><code>{ type: String, uppercase: true }</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>trim</code></td>
+                                <td>Trims whitespace from both ends of a string</td>
+                                <td>String</td>
+                                <td><code>{ type: String, trim: true }</code></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">There may be others also...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="code-container">
+                        <code>
+                            const mongoose = require('mongoose');
+                            
+                            const userSchema = new mongoose.Schema({
+                                &nbsp;&nbsp;name: {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;type: String,
+                                    &nbsp;&nbsp;&nbsp;&nbsp;required: true, // must be present
+                                    &nbsp;&nbsp;&nbsp;&nbsp;minlength: 3, // at least 3 characters
+                                    &nbsp;&nbsp;&nbsp;&nbsp;maxlength: 50 // max 50 characters
+                                &nbsp;&nbsp;},
+                                &nbsp;&nbsp;email: {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;type: String,
+                                    &nbsp;&nbsp;&nbsp;&nbsp;required: true,
+                                    &nbsp;&nbsp;&nbsp;&nbsp;unique: true, // must be unique (index-level)
+                                    &nbsp;&nbsp;&nbsp;&nbsp;match: /.+\@.+\..+/ // basic email format
+                                &nbsp;&nbsp;},
+                                &nbsp;&nbsp;password: {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;type: String,
+                                    &nbsp;&nbsp;&nbsp;&nbsp;required: true,
+                                    &nbsp;&nbsp;&nbsp;&nbsp;minlength: 6 // minimum 6 characters
+                                &nbsp;&nbsp;},
+                                &nbsp;&nbsp;age: {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;type: Number,
+                                    &nbsp;&nbsp;&nbsp;&nbsp;min: 18, // must be at least 18
+                                    &nbsp;&nbsp;&nbsp;&nbsp;max: 60 // no older than 60
+                                &nbsp;&nbsp;},
+                                &nbsp;&nbsp;role: {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;type: String,
+                                    &nbsp;&nbsp;&nbsp;&nbsp;enum: ['admin', 'user', 'guest'], // only allowed values
+                                    &nbsp;&nbsp;&nbsp;&nbsp;default: 'user'
+                                &nbsp;&nbsp;},
+                                &nbsp;&nbsp;isActive: {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;type: Boolean,
+                                    &nbsp;&nbsp;&nbsp;&nbsp;default: true // true if not specified
+                                &nbsp;&nbsp;},
+                                &nbsp;&nbsp;createdAt: {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;type: Date,
+                                    &nbsp;&nbsp;&nbsp;&nbsp;default: Date.now // current timestamp
+                                &nbsp;&nbsp;},
+                                &nbsp;&nbsp;phone: {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;type: String,
+                                    &nbsp;&nbsp;&nbsp;&nbsp;validate: {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;validator: function (v) {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return /^\d{10}$/.test(v); // must be a 10-digit number
+                                    &nbsp;&nbsp;&nbsp;&nbsp;},
+                                    &nbsp;&nbsp;&nbsp;&nbsp;message: props =&gt; `${props.value} is not a valid 10-digit phone number!`
+                                &nbsp;&nbsp;},
+                                    &nbsp;&nbsp;&nbsp;&nbsp;required: true
+                                &nbsp;&nbsp;}
+                            });
+                            
+                            const User = mongoose.model('User', userSchema);
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>Validators with Custom Error Messages</h3>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">validatorName: [value, 'Custom error message']</span>
+                            <p>
+                                This format works for most built-in validators like min, max, minlength, maxlength, match, enum.
+                            </p>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            example:
+                            age: {
+                                &nbsp;&nbsp;type: Number,
+                                &nbsp;&nbsp;min: [18, 'Age must be at least 18']
+                            }
+
+                            role: {
+                                &nbsp;&nbsp;type: String,
+                                &nbsp;&nbsp;enum: {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;values: ['admin', 'user', 'guest'],
+                                    &nbsp;&nbsp;&nbsp;&nbsp;message: 'Role must be admin, user, or guest'
+                                &nbsp;&nbsp;}
+                            }
+                            //Use { values: [...], message: '...' } for enum.
+
+                            <hr>
+                            user.save()
+                                &nbsp;&nbsp;.then(() => console.log('Saved!'))
+                                &nbsp;&nbsp;.catch(err => {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;console.log(err.errors.age.message); // Access the custom error message something like this
+                            });
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>3. findByIdAndDelete()</h3>
+                    <p>
+                        This is a convenient method to find a document by its unique _id and delete it.
+                    </p>
+                    <p>
+                        Unlike the others, this method returns the document that was deleted or null if no document was found with that ID. Syntax - same as above just id at place of query.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            User.findByIdAndDelete("64e4...abc")
+                                &nbsp;&nbsp;.then(deletedDoc => console.log(deletedDoc))
+                                &nbsp;&nbsp;.catch(err => console.error(err));
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>4. findOneAndDelete()</h3>
+                    <p>
+                        Finds the first matching document and deletes it.
+                    </p>
+                    <p>
+                        Return Value: The deleted document object, or null if no document matched the query condition.
+                    </p>
+                    <div class="note-l3">
+                        <h4>Syntax:</h4>
+                        <p>
+                            <span class="bolder">Model.findOneAndDelete(filter, options)</span>
+                            <p>
+                                options (optional)
+                            </p>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            User.findOneAndDelete({ email: "user@example.com" })
+                                &nbsp;&nbsp;.then(deletedDoc => console.log(deletedDoc))
+                                &nbsp;&nbsp;.catch(err => console.error(err));
+                        </code>
+                    </div>
+                </div>
+                <p>There may other ways also to delete...</p>
+            </div>
+        </section>
 
     </main>
 
