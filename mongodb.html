@@ -1902,47 +1902,41 @@
                     </div>
                 </div>
                 <div class="note-l2">
-                    <h3>3. findByIdAndDelete()</h3>
+                    <h3>Validation on Update Operations</h3>
                     <p>
-                        This is a convenient method to find a document by its unique _id and delete it.
+                        By default, Mongoose does NOT run validators on update operations like: updateOne(), updateMany(), findByIdAndUpdate(), findOneAndUpdate() e.t.c.
                     </p>
                     <p>
-                        Unlike the others, this method returns the document that was deleted or null if no document was found with that ID. Syntax - same as above just id at place of query.
+                        To Enable Validation on Updates You must explicitly enable validation using the option - { runValidators: true }
                     </p>
                     <div class="code-container">
                         <code>
-                            User.findByIdAndDelete("64e4...abc")
-                                &nbsp;&nbsp;.then(deletedDoc => console.log(deletedDoc))
-                                &nbsp;&nbsp;.catch(err => console.error(err));
+                            example:
+
+                            const userSchema = new mongoose.Schema({
+                                &nbsp;&nbsp;age: {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;type: Number,
+                                    &nbsp;&nbsp;&nbsp;&nbsp;min: [18, 'Age must be at least 18']
+                                &nbsp;&nbsp;}
+                            });
+                            
+                            const User = mongoose.model('User', userSchema);
+                            
+                            //while updating
+                            User.findByIdAndUpdate(
+                                &nbsp;&nbsp;'64e4abc...', // some _id
+                                &nbsp;&nbsp;{ age: 10 },
+                                &nbsp;&nbsp;{ runValidators: true})
+
+                                &nbsp;&nbsp;.then(user => console.log('Updated:', user))
+                                &nbsp;&nbsp;.catch(err => console.log('Validation Error:', err.errors.age.message));
+
+                            //Without runValidators: true, the invalid value will be silently accepted
+
+                            //Always include runValidators: true in update operations if you want schema rules enforced.
                         </code>
                     </div>
                 </div>
-                <div class="note-l2">
-                    <h3>4. findOneAndDelete()</h3>
-                    <p>
-                        Finds the first matching document and deletes it.
-                    </p>
-                    <p>
-                        Return Value: The deleted document object, or null if no document matched the query condition.
-                    </p>
-                    <div class="note-l3">
-                        <h4>Syntax:</h4>
-                        <p>
-                            <span class="bolder">Model.findOneAndDelete(filter, options)</span>
-                            <p>
-                                options (optional)
-                            </p>
-                        </p>
-                    </div>
-                    <div class="code-container">
-                        <code>
-                            User.findOneAndDelete({ email: "user@example.com" })
-                                &nbsp;&nbsp;.then(deletedDoc => console.log(deletedDoc))
-                                &nbsp;&nbsp;.catch(err => console.error(err));
-                        </code>
-                    </div>
-                </div>
-                <p>There may other ways also to delete...</p>
             </div>
         </section>
 
