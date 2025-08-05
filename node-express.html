@@ -1552,6 +1552,48 @@
                         </div>              
                     </article> 
                 </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>ejs-mate package</h3>
+                        <p>
+                            ejs-mate is like an upgrade kit for EJS — it gives your EJS templates superpowers such as layouts, reusable page parts, and content placeholders so you don't have to repeat the same HTML structure on every page. By using ejs-mate, you can define a base layout and have individual views “extend” it.
+                        </p>
+                        <p>
+                            &lt;% layout('layoutFileName') -%&gt; <br>
+                            Must be at the top of your .ejs file. layoutFileName is relative to your views folder (no .ejs extension needed). This tells ejs-mate which master template to use.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Installation & Setup Example:
+                                npm install ejs-mate
+
+                                //add this also:
+                                const engine = require('ejs-mate');
+                                app.engine('ejs', engine);
+
+                                <hr>
+                                Example Layout Workflow:
+                                // views/layout.ejs (master layout):
+                                &lt;html&gt;
+                                &lt;head&gt;
+                                    &lt;title&gt;&lt;%- title %&gt;&lt;/title&gt;
+                                &lt;/head&gt;
+                                &lt;body&gt;
+                                    &lt;%- body %&gt;
+                                &lt;/body&gt;
+                                &lt;/html&gt;
+                                
+                                // views/pages/home.ejs (child template):
+                                &lt;% layout('layout') -%&gt;
+                                &lt;h1&gt;Hello from Home Page&lt;/h1&gt;
+                                &lt;p&gt;This is simple EJS-Mate in action!&lt;/p&gt;
+
+
+                                //If you render home.ejs, it will insert the h1 and p into the &lt;%- body %&gt; spot in layout.ejs.
+                            </code>
+                        </div>              
+                    </article> 
+                </div>
             </div>
         </section>
 
