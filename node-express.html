@@ -1218,40 +1218,40 @@
                 </div>
                 <div class="notes">
                     <article class="note-l2">
-                        <h3>Get Request</h3>
-                        <p>
-                            An HTTP method used to retrieve data from a server. It sends parameters via the URL query string (e.g., /resource?key=value).
-                        </p>
-                        <p>
-                            In Express.js, app.get('/path', (req, res) => {...}) handles these requests, accessing parameters through req.query.
-                        </p>
-                        <p>
-                            It's idempotent (repeated requests yield the same result), suitable for fetching resources like web pages or API data, but less secure for sensitive data as parameters are visible in URLs.
-                        </p>
+                        <h3>Using Middleware as Function or Variable e.t.c</h3>
                         <div class="code-container">
                             <code>
                                 //example:
-                                //html:
-                                &lt;h2&gt;GET Form&lt;/h2&gt;
-                                &lt;form action="http:localhost:3000/register" method="GET"&gt;
-                                    &nbsp;&nbsp;&lt;label&gt;User: &lt;input type="text" name="user"&gt;&lt;/label&gt;
-                                    &nbsp;&nbsp;&lt;label&gt;Password: &lt;input type="password" name="password"&gt;&lt;/label&gt;
-                                    &nbsp;&nbsp;&lt;button type="submit"&gt;Submit (GET)&lt;/button&gt;
-                                &lt;/form&gt;
-
-                                <hr>
-                                // server.js
-                                const express = require('express');
-                                const app = express();
-                                const port = 3000;
+                                // Middleware as function
+                                function logger(req, res, next) {
+                                    &nbsp;&nbsp;console.log('Logger Middleware');
+                                    &nbsp;&nbsp;req.msg = 'Hello';
+                                    &nbsp;&nbsp;next();
+                                }
                                 
-                                // GET: Handle form submission
-                                app.get('/register', (req, res) => {
-                                    &nbsp;&nbsp;const { user, password } = req.query; //access data using req.query
-                                    &nbsp;&nbsp;res.send(`GET: Welcome ${user}!`);
+                                // Middleware as variable (arrow function)
+                                const addText = (req, res, next) => {
+                                    &nbsp;&nbsp;console.log('AddText Middleware');
+                                    &nbsp;&nbsp;req.msg += ' from Variable';
+                                    &nbsp;&nbsp;next();
+                                };
+                                
+                                // Route using both middlewares
+                                app.get('/', logger, addText, (req, res) => { 
+                                    &nbsp;&nbsp;// pass middleware as parameter
+                                    &nbsp;&nbsp;console.log('Route Handler');
+                                    &nbsp;&nbsp;res.send(req.msg + ' and Route');
                                 });
                                 
-                                app.listen(port, () => console.log(`Server on port ${port}`));
+
+                                Output when visiting /
+                                Console:
+                                Logger Middleware
+                                AddText Middleware
+                                Route Handler
+
+                                Browser Response:
+                                Hello from Variable and Route
                             </code>
                         </div>
                     </article>
