@@ -331,6 +331,7 @@
             <li><a href="#section8">Sending Response</a></li>
             <li><a href="#section9">Routing</a></li>
             <li><a href="#section10">GET/POST Request</a></li>
+            <li><a href="#section10i">Middlewares</a></li>
             <hr>
             <li><a href="#section11">EJS</a></li>
             <li><a href="#section12">Interpolation Syntax</a></li>
@@ -1116,6 +1117,194 @@
         </section>
 
 
+        <!-- GET/POST Request -->
+        <section id="section10i" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Middlewares</h2>
+                    <p>
+                        Middleware refers to functions that execute during the request-response cycle. They are used to process incoming requests before they reach the route handler or send back a response.
+                    </p>
+                    <p>
+                        Middleware is a function that has access to:
+                        <ul>
+                            <li>req (the request object)</li>
+                            <li>res (the response object)</li>
+                            <li>next (a function that passes control to the next middleware)</li>
+                        </ul>
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //example syntax:
+                            function middlewareName(req, res, next) {
+                                &nbsp;&nbsp;// Do something
+                                &nbsp;&nbsp;next(); // Pass control to next middleware
+                            }
+                        </code>
+                    </div>
+                    <p>
+                        Purpose: Middlewares are used for tasks like logging, authentication, error handling, parsing request bodies, serving static files, or modifying request/response data.
+                    </p>
+                    <p>
+                        A middleware function must either: Send a response, OR Call next() to pass control to the next middleware or route handler. If it does neither, the request will hang and the client will never get a response.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //example:
+                            const express = require('express');
+                            const app = express();
+                            
+                            // Middleware using app.use()
+                            app.use((req, res, next) => {
+                            const isBlocked = true;
+                            
+                            if (isBlocked) {
+                                &nbsp;&nbsp;// Middleware sends a response and stops further handling
+                                &nbsp;&nbsp;res.status(403).send('Access Denied by Middleware'); //response sent
+                            } else {
+                                &nbsp;&nbsp;// Pass to the next middleware or route if not blocked
+                                &nbsp;&nbsp;next();
+                            }
+                            });
+                            
+                            // This route will never run if isBlocked is true
+                            app.get('/', (req, res) => {
+                                &nbsp;&nbsp;res.send('Welcome to the homepage!');
+                            });
+                            
+                            app.listen(3000, () => {
+                                &nbsp;&nbsp;console.log('Server running on http://localhost:3000');
+                            });
+
+
+                            //app.use - Registers a middleware for all routes (/, /about, etc.)
+
+                            <hr>
+                            //using multiple middlewares:
+                            const express = require('express');
+                            const app = express();
+                            
+                            // Middleware 1 (runs first)
+                            app.use((req, res, next) => {
+                                &nbsp;&nbsp;console.log('Middleware 1');
+                                &nbsp;&nbsp;req.msg = 'Hello';
+                                &nbsp;&nbsp;next(); // Go to Middleware 2
+                                &nbsp;&nbsp;//we can also write code after next here but that is not preffered as good way.
+                            });
+                            
+                            // Middleware 2 (runs second)
+                            app.use((req, res, next) => {
+                                &nbsp;&nbsp;console.log('Middleware 2');
+                                &nbsp;&nbsp;req.msg += ' from Middleware';
+                                &nbsp;&nbsp; next(); // Go to Route Handler
+                            });
+                            
+                            // Route Handler (runs last)
+                            app.get('/', (req, res) => {
+                                &nbsp;&nbsp;console.log('Route Handler');
+                                &nbsp;&nbsp;res.send(req.msg + ' and Route');
+                            });
+                            
+                            app.listen(3000);
+
+                            <hr>
+                            //middleware for specific route only:
+                            app.use('/about', (req, res, next) => { //for /about route only
+                                &nbsp;&nbsp;res.send('middleware for /about route only');
+                                //also for like /about/xyz...
+                            });
+                        </code>
+                    </div>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Get Request</h3>
+                        <p>
+                            An HTTP method used to retrieve data from a server. It sends parameters via the URL query string (e.g., /resource?key=value).
+                        </p>
+                        <p>
+                            In Express.js, app.get('/path', (req, res) => {...}) handles these requests, accessing parameters through req.query.
+                        </p>
+                        <p>
+                            It's idempotent (repeated requests yield the same result), suitable for fetching resources like web pages or API data, but less secure for sensitive data as parameters are visible in URLs.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //example:
+                                //html:
+                                &lt;h2&gt;GET Form&lt;/h2&gt;
+                                &lt;form action="http:localhost:3000/register" method="GET"&gt;
+                                    &nbsp;&nbsp;&lt;label&gt;User: &lt;input type="text" name="user"&gt;&lt;/label&gt;
+                                    &nbsp;&nbsp;&lt;label&gt;Password: &lt;input type="password" name="password"&gt;&lt;/label&gt;
+                                    &nbsp;&nbsp;&lt;button type="submit"&gt;Submit (GET)&lt;/button&gt;
+                                &lt;/form&gt;
+
+                                <hr>
+                                // server.js
+                                const express = require('express');
+                                const app = express();
+                                const port = 3000;
+                                
+                                // GET: Handle form submission
+                                app.get('/register', (req, res) => {
+                                    &nbsp;&nbsp;const { user, password } = req.query; //access data using req.query
+                                    &nbsp;&nbsp;res.send(`GET: Welcome ${user}!`);
+                                });
+                                
+                                app.listen(port, () => console.log(`Server on port ${port}`));
+                            </code>
+                        </div>
+                    </article>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Post Request</h3>
+                        <p>
+                            An HTTP method used to submit data to a server to create or update resources. Data is sent in the request body, supporting formats like JSON or URL-encoded form data.
+                        </p>
+                        <p>
+                            In Express.js, app.post('/path', (req, res) => {...}) handles these requests, accessing data via req.body (requires middleware like express.json() or express.urlencoded()).
+                        </p>
+                        <p>
+                            It's non-idempotent (repeated requests may create multiple resources) and ideal for secure data submission, such as forms or API payloads.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //example:
+                                //html:
+                                &lt;h2&gt;POST Form&lt;/h2&gt;
+                                &lt;form action="http:localhost:3000/register" method="POST"&gt;
+                                    &nbsp;&nbsp;&lt;label&gt;User: &lt;input type="text" name="user"&gt;&lt;/label&gt;
+                                    &nbsp;&nbsp;&lt;label&gt;Password: &lt;input type="password" name="password"&gt;&lt;/label&gt;
+                                    &nbsp;&nbsp;&lt;button type="submit"&gt;Submit (GET)&lt;/button&gt;
+                                &lt;/form&gt;
+
+                                <hr>
+                                // server.js
+                                const express = require('express');
+                                const app = express();
+                                const port = 3000;
+
+                                // Middleware to parse form data and JSON
+                                app.use(express.urlencoded({ extended: true }));
+                                app.use(express.json());
+                                //use these otherwise data is not accessible and it shows Undefined
+                                
+                                // POST: Handle form submission
+                                app.post('/register', (req, res) => {
+                                    &nbsp;&nbsp;const { user, password } = req.body; // access data using req.body
+                                    &nbsp;&nbsp;res.send(`POST: Welcome ${user}!`);
+                                });
+                                
+                                app.listen(port, () => console.log(`Server on port ${port}`));
+                            </code>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
         <!-- EJS -->
         <section id="section11" class="note-section" tabindex="0">
             <div class="container">
@@ -1568,7 +1757,7 @@
                                 npm install ejs-mate
 
                                 //add this also:
-                                const engine = require('ejs-mate');
+                                const engine = require('ejs-mate'); //or any name in place of engine
                                 app.engine('ejs', engine);
 
                                 <hr>
