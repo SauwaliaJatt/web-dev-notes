@@ -332,6 +332,7 @@
             <li><a href="#section9">Routing</a></li>
             <li><a href="#section10">GET/POST Request</a></li>
             <li><a href="#section10i">Middlewares</a></li>
+            <li><a href="#section10ii">Error Handeling</a></li>
             <hr>
             <li><a href="#section11">EJS</a></li>
             <li><a href="#section12">Interpolation Syntax</a></li>
@@ -1117,7 +1118,7 @@
         </section>
 
 
-        <!-- GET/POST Request -->
+        <!-- Middlewares -->
         <section id="section10i" class="note-section" tabindex="0">
             <div class="container">
                 <div class="note-l1">
@@ -1256,47 +1257,122 @@
                         </div>
                     </article>
                 </div>
+            </div>
+        </section>
+
+        
+        <!-- Error Handeling -->
+        <section id="section10ii" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Error Handeling</h2>
+                    <p>
+                        Error Handling refers to how Express catches and processes errors that occur both synchronously and asynchronously. Express also comes with a default error handler.
+                    </p>
+                </div>
                 <div class="notes">
                     <article class="note-l2">
-                        <h3>Post Request</h3>
+                        <h3>Default Error Handler</h3>
                         <p>
-                            An HTTP method used to submit data to a server to create or update resources. Data is sent in the request body, supporting formats like JSON or URL-encoded form data.
+                            If a middleware or route throws an error or calls next(err) and you don't define a custom error handler, Express automatically returns a default 500 Internal Server Error and logs the error in the console (in development mode).
                         </p>
                         <p>
-                            In Express.js, app.post('/path', (req, res) => {...}) handles these requests, accessing data via req.body (requires middleware like express.json() or express.urlencoded()).
+                            This default error-handling middleware function is added at the end of the middleware function stack.
                         </p>
                         <p>
-                            It's non-idempotent (repeated requests may create multiple resources) and ideal for secure data submission, such as forms or API payloads.
+                            How Does It Work Internally? -  When you throw an error or call next(err), Express Skips any remaining normal middleware and Looks for error-handling middleware (functions with 4 args: err, req, res, next) If none are found, it uses the default error handler.
                         </p>
                         <div class="code-container">
                             <code>
                                 //example:
-                                //html:
-                                &lt;h2&gt;POST Form&lt;/h2&gt;
-                                &lt;form action="http:localhost:3000/register" method="POST"&gt;
-                                    &nbsp;&nbsp;&lt;label&gt;User: &lt;input type="text" name="user"&gt;&lt;/label&gt;
-                                    &nbsp;&nbsp;&lt;label&gt;Password: &lt;input type="password" name="password"&gt;&lt;/label&gt;
-                                    &nbsp;&nbsp;&lt;button type="submit"&gt;Submit (GET)&lt;/button&gt;
-                                &lt;/form&gt;
-
-                                <hr>
-                                // server.js
+                                //No Custom Error Handler
                                 const express = require('express');
                                 const app = express();
-                                const port = 3000;
-
-                                // Middleware to parse form data and JSON
-                                app.use(express.urlencoded({ extended: true }));
-                                app.use(express.json());
-                                //use these otherwise data is not accessible and it shows Undefined
                                 
-                                // POST: Handle form submission
-                                app.post('/register', (req, res) => {
-                                    &nbsp;&nbsp;const { user, password } = req.body; // access data using req.body
-                                    &nbsp;&nbsp;res.send(`POST: Welcome ${user}!`);
+                                app.get('/', (req, res) => {
+                                    &nbsp;&nbsp;throw new Error('Something broke!');
                                 });
                                 
-                                app.listen(port, () => console.log(`Server on port ${port}`));
+                                app.listen(3000);
+
+                                
+                                Output:
+                                Console (in development mode):
+                                Error: Something broke!
+                                at ...
+
+                                Browser:
+                                Cannot GET /
+
+                                <hr>
+                                //we can use also like 
+                                app.get('/', (req, res, next) => {
+                                    &nbsp;&nbsp;const err = new Error('Something went wrong!');
+                                    &nbsp;&nbsp;next(err); // Passes the error to Express's default error handler
+                                });
+                            </code>
+                        </div>
+                    </article>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Custom Error Handler</h3>
+                        <p>
+                            To override the default error handler, define a middleware with the four arguments (err, req, res, next) typically at the end of your middleware stack.
+                        </p>
+
+                        <div class="code-container">
+                            <code>
+                                //example:
+                                const express = require('express');
+                                const app = express();
+                                
+                                // Normal route
+                                app.get('/', (req, res) => {
+                                    &nbsp;&nbsp;throw new Error('Something went wrong!');
+                                    &nbsp;&nbsp;//Error middleware is called only if next(err) is used, or an error is thrown.
+                                });
+                                
+                                // Custom error-handling middleware
+                                app.use((err, req, res, next) => {
+                                    &nbsp;&nbsp;console.error('Error:', err.message);
+                                    &nbsp;&nbsp;res.status(500).json({ status: 'error', message: err.message });
+                                });
+                                
+                                app.listen(3000);
+                            </code>
+                        </div>
+                    </article>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Custom Error Class</h3>
+                        <p>
+                            A custom error class is a user-defined class that extends JavaScript's built-in Error class. It lets you attach custom properties like statusCode, status, or isOperational e.t.c to better control how errors are handled and responded to in your application.
+                        </p>
+
+                        <div class="code-container">
+                            <code>
+                                //example:
+                                // utils/CustomError.js
+                                
+                                class CustomError extends Error {
+                                    &nbsp;&nbsp;constructor(message, statusCode = 500) { //also we can set default parameters
+                                        &nbsp;&nbsp;&nbsp;&nbsp;super(message); // Call the built-in Error constructor
+                                        &nbsp;&nbsp;&nbsp;&nbsp;this.statusCode = statusCode; // HTTP status (e.g., 404, 500)
+                                        &nbsp;&nbsp;&nbsp;&nbsp;this.message = message;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;this.isOperational = true; // Differentiates handled errors from code bugs
+                                    &nbsp;&nbsp;}
+                                }
+                                module.exports = CustomError;
+                                
+                               //app.js
+                                const CustomError = require('./utils/CustomError');
+                                
+                                app.get('/fail', (req, res, next) => {
+                                    &nbsp;&nbsp;// Trigger a custom error
+                                    &nbsp;&nbsp;return next(new CustomError('Something went wrong!', 400));
+                                });
                             </code>
                         </div>
                     </article>
