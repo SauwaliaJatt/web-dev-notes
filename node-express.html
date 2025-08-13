@@ -1377,6 +1377,83 @@
                         </div>
                     </article>
                 </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Handling Async errors</h3>
+                        <p>
+                            In Express.js, when you use async/await, any error thrown inside an async function (like a failed database query or undefined access) won't automatically be caught by Express. That's why you need to manually catch these errors and pass them to Express using next(error).
+                        </p>
+
+                        <div class="code-container">
+                            <code>
+                                //example 1: Using try-catch inside an async route
+
+                                app.get("/chats", async (req, res, next) => {
+                                    try {
+                                        &nbsp;&nbsp;let chats = await Chat.find({});
+                                        &nbsp;&nbsp;res.render("index.ejs", { chats });
+                                    } catch (err) {
+                                        &nbsp;&nbsp;next(err); // Pass any error to the default or custom error handler
+                                    }
+                                });
+                                //using try-catch in async route handlers allows you to handle every different type of error that may occur in that block
+                                
+                                <hr>
+                                //example 2: Without try-catch — using next(new ExpressError(...))
+                                app.get("/chats/:id", async (req, res, next) => {
+                                    &nbsp;&nbsp;let { id } = req.params;
+                                    &nbsp;&nbsp;let chat = await Chat.findById(id);
+                                    
+                                    &nbsp;&nbsp;if (!chat) {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;return next(new ExpressError(404, "Chat not Found or Deleted"));
+                                    &nbsp;&nbsp;}
+                                    //&nbsp;&nbsp;Here, we are not able to handle all possible errors, just a specific one (chat not found).
+                                
+                                    &nbsp;&nbsp;res.render("edit.ejs", { chat });
+                                });
+
+                                //we can use both together also like defining specific error in try block
+                            </code>
+                        </div>
+                    </article>
+                    <div class="note-l3">
+                        <h4>Async Error Wrapper</h4>
+                        <p>
+                            An async error wrapper is a higher-order function that wraps any async route and automatically catches errors from it and forwards them to Express's error handler.
+                        </p>
+                        <p>
+                            The ideal approach is to use an async error wrapper, so you don't need to write try-catch everywhere.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                example syntax:
+                                const asyncWrapper = (fn) => {
+                                    &nbsp;&nbsp;return (req, res, next) => {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;Promise.resolve(fn(req, res, next)).catch(next);
+                                    &nbsp;&nbsp;};
+                                };
+                                
+                                //If fn throws an error (sync or async), .catch(next) sends it to Express's error handler.
+                                //Wraps it with Promise.resolve(): Ensures that even if fn doesn't return a promise (e.g., not marked async), it's still treated as one. Safely handles both async and sync functions.
+
+                                <hr>
+                                //example:
+                                //Define the Wrapper Function
+                                const asyncWrapper = (fn) => {
+                                    &nbsp;&nbsp;return (req, res, next) => {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;Promise.resolve(fn(req, res, next)).catch(next);
+                                    &nbsp;&nbsp;};
+                                };
+
+                                //Use it in a Route
+                                app.get('/example', asyncWrapper(async (req, res, next) => { //use it like this
+                                    &nbsp;&nbsp;const data = await someAsyncFunction();
+                                    &nbsp;&nbsp;res.json(data);
+                                }));
+                            </code>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
