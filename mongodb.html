@@ -2279,6 +2279,20 @@
                         </code>
                     </div>
                 </div>
+                <div class="note-l2">
+                    <h3>6 Rules of Thumb for MongoDB Schema Design</h3>
+                    <p>
+                        <ul>
+                            <li>Structure your schema around how your app reads and writes data for better performance.</li>
+                            <li>Embed small, related data inside documents when it's always accessed with the parent.</li>
+                            <li>Use references when data is large, reused in many places, or frequently updated.</li>
+                            <li>Avoid embedding arrays that can grow endlessly to prevent hitting the document size limit.</li>
+                            <li>Use TTL indexes or capped collections to manage and expire time-based or log data.</li>
+                            <li>Design using rich documents that reflect real-world entities instead of normalizing like SQL.</li>
+                            <li>You can read it in official website of MongoDB in detail</li>
+                        </ul>
+                    </p>
+                </div>
             </div>
         </section>
 
