@@ -333,6 +333,7 @@
             <li><a href="#section10">GET/POST Request</a></li>
             <li><a href="#section10i">Middlewares</a></li>
             <li><a href="#section10ii">Error Handeling</a></li>
+            <li><a href="#section10iii">Schema Validation</a></li>
             <hr>
             <li><a href="#section11">EJS</a></li>
             <li><a href="#section12">Interpolation Syntax</a></li>
@@ -1312,6 +1313,217 @@
                                 });
                             </code>
                         </div>
+                    </article>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Custom Error Handler</h3>
+                        <p>
+                            To override the default error handler, define a middleware with the four arguments (err, req, res, next) typically at the end of your middleware stack.
+                        </p>
+
+                        <div class="code-container">
+                            <code>
+                                //example:
+                                const express = require('express');
+                                const app = express();
+                                
+                                // Normal route
+                                app.get('/', (req, res) => {
+                                    &nbsp;&nbsp;throw new Error('Something went wrong!');
+                                    &nbsp;&nbsp;//Error middleware is called only if next(err) is used, or an error is thrown.
+                                });
+                                
+                                // Custom error-handling middleware
+                                app.use((err, req, res, next) => {
+                                    &nbsp;&nbsp;console.error('Error:', err.message);
+                                    &nbsp;&nbsp;res.status(500).json({ status: 'error', message: err.message });
+                                });
+                                
+                                app.listen(3000);
+                            </code>
+                        </div>
+                    </article>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Custom Error Class</h3>
+                        <p>
+                            A custom error class is a user-defined class that extends JavaScript's built-in Error class. It lets you attach custom properties like statusCode, status, or isOperational e.t.c to better control how errors are handled and responded to in your application.
+                        </p>
+
+                        <div class="code-container">
+                            <code>
+                                //example:
+                                // utils/CustomError.js
+                                
+                                class CustomError extends Error {
+                                    &nbsp;&nbsp;constructor(message, statusCode = 500) { //also we can set default parameters
+                                        &nbsp;&nbsp;&nbsp;&nbsp;super(message); // Call the built-in Error constructor
+                                        &nbsp;&nbsp;&nbsp;&nbsp;this.statusCode = statusCode; // HTTP status (e.g., 404, 500)
+                                        &nbsp;&nbsp;&nbsp;&nbsp;this.message = message;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;this.isOperational = true; // Differentiates handled errors from code bugs
+                                    &nbsp;&nbsp;}
+                                }
+                                module.exports = CustomError;
+                                
+                               //app.js
+                                const CustomError = require('./utils/CustomError');
+                                
+                                app.get('/fail', (req, res, next) => {
+                                    &nbsp;&nbsp;// Trigger a custom error
+                                    &nbsp;&nbsp;return next(new CustomError('Something went wrong!', 400));
+                                });
+                            </code>
+                        </div>
+                    </article>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Handling Async errors</h3>
+                        <p>
+                            In Express.js, when you use async/await, any error thrown inside an async function (like a failed database query or undefined access) won't automatically be caught by Express. That's why you need to manually catch these errors and pass them to Express using next(error).
+                        </p>
+
+                        <div class="code-container">
+                            <code>
+                                //example 1: Using try-catch inside an async route
+
+                                app.get("/chats", async (req, res, next) => {
+                                    try {
+                                        &nbsp;&nbsp;let chats = await Chat.find({});
+                                        &nbsp;&nbsp;res.render("index.ejs", { chats });
+                                    } catch (err) {
+                                        &nbsp;&nbsp;next(err); // Pass any error to the default or custom error handler
+                                    }
+                                });
+                                //using try-catch in async route handlers allows you to handle every different type of error that may occur in that block
+                                
+                                <hr>
+                                //example 2: Without try-catch — using next(new ExpressError(...))
+                                app.get("/chats/:id", async (req, res, next) => {
+                                    &nbsp;&nbsp;let { id } = req.params;
+                                    &nbsp;&nbsp;let chat = await Chat.findById(id);
+                                    
+                                    &nbsp;&nbsp;if (!chat) {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;return next(new ExpressError(404, "Chat not Found or Deleted"));
+                                    &nbsp;&nbsp;}
+                                    //&nbsp;&nbsp;Here, we are not able to handle all possible errors, just a specific one (chat not found).
+                                
+                                    &nbsp;&nbsp;res.render("edit.ejs", { chat });
+                                });
+
+                                //we can use both together also like defining specific error in try block
+                            </code>
+                        </div>
+                    </article>
+                    <div class="note-l3">
+                        <h4>Async Error Wrapper</h4>
+                        <p>
+                            An async error wrapper is a higher-order function that wraps any async route and automatically catches errors from it and forwards them to Express's error handler.
+                        </p>
+                        <p>
+                            The ideal approach is to use an async error wrapper, so you don't need to write try-catch everywhere.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                example syntax:
+                                const asyncWrapper = (fn) => {
+                                    &nbsp;&nbsp;return (req, res, next) => {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;Promise.resolve(fn(req, res, next)).catch(next);
+                                    &nbsp;&nbsp;};
+                                };
+                                
+                                //If fn throws an error (sync or async), .catch(next) sends it to Express's error handler.
+                                //Wraps it with Promise.resolve(): Ensures that even if fn doesn't return a promise (e.g., not marked async), it's still treated as one. Safely handles both async and sync functions.
+
+                                <hr>
+                                //example:
+                                //Define the Wrapper Function
+                                const asyncWrapper = (fn) => {
+                                    &nbsp;&nbsp;return (req, res, next) => {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;Promise.resolve(fn(req, res, next)).catch(next);
+                                    &nbsp;&nbsp;};
+                                };
+
+                                //Use it in a Route
+                                app.get('/example', asyncWrapper(async (req, res, next) => { //use it like this
+                                    &nbsp;&nbsp;const data = await someAsyncFunction();
+                                    &nbsp;&nbsp;res.json(data);
+                                }));
+                            </code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Error Handeling -->
+        <section id="section10iii" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Schema Validation</h2>
+                </div>
+                <div class="notes">
+                    <article class="note-l2">
+                        <h3>Joi</h3>
+                        <p>
+                            Joi is a JavaScript object schema validation library, mainly used to validate incoming request data like: req.body (POST/PUT requests), req.params (URL parameters), req.query (query strings), This is especially useful before inserting/updating data in MongoDB, so we can prevent saving invalid or incomplete data.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //Install:
+                                npm install joi
+                            </code>
+                        </div>
+                        <div class="code-container">
+                            <code>
+                                //Example:
+                                //Joi Schema (for input validation)
+                                const Joi = require('joi');
+                                
+                                const userJoiSchema = Joi.object({
+                                    &nbsp;&nbsp;name: Joi.string().min(3).max(30).required(),
+                                    &nbsp;&nbsp;email: Joi.string().email().required(),
+                                    &nbsp;&nbsp;password: Joi.string().min(6).required(),
+                                    &nbsp;&nbsp;age: Joi.number().integer().min(18).max(100).required()
+                                });
+
+                                Used to validate this incoming req.body:
+                                {
+                                    &nbsp;&nbsp;"name": "Inderjit",
+                                    &nbsp;&nbsp;"email": "inderjit@example.com",
+                                    &nbsp;&nbsp;"password": "secure123",
+                                    &nbsp;&nbsp;"age": 21
+                                }
+
+                                //Without Joi:
+                                if (!req.body.name) return res.status(400).send("Name is required");
+                                if (!['male', 'female'].includes(req.body.gender)) return res.status(400).send("Invalid gender");
+                                // ... manual checks for every field
+
+
+                                //exampel Mongoose Schema according to Joi
+                                const mongoose = require('mongoose');
+                                
+                                const userMongoSchema = new mongoose.Schema({
+                                    &nbsp;&nbsp;name: { type: String,required: true,minlength: 3,maxlength: 30 },
+                                    &nbsp;&nbsp;email: { type: String,required: true,unique: true // extra: ensures no duplicate emails },
+                                    &nbsp;&nbsp;password: { type: String,required: true,minlength: 6 },
+                                    &nbsp;&nbsp;age: { type: Number,min: 18,max: 100,required: true }
+                                });
+                            
+
+                                // We use Joi so that we don't need to manually validate each field of incoming data. Joi makes validation easier, cleaner, and centralized using a schema.
+
+                                //we use joi so that we not need to validate every incoming data object field seprately 
+                                // Generally, the Joi schema and Mongoose schema need to be the same, because both describe the structure and rules for the same data model
+                            </code>
+                        </div>
+                        <p>
+                            There are other methods and libraries to validate Schema ...
+                        </p>
                     </article>
                 </div>
                 <div class="notes">
