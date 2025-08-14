@@ -351,6 +351,7 @@
             <li><a href="#section14">Delete using Mongoose</a></li>
             <li><a href="#section15">Schema Validations</a></li>
             <li><a href="#section16">Database Relationships</a></li>
+            <li><a href="#section17">Deletion in Relationships</a></li>
         </ul>
     </nav>
 
@@ -2293,6 +2294,71 @@
                         </ul>
                     </p>
                 </div>
+            </div>
+        </section>
+
+
+        <!-- Schema Validations -->
+        <section id="section17" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Deletion in Relationships</h2>
+                <p>
+                    Handling deletion in relationships in MongoDB with Mongoose is important to maintain data consistency. Here are the common strategies, especially when documents are referenced (not embedded).
+                </p>
+                <p>
+                    <span class="bolder">Cascade Delete - </span> Cascade delete means: When a parent document is deleted, its related child documents (in other collections) are automatically deleted.
+                </p>
+                <p>
+                    We can handle deletion in relationships using Mongoose middlewares. Pre Middleware - Runs before the event. Post Middleware - Runs after the event.
+                </p>
+                <div class="code-container">
+                    <code>
+                        //example syntax of post middleware:
+                        schema.post('operation', async function (doc) {
+                            &nbsp;&nbsp;// Your logic here
+                        });
+                    </code>
+                </div>
+                <div class="code-container">
+                    <code>
+                        //example:
+                        //A customer has many orders, When a customer is deleted, all its orders should also be removed.
+
+                        //Add Post Middleware for Cascade Delete like this:
+
+                        customerSchema.post("findOneAndDelete", async (customer) => { //using post
+                            &nbsp;&nbsp;if (customer.orders.length) {
+                                &nbsp;&nbsp;&nbsp;&nbsp;let res = await Order.deleteMany({ _id: { $in: customer.orders } });
+                                &nbsp;&nbsp;&nbsp;&nbsp;console.log("Deleted orders:", res);
+                            &nbsp;&nbsp;}
+                        });
+
+
+                        //example schema code:
+                        // Order Schema
+                        const orderSchema = new mongoose.Schema({
+                            &nbsp;&nbsp;item: String,
+                            &nbsp;&nbsp;amount: Number,
+                        });
+                        const Order = mongoose.model('Order', orderSchema);
+
+                        // Customer Schema
+                        const customerSchema = new mongoose.Schema({
+                            &nbsp;&nbsp;name: String,
+                            &nbsp;&nbsp;orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+                        });
+                        const Customer = mongoose.model('Customer', customerSchema);
+
+                        //lets there is some data is also there
+
+                        //Now Delete the Customer (regular way):
+                        await Customer.findOneAndDelete({ _id: customer._id });
+                        //This triggers the middleware and deletes all their orders
+                    </code>
+                </div>
+                <p>
+                    We can also learn about different mongoose middlewares like for find, save, delete e.t.c...
+                </p>
             </div>
         </section>
 
