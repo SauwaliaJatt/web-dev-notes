@@ -1498,11 +1498,6 @@
                                     &nbsp;&nbsp;"age": 21
                                 }
 
-                                //Without Joi:
-                                if (!req.body.name) return res.status(400).send("Name is required");
-                                if (!['male', 'female'].includes(req.body.gender)) return res.status(400).send("Invalid gender");
-                                // ... manual checks for every field
-
 
                                 //exampel Mongoose Schema according to Joi
                                 const mongoose = require('mongoose');
@@ -1519,6 +1514,23 @@
 
                                 //we use joi so that we not need to validate every incoming data object field seprately 
                                 // Generally, the Joi schema and Mongoose schema need to be the same, because both describe the structure and rules for the same data model
+
+                                <hr>
+                                //Without Joi:
+                                if (!req.body.name) return res.status(400).send("Name is required");
+                                if (!['male', 'female'].includes(req.body.gender)) return res.status(400).send("Invalid gender");
+                                // ... manual checks for every field
+
+                                
+                                //With Joi:
+                                const schema = Joi.object({
+                                    &nbsp;&nbsp;name: Joi.string().required(),
+                                    &nbsp;&nbsp;age: Joi.number().min(0).required(),
+                                    &nbsp;&nbsp;gender: Joi.string().valid('male', 'female').required()
+                                });
+                                
+                                const { error } = schema.validate(req.body);
+                                if (error) return res.status(400).send(error.details[0].message);
                             </code>
                         </div>
                         <p>
