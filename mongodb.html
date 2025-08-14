@@ -2146,6 +2146,138 @@
                             <span class="bolder">ref: 'ModelName' - </span> Specifies the name of the model being referenced — here, 'BlogPost'. This tells Mongoose which collection to look in when populating this reference.
                         </p>
                     </div>
+                    <div class="note-l3">
+                        <h4>2iii. One-to-Squillions</h4>
+                        <p>
+                            A document is related to a huge number of other documents (thousands to millions). Preffered foreign key-like references (e.g., post_id) in child documents not in parent documents.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                //A popular user with millions of followers
+                                //User:
+                                { "_id": 1, "username": "inderjit" }
+
+
+                                //Followers Collection:
+                                { "_id": 1001, "user_id": 1, "follower_id": 2001 }
+                                { "_id": 1002, "user_id": 1, "follower_id": 2002 }
+                                ...
+                                { "_id": 999999, "user_id": 1, "follower_id": 9999 }
+
+
+                                //User schema:
+                                const userSchema = new mongoose.Schema({
+                                    &nbsp;&nbsp;username: String
+                                });
+                                const User = mongoose.model('User', userSchema);
+
+                                //Follower Schema (Normalized Design):
+                                const followerSchema = new mongoose.Schema({
+                                    &nbsp;&nbsp;user_id: {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;type: mongoose.Schema.Types.ObjectId,
+                                        &nbsp;&nbsp;&nbsp;&nbsp;ref: 'User'
+                                    &nbsp;&nbsp;},
+                                    &nbsp;&nbsp;follower_id: {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;type: mongoose.Schema.Types.ObjectId,
+                                        &nbsp;&nbsp;&nbsp;&nbsp;ref: 'User'
+                                    &nbsp;&nbsp;}
+                                });
+                                const Follower = mongoose.model('Follower', followerSchema);
+
+
+                                //here child has refrence of parent because that is efficient because of large number and this is best approach.
+                            </code>
+                        </div>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>3. Many-to-Many (N:N)</h3>
+                    <p>
+                        Multiple documents in one collection relate to multiple documents in another collection.
+                    </p>
+                    <p>
+                        Preferred to use array of references in each document (referencing) when data is accessed together and small in size, OR create a junction collection (embedding) when data is large.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //example Students enrolled in many courses, and each course has many students.
+                            //Reference Example:
+
+                            //Student:
+                            { "_id": 1, "name": "Inderjit", "courses": [101, 102] }
+
+                            //course:
+                            { "_id": 101, "title": "Math", "students": [1, 2] }
+
+
+                            //Junction Collection (normalized) Example:
+                            { "_id": 1, "student_id": 1, "course_id": 101 }
+                            { "_id": 2, "student_id": 1, "course_id": 102 }
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>Population</h3>
+                    <p>
+                        Population refers to the process of automatically replacing references (ObjectIds) in documents with the actual referenced documents from another collection.
+                    </p>
+                    <p>
+                        Replace the referenced _id fields in a document with the full document(s) from the related collection. It mimics the JOIN behavior in relational databases.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //basic syntax:
+                            Model.find(query).populate('fieldName');
+                            
+                            //fieldName is the name of the reference field in the schema.
+                        </code>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            //example:
+                            //schema of example:
+                            const ProfileSchema = new mongoose.Schema({
+                                &nbsp;&nbsp;bio: String,
+                                &nbsp;&nbsp;age: Number
+                            });
+                            const UserSchema = new mongoose.Schema({
+                                &nbsp;&nbsp;name: String,
+                                &nbsp;&nbsp;profile: { type: mongoose.Schema.Types.ObjectId, ref: 'Profile' } //refrence
+                            });
+
+
+                            //Query and Populate:
+                            User.findOne({ name: 'Inderjit' })
+                                &nbsp;&nbsp;.populate('profile')
+                                &nbsp;&nbsp;.then(user => {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;console.log(user);
+                            });
+                            //Mongoose will automatically fetch the profile document and insert it in place of the _id.
+
+
+                            //result without popular if we print data:
+                            {
+                                &nbsp;&nbsp;"_id": "u1",
+                                &nbsp;&nbsp;"name": "Inderjit",
+                                &nbsp;&nbsp;"profile": "p1" //refrenced id of other document
+                            }
+
+
+                            //result with population when we print data:
+                            {
+                                &nbsp;&nbsp;"_id": "u1",
+                                &nbsp;&nbsp;"name": "Inderjit",
+                                &nbsp;&nbsp;"profile": {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;"_id": "p1",
+                                    &nbsp;&nbsp;&nbsp;&nbsp;"bio": "Student of CSE",
+                                    &nbsp;&nbsp;&nbsp;&nbsp;"age": 21
+                                &nbsp;&nbsp;}
+                            }
+
+                            //Now the profile field contains the full document, not just the ID.
+                        </code>
+                    </div>
                 </div>
             </div>
         </section>
