@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Node JS Notes</title>
+    <title>MongoDB Notes</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;600&display=swap"
@@ -350,6 +350,7 @@
             <li><a href="#section13">Update using Mongoose</a></li>
             <li><a href="#section14">Delete using Mongoose</a></li>
             <li><a href="#section15">Schema Validations</a></li>
+            <li><a href="#section16">Database Relationships</a></li>
         </ul>
     </nav>
 
@@ -1935,6 +1936,215 @@
 
                             //Always include runValidators: true in update operations if you want schema rules enforced.
                         </code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Database Relationships -->
+        <section id="section16" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Database Relationships</h2>
+                <p>
+                    MongoDB does not enforce strict relationships like SQL databases, but you can model relationships between documents in various ways depending on your use case. MongoDB manages relationships between data using embedded documents (denormalization) or references (normalization).
+                </p>
+                <p>
+                    Types of Relationships in MongoDB
+                    <ul>
+                        <li>One-to-One (1:1)</li>
+                        <li>One-to-Many (1:N)</li>
+                        <li>Many-to-Many (M:N)</li>
+                    </ul>
+                </p>
+                <p>
+                    Each can be implemented using: Embedding (Denormalization) OR Referencing (Normalization).
+                </p>
+                <div class="note-l3">
+                    <h4>Embedding (Denormalization)</h4>
+                    <p>
+                        In embedding, related data is stored within the same document. This is called denormalization because it duplicates related data rather than storing it separately.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Example: One-to-Many:
+                            // Blog Post document with embedded comments
+                            {
+                                &nbsp;&nbsp;_id: ObjectId("postId1"),
+                                &nbsp;&nbsp;title: "MongoDB Embedding",
+                                &nbsp;&nbsp;content: "This is about embedding documents.",
+                                &nbsp;&nbsp;comments: [
+                                    &nbsp;&nbsp;&nbsp;&nbsp;{ user: "Alice",text: "Great article!", },
+                                    &nbsp;&nbsp;&nbsp;&nbsp;{ user: "Bob",text: "Very helpful!", }
+                                &nbsp;&nbsp;]
+                            }
+                        </code>
+                    </div>
+                    <p>
+                        Use Cases: One-to-one or one-to-few relationships. When the embedded data is always read/updated with the parent. Example: product and product details, user and settings.
+                    </p>
+                    <p>
+                        Disadvantages: Data duplication (if same subdocument is needed elsewhere). Document size limit (16MB) can be hit. Difficult to update individual embedded items.
+                    </p>
+                </div>
+                <div class="note-l3">
+                    <h4>Referencing (Normalization)</h4>
+                    <p>
+                        In referencing, related data is stored in separate collections and linked using ObjectId references. This follows normalization, like in relational databases.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            Example: One-to-Many:
+                            // Post document
+                            {
+                                &nbsp;&nbsp;_id: ObjectId("postId1"),
+                                &nbsp;&nbsp;title: "MongoDB Referencing",
+                                &nbsp;&nbsp;content: "This is about referencing documents."
+                            }
+                            
+                            // Comments stored separately
+                            {
+                                &nbsp;&nbsp;_id: ObjectId("comment1"),
+                                &nbsp;&nbsp;post_id: ObjectId("postId1"),
+                                &nbsp;&nbsp;user: "Alice",
+                                &nbsp;&nbsp;text: "Nice post!",
+                            }
+                        </code>
+                    </div>
+                    <p>
+                        Use Cases: Many-to-many or large one-to-many relationships. Frequently updated or accessed separately. Example: users and orders, courses and students.
+                    </p>
+                    <p>
+                        Disadvantages: Slower reads (requires additional queries or $lookup). More complex queries. Requires careful management of references.
+                    </p>
+                </div>
+                <div class="note-l2">
+                    <h3>1. One-to-One (1:1)</h3>
+                    <p>
+                        One document in a collection is related to exactly one document in another collection. Preffered Embedded method in this.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            example:
+                            //User and Profile (each user has one profile)
+                            {
+                                &nbsp;&nbsp;"_id": 1,
+                                &nbsp;&nbsp;"name": "John",
+                                &nbsp;&nbsp;"profile": {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;"age": 30,
+                                    &nbsp;&nbsp;&nbsp;&nbsp;"gender": "male"
+                                &nbsp;&nbsp;}
+                            }
+
+                            //mongoose schema for it:
+                            const mongoose = require('mongoose');
+                            
+                            const userSchema = new mongoose.Schema({
+                                name: String,
+                                profile: {
+                                    type: {
+                                        age: Number,
+                                        gender: String
+                                    },
+                                    _id: false // prevents _id in embedded profile
+                                }
+                            });
+                        </code>
+                    </div>
+                    <div class="note-l3">
+                        <h4>_id: false</h4>
+                        <p>
+                            In Mongoose, the option _id: false is used to prevent the automatic creation of an _id field in: Embedded (sub)documents, Arrays of subdocuments.
+                        </p>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>2. One-to-Many (1:N)</h3>
+                    <p>
+                        One document relates to many documents in another collection.
+                    </p>
+                    <p>
+                        How to implement: Embed many documents (if limited and queried together) OR Reference array of ObjectIds (if large/queried separately)
+                    </p>
+                    <div class="note-l3">
+                        <h4>2i. One-to-Few</h4>
+                        <p>
+                            A document is related to a small number of subdocuments (typically less than 10 or so). Preffered Embedding the related documents directly inside the main document.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                //A user has a few saved addresses
+                                {
+                                    &nbsp;&nbsp;"_id": 1,
+                                    &nbsp;&nbsp;"name": "Walter",
+                                    &nbsp;&nbsp;"addresses": [
+                                        &nbsp;&nbsp;&nbsp;&nbsp;{ "type": "home", "city": "Chandigarh" },
+                                        &nbsp;&nbsp;&nbsp;&nbsp;{ "type": "work", "city": "Mohali" }
+                                    &nbsp;&nbsp;]
+                                }
+
+                                //mongoose schema for it:
+                                const userSchema = new mongoose.Schema({
+                                    &nbsp;&nbsp;name: String,
+                                    &nbsp;&nbsp;addresses: [{
+                                        &nbsp;&nbsp;&nbsp;&nbsp;type: {
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type: String,
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;city: String
+                                        &nbsp;&nbsp;&nbsp;&nbsp;},
+                                        &nbsp;&nbsp;&nbsp;&nbsp;_id: false // prevents _id in each address object
+                                    &nbsp;&nbsp;}]
+                                });
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>2ii. One-to-Many</h4>
+                        <p>
+                            A document is related to many other documents (dozens to thousands), but not a huge number. Preffered Referencing the related documents in a separate collection.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                Example:
+                                //A blog post has many comments
+                                //Blog Post:
+                                {
+                                    &nbsp;&nbsp;"_id": 1,
+                                    &nbsp;&nbsp;"title": "NoSQL vs SQL",
+                                    &nbsp;&nbsp;"author": "Walter"
+                                }
+
+                                //Comments:
+                                { "_id": 101, "post_id": 1, "user": "Alice", "text": "Great post!" }
+                                { "_id": 102, "post_id": 1, "user": "Bob", "text": "Thanks!" }
+
+                                //Blogpost schema:
+                                const mongoose = require('mongoose');
+                                
+                                const blogPostSchema = new mongoose.Schema({
+                                    &nbsp;&nbsp;title: String,
+                                    &nbsp;&nbsp;author: String
+                                });                                
+                                const BlogPost = mongoose.model('BlogPost', blogPostSchema);
+
+                                //Comments schema:
+                                const commentSchema = new mongoose.Schema({
+                                    post_id: {
+                                        &nbsp;&nbsp;type: mongoose.Schema.Types.ObjectId,
+                                        &nbsp;&nbsp;ref: 'BlogPost' //same name as refrenced collection name
+                                    },
+                                    user: String,
+                                    text: String
+                                });
+                                const Comment = mongoose.model('Comment', commentSchema);
+                            </code>
+                        </div>
+                        <p>
+                            <span class="bolder">type: Schema.Types.ObjectId - </span>It tells Mongoose: "This field stores an ObjectId" It's usually used to reference another document.
+                        </p>
+                        <p>
+                            <span class="bolder">ref: 'ModelName' - </span> Specifies the name of the model being referenced — here, 'BlogPost'. This tells Mongoose which collection to look in when populating this reference.
+                        </p>
                     </div>
                 </div>
             </div>
