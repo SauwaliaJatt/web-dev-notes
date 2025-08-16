@@ -335,6 +335,7 @@
             <li><a href="#section10ii">Error Handeling</a></li>
             <li><a href="#section10iii">Schema Validation</a></li>
             <li><a href="#section10iv">Express Router</a></li>
+            <li><a href="#section10v">Cookies</a></li>
             <hr>
             <li><a href="#section11">EJS</a></li>
             <li><a href="#section12">Interpolation Syntax</a></li>
@@ -1696,6 +1697,287 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Cookies -->
+        <section id="section10v" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Cookies</h2>
+                    <p>
+                        Cookies are small pieces of data that a server sends to the user's browser. The browser stores them and sends them back with subsequent requests to the same server.
+                    </p>
+                    <p>
+                        Cookies are mainly used for: Session management (logins, shopping carts), Personalization (themes, preferences), Tracking (analytics, user behavior).
+                    </p>
+                    <div class="notes">
+                        <article class="note-l2">
+                            <h3>Sending Cookies - res.cookie()</h3>
+                            <p>
+                                This is used to set a cookie from the server. It sends a Set-Cookie header in the HTTP response so that the client browser stores the cookie.
+                            </p>
+                            <p>
+                                Think of it like: Hey browser! Save this piece of data for me and send it back with every future request.
+                            </p>
+                            <p>
+                                <span class="bolder">res.cookie(name, value, [options])</span>
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    //Example:
+                                    res.cookie('username', 'Inderjit');
+
+                                    //we can send like:
+                                    app.get("/exampleRoute", (req, res) => {
+                                        &nbsp;&nbsp;res.cookie ("madeIn", "Punjab"); 
+                                        &nbsp;&nbsp;//like this we can send when someone come to specific path then it stores in all paths of website.
+
+                                        &nbsp;&nbsp;res.send ("sent");
+                                    }) :
+                                </code>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="notes">
+                        <article class="note-l2">
+                            <h3>Receiving Cookies - req.cookies</h3>
+                            <p>
+                                This is used to read cookies that the browser sends back to the server with each request.
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    //Usage:
+                                    const user = req.cookies.username;
+
+                                    //Means give me the cookie named username that the client sent back.
+
+                                    <hr>
+                                    //Full Flow Example (sending and Receiving):
+                                    const express = require('express');
+                                    const cookieParser = require('cookie-parser');
+                                    const app = express();
+                                    app.use(cookieParser());
+                                    
+                                    app.get('/set', (req, res) => {
+                                        &nbsp;&nbsp;res.cookie('language', 'English', { maxAge: 60000 });
+                                        &nbsp;&nbsp;res.send('Cookie has been sent to your browser');
+                                    });
+                                    
+                                    app.get('/read', (req, res) => {
+                                        &nbsp;&nbsp;const lang = req.cookies.language;
+                                        &nbsp;&nbsp;res.send(`Your preferred language is: ${lang}`);
+                                    });
+                                </code>
+                            </div>
+                            <div class="note-l3">
+                                <h4>cookie-parser</h4>
+                                <p>
+                                    To read cookies with req.cookies we need use cookie-parser npm package.
+                                </p>
+                                <div class="code-container">
+                                    <code>
+                                        //Steps:
+                                        1. npm install cookie-parser
+
+                                        2. const cookieParser = require('cookie-parser'); //require
+                                        3. app.use(cookieParser()); // Parse cookies on every request
+                                    </code>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="notes">
+                        <article class="note-l2">
+                            <h3>Signed Cookies</h3>
+                            <p>
+                                A signed cookie is a cookie that includes a signature to ensure it hasn't been tampered with. The value is encrypted using a secret key. If someone changes the cookie on the client-side, the signature won't match, and Express will ignore the cookie.
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    //Usage - Use cookie-parser with a Secret Key:
+                                    app.use(cookieParser('mySecretKey')); // Pass the secret key here
+                                    //this key used to sign and verify the cookies internally
+
+                                    <hr>
+                                    //Sending signed cookies - Use the {signed: true} option:
+                                    res.cookie('userID', '12345', { signed: true });
+
+                                    //This sets a cookie like: Set-Cookie: userID=s%3A12345.signature_hash
+                                </code>
+                            </div>
+                            <div class="note-l3">
+                                <h4>Receiving a Signed Cookie - req.signedCookies</h4>
+                                <p>
+                                    You must use req.signedCookies (not req.cookies) to read signed cookies.
+                                </p>
+                                <p>
+                                    req.cookies - Unsigned Cookies <br>
+                                    req.signedCookies - Signed Cookies
+                                </p>
+                                <div class="code-container">
+                                    <code>
+                                        //Example:
+                                        const id = req.signedCookies.userID;
+                                        res.send(`Your ID: ${id}`);
+
+                                        <hr>
+                                        //Complete Example - Signed Cookie Flow:
+                                        const express = require('express');
+                                        const cookieParser = require('cookie-parser');
+                                        const app = express();
+                                        
+                                        app.use(cookieParser('mySecretKey'));
+                                        
+                                        app.get('/set', (req, res) => {
+                                            &nbsp;&nbsp;res.cookie('session', 'abc123', { signed: true, maxAge: 60000 });
+                                            &nbsp;&nbsp;res.send('Signed cookie set');
+                                        });
+                                        
+                                        app.get('/get', (req, res) => {
+                                            &nbsp;&nbsp;const session = req.signedCookies.session;
+                                            &nbsp;&nbsp;if (session) {
+                                                &nbsp;&nbsp;&nbsp;&nbsp;res.send(`Your session ID: ${session}`);
+                                            &nbsp;&nbsp;} else {
+                                                &nbsp;&nbsp;&nbsp;&nbsp;res.send('No valid signed cookie found');
+                                            &nbsp;&nbsp;}
+                                        });
+                                    </code>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="notes">
+                        <article class="note-l2">
+                            <h3>Deleting a Cookie</h3>
+                            <p>
+                                To delete a cookie in Express, use - res.clearCookie('cookieName', [options])
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    //Example:
+                                    res.clearCookie('username');
+                                    //This tells the browser to Remove the cookie named username.
+
+                                    <hr>
+                                    //Deleting a Signed Cookie:
+                                    //When deleting a signed cookie, make sure you pass the same signed: true option: Because the cookie was signed when it was set
+                                    res.clearCookie('userID', { signed: true });
+
+                                    <hr>
+                                    //Full Example:
+                                    const express = require('express');
+                                    const cookieParser = require('cookie-parser');
+                                    const app = express();
+                                    
+                                    app.use(cookieParser('secret123'));
+                                    
+                                    app.get('/set', (req, res) => {
+                                        &nbsp;&nbsp;res.cookie('username', 'Inderjit', { maxAge: 60000 });
+                                        &nbsp;&nbsp;res.cookie('userID', '12345', { signed: true, maxAge: 60000 });
+                                        &nbsp;&nbsp;res.send('Cookies set');
+                                    });
+                                    
+                                    app.get('/delete', (req, res) => {
+                                        &nbsp;&nbsp;res.clearCookie('username');
+                                        &nbsp;&nbsp;res.clearCookie('userID', { signed: true }); // Needed for signed cookies
+                                        &nbsp;&nbsp;res.send('Cookies deleted');
+                                    });
+                                </code>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="notes">
+                        <article class="note-l2">
+                            <h3>Cookie Options</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Option</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>maxAge</code></td>
+                                        <td><code>number</code></td>
+                                        <td>Cookie expiration time in <strong>milliseconds</strong> (from now). E.g., <code>1000 * 60 * 60</code> =
+                                            1 hour</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>expires</code></td>
+                                        <td><code>Date</code></td>
+                                        <td>Exact date/time when the cookie expires. E.g., <code>new Date(Date.now() + 3600000)</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>httpOnly</code></td>
+                                        <td><code>boolean</code></td>
+                                        <td>If <code>true</code>, cookie <strong>cannot be accessed by JavaScript</strong> on the client-side (helps
+                                            prevent XSS)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>secure</code></td>
+                                        <td><code>boolean</code></td>
+                                        <td>If <code>true</code>, cookie is sent <strong>only over HTTPS</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>path</code></td>
+                                        <td><code>string</code></td>
+                                        <td>URL path where cookie is valid (default is <code>/</code>)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>domain</code></td>
+                                        <td><code>string</code></td>
+                                        <td>Domain where the cookie is available (e.g., <code>.example.com</code>)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>signed</code></td>
+                                        <td><code>boolean</code></td>
+                                        <td>If <code>true</code>, signs the cookie with a secret (requires <code>cookie-parser</code>)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>sameSite</code></td>
+                                        <td><code>boolean</code> or <code>'lax' | 'strict' | 'none'</code></td>
+                                        <td>Controls cross-site cookie behavior (prevents CSRF)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>priority</code></td>
+                                        <td><code>'low' | 'medium' | 'high'</code></td>
+                                        <td>Suggests priority of cookie (not widely used)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>encode</code></td>
+                                        <td><code>function</code></td>
+                                        <td>Custom function to encode cookie value</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="code-container">
+                                <code>
+                                    //Example:
+                                    app.get('/set-cookie', (req, res) => {
+                                        &nbsp;&nbsp;res.cookie('sessionToken', 'abc123', {
+                                            &nbsp;&nbsp;&nbsp;&nbsp;maxAge: 1000 * 60 * 60 * 2, // 2 hours
+                                            &nbsp;&nbsp;&nbsp;&nbsp;expires: new Date(Date.now() + 7200000), // Same as above, 2 hours
+                                            &nbsp;&nbsp;&nbsp;&nbsp;httpOnly: true, // Not accessible via client-side JS
+                                            &nbsp;&nbsp;&nbsp;&nbsp;secure: false, // Set to true if using HTTPS
+                                            &nbsp;&nbsp;&nbsp;&nbsp;path: '/', // Valid for the entire site
+                                            &nbsp;&nbsp;&nbsp;&nbsp;domain: 'localhost', //Set domain (use your own domain in real apps)
+                                            &nbsp;&nbsp;&nbsp;&nbsp;signed: true, // Protect from tampering
+                                            &nbsp;&nbsp;&nbsp;&nbsp;sameSite: 'lax', // Helps prevent CSRF
+                                            &nbsp;&nbsp;&nbsp;&nbsp;priority: 'high', // Optional (not widely supported)
+                                            &nbsp;&nbsp;&nbsp;&nbsp;encode: (val) => encodeURIComponent(val), // Optional custom encoder
+                                        &nbsp;&nbsp;});
+                                        
+                                        &nbsp;&nbsp;res.send('All cookie options applied!');
+                                    });
+                                </code>
                             </div>
                         </article>
                     </div>
