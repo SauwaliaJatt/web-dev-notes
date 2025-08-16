@@ -1617,8 +1617,9 @@
                             
                             app.use(express.json()); // For parsing application/json
                             
-                            // Mount the router
+                            // Mount the router (app.use)
                             app.use('/books', booksRouter); // handles - /books/* - all paths starting from books
+                            
                             
                             app.listen(3000, () => {
                                 &nbsp;&nbsp;console.log('Server started on port 3000');
@@ -1645,6 +1646,58 @@
                             
                             //Final Path - /books/:id
                         </code>
+                    </div>
+                    <div class="notes">
+                        <article class="note-l2">
+                            <h3>Router Options</h3>
+                            <p>
+                                These options customize how your router behaves. syntax - express.Router([options])
+                            </p>
+                            <div class="note-l3">
+                                <h4>1. Merging params (Using mergeParams: true)</h4>
+                                <p>
+                                    By default, if you create a nested router, the child router cannot access params defined in the parent router unless you explicitly enable it.
+                                </p>
+                                <p>
+                                    Solution: mergeParams: true - It allows a child router to access req.params defined in the parent router path.
+                                </p>
+                                <div class="code-container">
+                                    <code>
+                                        //require router like this in routes file:
+                                        const router = express.Router({ mergeParams: true }); //add this option 
+
+                                        //now if route in parent file(e.g - app.js) like this - /example/:id ... now id paramater is also accessibe in child file.
+                                    </code>
+                                </div>
+                            </div>
+                            <div class="note-l3">
+                                <h4>2. caseSensitive and 3. strict</h4>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Option</th>
+                                            <th>Type</th>
+                                            <th>Default</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>caseSensitive</code></td>
+                                            <td><code>boolean</code></td>
+                                            <td><code>false</code></td>
+                                            <td>Makes routing case-sensitive (<code>/Book</code> ≠ <code>/book</code>)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>strict</code></td>
+                                            <td><code>boolean</code></td>
+                                            <td><code>false</code></td>
+                                            <td>Trailing slash matters (<code>/book/</code> ≠ <code>/book</code>)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
                     </div>
                 </div>
             </div>
