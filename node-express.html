@@ -334,6 +334,7 @@
             <li><a href="#section10i">Middlewares</a></li>
             <li><a href="#section10ii">Error Handeling</a></li>
             <li><a href="#section10iii">Schema Validation</a></li>
+            <li><a href="#section10iv">Express Router</a></li>
             <hr>
             <li><a href="#section11">EJS</a></li>
             <li><a href="#section12">Interpolation Syntax</a></li>
@@ -1459,7 +1460,7 @@
         </section>
 
 
-        <!-- Error Handeling -->
+        <!-- Schema Validation -->
         <section id="section10iii" class="note-section" tabindex="0">
             <div class="container">
                 <div class="note-l1">
@@ -1537,6 +1538,114 @@
                             There are other methods and libraries to validate Schema ...
                         </p>
                     </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Express Router -->
+        <section id="section10iv" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Express Router</h2>
+                    <p>
+                        Express Router is a mini Express application that provides a way to group route handlers, middleware, and sub-routes in a modular and reusable way. 
+                    </p>
+                    <p>
+                        It helps structure your application by separating routes into different files or modules, instead of writing everything in app.js or server.js, improving maintainability and scalability. Keeps your app.js file clean.
+                    </p>
+                    <p>
+                        It works just like the main app object, meaning you can define .get(), .post(), .put(), .delete(), etc., on it.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //Steps:
+                            1. Create a Router file in routes folder
+
+                            2. Usage:
+                            //in router file
+                            const express = require('express');
+                            const router = express.Router(); //require
+
+                            router.get('/', (req, res) => { //we can use any method like get, post...
+                                &nbsp;&nbsp;//do something
+                            });
+
+                            //in main app.js file use like:
+                            const booksRouter = require('./routes/books'); require
+
+                            app.use('/startingCommonRoute', booksRouter); // Mount the router
+
+
+                            //example document structure:
+                            project/
+                            │
+                            ├── app.js
+                            ├── routes/
+                            │ &nbsp;└── example.js //router files inside router folder
+                            └── package.json
+                        </code>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            //Example:
+                            //routes/books.js
+                            const express = require('express');
+                            const router = express.Router(); //require
+                            
+                            // Sample GET route
+                            router.get('/', (req, res) => { //use router... as it is name here of router object
+                                &nbsp;&nbsp;res.send('List of books');
+                            });
+                            
+                            // Sample GET route with parameter
+                            router.get('/:id', (req, res) => {
+                                &nbsp;&nbsp;res.send(`Details of book with ID: ${req.params.id}`);
+                            });
+                            
+                            // Sample POST route
+                            router.post('/', (req, res) => {
+                                &nbsp;&nbsp;res.send('New book added');
+                            });
+                            module.exports = router; //export
+
+
+                            //app.js
+                            const express = require('express');
+                            const app = express();
+                            const booksRouter = require('./routes/books'); //require
+                            
+                            app.use(express.json()); // For parsing application/json
+                            
+                            // Mount the router
+                            app.use('/books', booksRouter); // handles - /books/* - all paths starting from books
+                            
+                            app.listen(3000, () => {
+                                &nbsp;&nbsp;console.log('Server started on port 3000');
+                            });
+
+                            //just work like app.js just replace app... with router... (or any name of router valiable).
+                        </code>
+                    </div>
+                    <p>
+                        <span class="bolder">Path Combination in Express Router - </span> When you use a router in app.js, Express automatically combines: the base path in `app.use()` + the path inside `router.&lt;method&gt;()`
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            In app.js:
+                            app.use('/books', booksRouter);
+
+                            //All paths in booksRouter will be prefixed with /books.
+
+                            routes/books.js:
+                            router.post('/:id', (req, res) => {
+                                &nbsp;&nbsp;//do something
+                            });
+
+                            
+                            //Final Path - /books/:id
+                        </code>
+                    </div>
                 </div>
             </div>
         </section>
