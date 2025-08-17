@@ -336,6 +336,7 @@
             <li><a href="#section10iii">Schema Validation</a></li>
             <li><a href="#section10iv">Express Router</a></li>
             <li><a href="#section10v">Cookies</a></li>
+            <li><a href="#section10vi">Sessions</a></li>
             <hr>
             <li><a href="#section11">EJS</a></li>
             <li><a href="#section12">Interpolation Syntax</a></li>
@@ -1977,6 +1978,192 @@
                                         
                                         &nbsp;&nbsp;res.send('All cookie options applied');
                                     });
+                                </code>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Sessions -->
+        <section id="section10vi" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Sessions</h2>
+                    <p>
+                        Sessions are a way to store and manage user-specific data across multiple requests or page visits during a user's interaction with a website. Since HTTP is a stateless protocol, sessions help maintain state, allowing servers to recognize and track users between requests.
+                    </p>
+                    <p>
+                        <ul>
+                            <li>Purpose - Store user-specific data (like login info, cart items) temporarily.</li>
+                            <li>Storage - Data is stored on the server, and a unique ID (Session ID) is stored in the client's cookie.</li>
+                            <li>Lifespan - Lasts until the user closes the browser or after a timeout.</li>
+                            <li>Secure - More secure than cookies because sensitive data is not stored on the client.</li>
+                        </ul>
+                    </p>
+                    <p>
+                        How Sessions Work: <br>
+                        <ol>
+                            <li>User logs in → Server creates a session (e.g., for authentication).</li>
+                            <li>Server sends back a Session ID → Stored in the client's browser as a cookie.</li>
+                            <li>For each new request → Browser sends the Session ID to the server.</li>
+                            <li>Server uses the ID to fetch the correct session data.</li>
+                        </ol>
+                    </p>
+                    <div class="note-l3">
+                        <h4>State</h4>
+                        <p>
+                            State refers to remembering information about a user or application between different interactions.
+                        </p>
+                        <p>
+                            Examples of State: A user is logged in or logged out, Items added to a shopping cart, A user's language preference. Without state, each new request would "forget" the user's actions.
+                        </p>
+                        <p>
+                            Statefull Protocol e.g - FTP, Telnet, HTTPS (with sessions).
+                        </p>
+                        <hr>
+                        <p>
+                            <span class="bolder">Stateless Protocols - </span> forgets everything between requests. e.g - HTTP, UDP.
+                        </p>
+                    </div>
+                    <p>
+                        Since http is a stateless protocol that's why we use sessions to add state to stateless HTTP.
+                    </p>
+                    <div class="note-l3">
+                        <h4>express-session</h4>
+                        <p>
+                            The most popular middleware to manage sessions in Express.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //Installation:
+                                npm install express-session
+
+                                //Setup:
+                                const session = require('express-session'); //require
+
+                                //Creating Session:
+                                app.use(session({
+                                    &nbsp;&nbsp;secret: 'your-secret-key', // used to sign the session ID cookie
+                                    &nbsp;&nbsp;resave: false, // don't save session if unmodified
+                                    &nbsp;&nbsp;saveUninitialized: false, // don't save new sessions unless something is stored
+                                    &nbsp;&nbsp;cookie: { secure: false } // set true if using HTTPS
+                                }));
+                            </code>
+                        </div>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            //Example Use Case: Login
+                            //1. Store session data
+                            app.post('/login', (req, res) => {
+                                &nbsp;&nbsp;// After verifying user credentials
+                                &nbsp;&nbsp;req.session.username = 'Inderjit'; //we can create variables in session object like this
+                                &nbsp;&nbsp;res.send('Logged in');
+                            });
+
+                            //2. Access session data
+                            app.get('/dashboard', (req, res) => {
+                                &nbsp;&nbsp;if (req.session.username) {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;res.send(`Welcome ${req.session.username}`);
+                                &nbsp;&nbsp;} else {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;res.send('Please log in first');
+                                &nbsp;&nbsp;}
+                            });
+
+                            //3. Destroy session (logout)
+                            app.get('/logout', (req, res) => {
+                                &nbsp;&nbsp;req.session.destroy(err => { //use .destroy
+                                &nbsp;&nbsp;if (err) return res.send('Error');
+                                    &nbsp;&nbsp;&nbsp;&nbsp;res.send('Logged out');
+                                &nbsp;&nbsp;});
+                            });
+                        </code>
+                    </div>
+                    <div class="note-l3">
+                        <h4>Session Storage</h4>
+                        <p>
+                            <ul>
+                                <li>Session data is stored on the server — by default, it's saved in memory. This is fine for development but not suitable for production.</li>
+                                <li>For production, use a persistent session store like Redis, MongoDB, or SQL DB to avoid data loss and support multiple servers.</li>
+                                <li>Only the Session ID is stored in a cookie on the client-side. The actual session data stays on the server, linked by this ID.</li>
+                                <li>A session ID remains the same across different tabs of the same browser, but it changes when accessed from a different browser or incognito/private mode.</li>
+                            </ul>              
+                        </p>
+                    </div>
+                    <div class="notes">
+                        <article class="note-l2">
+                            <h3>Session Options</h3>
+                            <table border="1" cellpadding="8" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Option</th>
+                                        <th>Suggested Value</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>secret (required)</code></td>
+                                        <td><code>'your-secret-key'</code></td>
+                                        <td>Used to sign the session ID cookie. Should be a strong, random string.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>resave (required)</code></td>
+                                        <td><code>false</code></td>
+                                        <td>Prevents unnecessary session save if not modified.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>saveUninitialized (required)</code></td>
+                                        <td><code>false</code></td>
+                                        <td>Prevents saving empty sessions. Good for login-based apps.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>cookie.secure</code></td>
+                                        <td><code>true</code> (HTTPS), <code>false</code> (HTTP)</td>
+                                        <td>Send cookies only over HTTPS. Must be true in production with HTTPS.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>cookie.maxAge</code></td>
+                                        <td><code>1000 * 60 * 60</code> (1 hour)</td>
+                                        <td>Sets session expiry time (in milliseconds).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>name</code></td>
+                                        <td><code>'sid'</code></td>
+                                        <td>Custom name for the session ID cookie. Default is <code>connect.sid</code>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>rolling</code></td>
+                                        <td><code>true</code></td>
+                                        <td>Resets <code>maxAge</code> countdown on each request. Keeps user logged in.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>store</code></td>
+                                        <td><code>RedisStore</code>, <code>MongoStore</code>, etc.</td>
+                                        <td>Defines where to store session data (recommended in production).</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>
+                                there may other options also...
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    //Example:
+                                    app.use(session({
+                                        &nbsp;&nbsp;secret: 'your-secret-key',
+                                        &nbsp;&nbsp;resave: false,
+                                        &nbsp;&nbsp;saveUninitialized: false,
+                                        &nbsp;&nbsp;name: 'sid',
+                                        &nbsp;&nbsp;cookie: {
+                                            &nbsp;&nbsp;&nbsp;&nbsp;secure: false, // Set to true if using HTTPS
+                                            &nbsp;&nbsp;&nbsp;&nbsp;maxAge: 1000 * 60 * 60 // 1 hour
+                                        &nbsp;&nbsp;},
+                                        &nbsp;&nbsp;rolling: true
+                                    }));
                                 </code>
                             </div>
                         </article>
