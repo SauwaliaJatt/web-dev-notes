@@ -2096,7 +2096,7 @@
                     <div class="notes">
                         <article class="note-l2">
                             <h3>Session Options</h3>
-                            <table border="1" cellpadding="8" cellspacing="0">
+                            <table>
                                 <thead>
                                     <tr>
                                         <th>Option</th>
@@ -2164,6 +2164,118 @@
                                         &nbsp;&nbsp;},
                                         &nbsp;&nbsp;rolling: true
                                     }));
+                                </code>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="notes">
+                        <article class="note-l2">
+                            <h3>connect-flash</h3>
+                            <p>
+                                connect-flash is a middleware used in Express.js to store and display flash messages — temporary messages used typically for notifications like success or error alerts (e.g., after a form submission or login attempt). These messages are stored in the session and removed after being displayed once.
+                            </p>
+                            <p>
+                                Flash messages are stored in the session. First, must setup sessions as usual by enabling cookieParser and session middleware.
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    //Installation:
+                                    npm install connect-flash
+
+                                    //Setup:
+                                    const flash = require('connect-flash'); //require
+                                    // Setup flash middleware
+                                    app.use(flash());
+
+                                    //Set a flash message:
+                                    req.flash('key', 'message');
+
+                                    Flash Message Flow:
+                                    Set a flash message: req.flash('key', 'message')
+                                    Redirect to a page
+                                    On the next page load, use req.flash('key') to get the message
+                                    The message is removed from the session after being accessed once
+
+                                    <hr>
+                                    //Example:
+                                    //Register route
+                                    app.get("/register", (req, res) => {
+                                        &nbsp;&nbsp;let { name = "anonymous" } = req.query;
+                                        &nbsp;&nbsp;req.session.name = name;
+                                        &nbsp;&nbsp;req.flash("success", "User registered successfully!"); //create flash message like this
+                                        &nbsp;&nbsp;res.redirect("/hello");
+                                    });
+                                    
+                                    //Hello route
+                                    app.get("/hello", (req, res) => {
+                                        &nbsp;&nbsp;res.render("page", { name: req.session.name, message: req.flash("success") });
+                                        &nbsp;&nbsp;// pass flash message like req.flash("key") to ejs file.
+                                    });
+
+                                    
+                                    //in ejs file use this message and style...
+                                    &lt;% message %&gt;
+                                </code>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="notes">
+                        <article class="note-l2">
+                            <h3>res.locals</h3>
+                            <p>
+                                res.locals in Express.js is an object that contains local variables available only to the current response (i.e., for the current request). It's commonly used to pass data (like flash messages, user info, or settings) to views rendered by a template engine like EJS, Pug, etc.
+                            </p>
+                            <p>
+                                You use res.locals to make data accessible in your EJS (or other view) templates without having to explicitly pass it in every res.render() call.
+                            </p>
+                            <div class="code-container">
+                                <code>
+                                    //Create res.local variable like this:
+                                    res.locals.variableName = value;
+
+                                    //Example:
+                                    // Make flash messages available in all views - app.use
+                                    app.use((req, res, next) => {
+                                        &nbsp;&nbsp;res.locals.success_msg = req.flash('success');
+                                        &nbsp;&nbsp;res.locals.error_msg = req.flash('error');
+                                        &nbsp;&nbsp;next();
+                                    });
+                                    
+                                    // Routes:
+                                    // Home Page
+                                    app.get('/', (req, res) => {
+                                        &nbsp;&nbsp;res.render('home');
+                                    });
+                                    
+                                    // Simulated Register Route
+                                    app.post('/register', (req, res) => {
+                                        &nbsp;&nbsp;const { name } = req.body;
+                                        
+                                        &nbsp;&nbsp;if (!name || name.trim() === '') {
+                                            &nbsp;&nbsp;&nbsp;&nbsp;req.flash('error', 'Name is required!');
+                                            &nbsp;&nbsp;&nbsp;&nbsp;return res.redirect('/');
+                                        &nbsp;&nbsp;}
+                                        
+                                        &nbsp;&nbsp;req.session.name = name;
+                                        &nbsp;&nbsp;req.flash('success', `Welcome, ${name}! You have registered successfully.`);
+                                        &nbsp;&nbsp;res.redirect('/');
+                                    });
+
+                                    //in ejs something like:
+                                    &lt;% if (success_msg) { %&gt;
+                                        &nbsp;&nbsp;&lt;p style="color: green;"&gt;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;%= success_msg %&gt;
+                                        &nbsp;&nbsp;&lt;/p&gt;
+                                    &lt;% } %&gt;
+                                    
+                                    &lt;% if (error_msg) { %&gt;
+                                        &nbsp;&nbsp;&lt;p style="color: red;"&gt;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;%= error_msg %&gt;
+                                        &nbsp;&nbsp;&lt;/p&gt;
+                                    &lt;% } %&gt;
+
+                                    <hr>
+                                    without ejs we need to pass in res.render object
                                 </code>
                             </div>
                         </article>
