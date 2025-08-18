@@ -337,6 +337,7 @@
             <li><a href="#section10iv">Express Router</a></li>
             <li><a href="#section10v">Cookies</a></li>
             <li><a href="#section10vi">Sessions</a></li>
+            <li><a href="#section10vii">Authentication</a></li>
             <hr>
             <li><a href="#section11">EJS</a></li>
             <li><a href="#section12">Interpolation Syntax</a></li>
@@ -2283,6 +2284,90 @@
                 </div>
             </div>
         </section>
+
+
+        <!-- Authentication -->
+        <section id="section10vii" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Authentication</h2>
+                    <p>
+                        Authentication is the process of verifying the identity of a user, device, or system, typically to grant access to resources or services. It ensures that the entity requesting access is who or what it claims to be.
+                    </p>
+                    <p>
+                        Authentication Types:
+                        <ul>
+                            <li>Basic Authentication</li>
+                            <li>Form-based Authentication</li>
+                            <li>Session-based Authentication</li>
+                            <li>Token-based Authentication (e.g., JWT)</li>
+                            <li>OAuth 2.0 & OpenID Connect</li>
+                            <li>Social Login (Google, Facebook, etc.)</li>
+                            <li>Multi-Factor Authentication (MFA)</li>
+                            <li>Biometric Authentication (Face ID, Fingerprint)</li>
+                        </ul>
+                    </p>
+                    <p>
+                        <span class="bolder">Common Technologies/Tools : </span> Hashing Libraries (e.g., bcrypt, argon2), JWT Libraries (e.g., jsonwebtoken in Node.js), Passport.js (Node.js authentication middleware), Firebase Authentication, Auth0 / Okta / Supabase Auth, Django Authentication System, Laravel Breeze/Fortify/Jetstream e.t.c.
+                    </p>
+                    <p>
+                        <span class="bolder">Security Concepts : </span> Password Hashing & Salting, HTTPS (SSL/TLS), Cross-Site Request Forgery (CSRF), Cross-Site Scripting (XSS), Brute Force Attacks, Rate Limiting / Throttling, CAPTCHA Integration e.t.c.
+                    </p>
+                    <p>
+                        There any many concepts/Technologies we can study about authentication later...
+                    </p>
+                     <div class="notes">
+                        <article class="note-l2">
+                            <h3>Storing Password</h3>
+                            <div class="note-l3">
+                                <h4>Hashing</h4>
+                                <p>
+                                    Hashing is the process of converting data (like a password) into a fixed-length string of characters using a hash function. The output is called a hash or digest.
+                                </p>
+                                <p>
+                                    One-way process: You cannot reverse the hash to get the original input. Prefer slow algorithms in hashing.
+                                </p>
+                                <p>
+                                    Same output on same input so When logging in, the input password is hashed again and compared with the stored hash.
+                                </p>
+                                <div class="code-container">
+                                    <code>
+                                        //means:
+                                        User sets password: mypassword123
+
+                                        Server hashes it using gets something like:
+                                        $2b$12$KIXQfzcS5CeDZDHLX0QWuOItCqx
+                                        //Stores this hash in the database
+                                    </code>
+                                </div>
+                            </div>
+                            <div class="note-l3">
+                                <h4>Salting</h4>
+                                <p>
+                                    A salt is random data added to the password before hashing. Prevents rainbow table attacks (precomputed hash lookup) it make hash unique.
+                                </p>
+                                <div class="code-container">
+                                    <code>
+                                        hash(password + salt) → unpredictable hash value
+
+                                        //means:
+                                        hash(password123 + randomSalt)
+
+                                        randomSalt can be any string character combination of any length. e.g - @#AEJ!#@H!@#@...
+
+                                        On login:
+                                        Retrieve salt
+                                        Combine input password + salt
+                                        Hash again and compare with stored hash
+                                    </code>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
 
         <!-- EJS -->
