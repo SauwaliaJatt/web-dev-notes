@@ -338,6 +338,7 @@
             <li><a href="#section10v">Cookies</a></li>
             <li><a href="#section10vi">Sessions</a></li>
             <li><a href="#section10vii">Authentication</a></li>
+            <li><a href="#section10viii">Passport.js</a></li>
             <hr>
             <li><a href="#section11">EJS</a></li>
             <li><a href="#section12">Interpolation Syntax</a></li>
@@ -2368,6 +2369,173 @@
             </div>
         </section>
 
+
+        <!-- Authentication -->
+        <section id="section10viii" class="note-section" tabindex="0">
+            <div class="container">
+                <div class="note-l1">
+                    <h2>Passport.js</h2>
+                    <p>
+                        Passport.js is a popular authentication middleware for Node.js, designed to simplify the process of implementing user authentication in web applications. It's highly flexible, modular, and integrates seamlessly with Express-based apps, supporting over 500 authentication strategies, including local username/password, OAuth (e.g., Facebook, Google, Twitter), JWT, and more
+                    </p>
+                    <p>
+                        Key Features of Passport.js: 
+                        <ul>
+                            <li>Modular Design: Uses "strategies" as plugins to handle different authentication methods, allowing developers to pick and choose based on their needs.</li>
+                            <li>Express-Compatible: Works as middleware in Express or Connect-based applications, requiring passport.initialize() and optionally passport.session() for persistent login sessions.</li>
+                            <li>Session Management: Supports session-based authentication by serializing/deserializing user data, typically storing the user ID in the session and retrieving user details on subsequent requests.</li>
+                        </ul>
+                    </p>
+                    <div class="note-l3">
+                        <h4>Strategies</h4>
+                        <p>
+                            A strategy is a plugin that tells Passport how to authenticate a user. Each strategy represents a different way of logging in — like via username/password, Google, Facebook, or JWT tokens.
+                        </p>
+                        <p>
+                            Example Strategies: passport-local(Username + password login), passport-jwt (JWT token-based login APIs), passport-google-oauth20, passport-facebook e.t.c we can explore on passportjs website.
+                        </p>
+                        <p>
+                            <span class="bolder">To use specific strategy install it: </span> npm i strategy_name. e.g - npm i passport-local. We can use multiple strategies also to give different authentication methods.
+                        </p>
+                    </div>
+                    <div class="note-l3">
+                        <h4>passport-local-mongoose</h4>
+                        <p>
+                            passport-local-mongoose is a Mongoose plugin that simplifies using Passport.js with Mongoose for local authentication (i.e., username & password).
+                        </p>
+                        <p>
+                            What It Does:
+                            <ul>
+                                <li>Adds username + hashed password fields to your schema.</li>
+                                <li>Adds methods like: .register() - to create users, .authenticate() - for login, .serializeUser() / .deserializeUser() - for session handling</li>
+                                <li>Automatically hashes passwords using bcrypt under the hood.</li>
+                            </ul>
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                npm i passport-local-mongoose
+
+                                //How to Use:
+                                //User Schema with Plugin:
+                                const mongoose = require('mongoose');
+                                const passportLocalMongoose = require('passport-local-mongoose');
+                                
+                                const UserSchema = new mongoose.Schema({});
+                                UserSchema.plugin(passportLocalMongoose); //use plugin
+                            </code>
+                        </div>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            //full example - login/signup with passport-local:
+                            npm install express mongoose passport passport-local passport-local-mongoose express-session connect-flash ejs
+
+                            //Mongoose User Model (models/user.js):
+                            const mongoose = require('mongoose');
+                            const passportLocalMongoose = require('passport-local-mongoose');
+                            
+                            const UserSchema = new mongoose.Schema({
+                                &nbsp;&nbsp;email: String
+                            });
+                            
+                            UserSchema.plugin(passportLocalMongoose); // Adds username + password hashing
+                            
+                            module.exports = mongoose.model('User', UserSchema);
+
+
+                            //app.js:
+                            const express = require('express');
+                            const mongoose = require('mongoose');
+                            const session = require('express-session');
+                            const flash = require('connect-flash');
+                            const passport = require('passport');
+                            const LocalStrategy = require('passport-local');
+                            const User = require('./models/user');
+                            
+                            const app = express();
+                            
+                            // MongoDB connection
+                            mongoose.connect('mongodb://127.0.0.1:27017/authDemo')
+                                &nbsp;&nbsp;.then(() => console.log('MongoDB connected'))
+                                &nbsp;&nbsp;.catch(err => console.log(err));
+                            
+                            app.set('view engine', 'ejs');
+                            app.use(express.urlencoded({ extended: true }));
+                            
+                            // Session(using session is must) & flash config
+                            app.use(session({ secret: 'secretkey123', resave: false, saveUninitialized: false }));
+                            app.use(flash());
+                            
+                            // Passport config
+                            app.use(passport.initialize());
+                            app.use(passport.session());
+                            passport.use(new LocalStrategy(User.authenticate()));
+                            passport.serializeUser(User.serializeUser());
+                            passport.deserializeUser(User.deserializeUser());
+                            
+                            // Global flash + user
+                            app.use((req, res, next) => {
+                                &nbsp;&nbsp;res.locals.currentUser = req.user;
+                                &nbsp;&nbsp;res.locals.success = req.flash('success');
+                                &nbsp;&nbsp;res.locals.error = req.flash('error');
+                                &nbsp;&nbsp;next();
+                            });
+                            
+                            // Routes
+                            app.get('/register', (req, res) => {
+                                &nbsp;&nbsp;res.render('register');
+                            });
+                            
+                            app.post('/register', async (req, res) => {
+                                &nbsp;&nbsp;try {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;const { username, email, password } = req.body;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;const user = new User({ username, email });
+                                    &nbsp;&nbsp;&nbsp;&nbsp;const registeredUser = await User.register(user, password); //pass password here
+                                    &nbsp;&nbsp;&nbsp;&nbsp;req.login(registeredUser, err => {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (err) return next(err);
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;req.flash('success', 'Welcome!');
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res.redirect('/');
+                                    &nbsp;&nbsp;&nbsp;&nbsp;});
+                                &nbsp;&nbsp;} catch (err) {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;req.flash('error', err.message);
+                                    &nbsp;&nbsp;&nbsp;&nbsp;res.redirect('/register');
+                                &nbsp;&nbsp;}
+                            });
+                            
+                            app.get('/login', (req, res) => {
+                                &nbsp;&nbsp;res.render('login');
+                            });
+                            
+                            app.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
+                                &nbsp;&nbsp;req.flash('success', 'Welcome back!');
+                                &nbsp;&nbsp;res.redirect('/');
+                            });
+                            
+                            app.get('/logout', (req, res, next) => {
+                                &nbsp;&nbsp;req.logout(err => {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;if (err) return next(err);
+                                    &nbsp;&nbsp;&nbsp;&nbsp;req.flash('success', 'Logged out successfully.');
+                                    &nbsp;&nbsp;&nbsp;&nbsp;res.redirect('/');
+                                &nbsp;&nbsp;});
+                            });
+                            
+                            // Middleware to protect routes
+                            function isLoggedIn(req, res, next) {
+                                &nbsp;&nbsp;if (req.isAuthenticated()) return next();
+                                &nbsp;&nbsp;req.flash('error', 'You must be logged in');
+                                &nbsp;&nbsp;res.redirect('/login');
+                            }
+                            
+                            app.get('/secret', isLoggedIn, (req, res) => {
+                                &nbsp;&nbsp;res.send('This is a secret page. Only for logged-in users!');
+                            });
+                            
+                            app.listen(3000, () => console.log('Server started on http://localhost:3000'));
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </section>
 
 
         <!-- EJS -->
