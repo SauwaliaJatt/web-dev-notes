@@ -1704,6 +1704,45 @@
                             </div>
                         </article>
                     </div>
+                    <div class="notes">
+                        <article class="note-l2">
+                            <h3>Router.route</h3>
+                            <p>
+                                router.route() is a way to create chained route handlers for a specific path. It's a cleaner and more modular alternative to writing multiple router.get(), router.post(), etc., for the same route.
+                            </p>
+                            <div class="code-container">
+                                    <code>
+                                        //Basic syntax:
+                                        router.route(path)
+                                            &nbsp;&nbsp;.get(handlerFunction)
+                                            &nbsp;&nbsp;.post(handlerFunction)
+                                            &nbsp;&nbsp;// ... other HTTP methods
+
+
+                                        //example:
+                                        //Suppose you want to handle GET and POST requests for /users.
+                                        router.route('/users')
+                                            &nbsp;&nbsp;.get((req, res) => {
+                                                &nbsp;&nbsp;&nbsp;&nbsp;res.send('Get all users');
+                                            &nbsp;&nbsp;})
+                                            &nbsp;&nbsp;.post((req, res) => {
+                                                &nbsp;&nbsp;&nbsp;&nbsp;res.send('Create a new user');
+                                            &nbsp;&nbsp;});
+                                        //no need to write path again and again for same path
+
+                                    
+                                        //This is equivalent to:
+                                        router.get('/users', (req, res) => {
+                                            &nbsp;&nbsp;res.send('Get all users');
+                                        });
+                                        
+                                        router.post('/users', (req, res) => {
+                                            &nbsp;&nbsp;res.send('Create a new user');
+                                        });
+                                    </code>
+                                </div>
+                        </article>
+                    </div>
                 </div>
             </div>
         </section>
