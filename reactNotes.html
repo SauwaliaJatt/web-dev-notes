@@ -165,6 +165,7 @@
 
         .note-l3 p {
             font-size: 1.15rem;
+            margin-bottom: 10px;
             color: #b1bac4;
         }
 
@@ -306,8 +307,8 @@
         <ul>
             <li><a href="#section1">React</a></li>
             <li><a href="#section2">Setup and Project Structure</a></li>
-            <li><a href="#section3">Insert</a></li>
-            <li><a href="#section4">View Data</a></li>
+            <li><a href="#section3">React Components</a></li>
+            <li><a href="#section4">Import, Export</a></li>
             <li><a href="#section5">Query Operators</a></li>
             <li><a href="#section6">Update</a></li>
             <li><a href="#section7">Delete</a></li>
@@ -349,7 +350,7 @@
 
 
         <!-- Setup And Project Structure -->
-         <section id="section1" class="note-section" tabindex="0">
+        <section id="section2" class="note-section" tabindex="0">
             <div class="note-l1">
                 <h2>Setup And Project Structure</h2>
                 <div class="note-l2">
@@ -382,31 +383,295 @@
                 </div>
                 <div class="note-l2">
                     <h3>Project Structure</h3>
+                    <div class="code-container">
+                        <code>
+                            //Vite creates a simple structure:
+                            my-react-app/
+                            ├── node_modules/ → Installed packages (auto-generated)
+                            ├── public/ → Public static files
+                            │ └── vite.svg → Default Vite logo (can be used in app)
+                            ├── src/ → All your React code lives here
+                            │ ├── assets/ → Place images, SVGs, or static assets
+                            │ ├── App.jsx → Main component (root UI)
+                            │ ├── main.jsx → App entry point (renders &lt;App /&gt;)
+                            │ └── index.css → Global styles
+                            ├── .gitignore → Files/folders Git should ignore
+                            ├── index.html → Main HTML file, loads React
+                            ├── package.json → Project config + dependencies
+                            ├── vite.config.js → Vite configuration
+                        </code>
+                    </div>
                     <p>
-                        Setting up React with Vite is one of the fastest and easiest ways to start a modern React project. Vite is a modern build tool that's faster and more optimized than Create React App (CRA). Here's a step-by-step guide to setting up React with Vite:
+                        <ul>
+                            <li><span class="bolder">node_modules/:</span> Contains all libraries and dependencies installed via npm (e.g.,
+                                React, Vite). It's auto-generated when you run <code>npm install</code> and should not be edited or committed to
+                                Git due to its size.</li>
+                        
+                            <li><span class="bolder">public/:</span> Stores static files like images or icons (e.g., vite.svg) that are served
+                                directly at the app's root URL (e.g., <code>/vite.svg</code>). These files aren’t processed or bundled by Vite.
+                            </li>
+                        
+                            <li><span class="bolder">public/vite.svg:</span> A sample static file (the Vite logo) included by default. You can
+                                add other static assets like <code>favicon.ico</code> here for direct access.</li>
+                        
+                            <li><span class="bolder">src/:</span> The main folder for your React app's source code, including components,
+                                styles, and assets that Vite processes during development and build.</li>
+                        
+                            <li><span class="bolder">src/assets/:</span> Holds assets like images or fonts that are imported into your code
+                                (e.g., <code>import logo from './assets/logo.png'</code>). Vite optimizes these for production, unlike public/
+                                files.</li>
+                        
+                            <li><span class="bolder">src/App.jsx:</span> The primary React component defining your app’s UI. It’s a functional
+                                component using JSX, where you can start building your interface (e.g., edit to add HTML-like content).</li>
+                        
+                            <li><span class="bolder">src/main.jsx:</span> The entry point where the React app is rendered into the DOM. It
+                                imports App.jsx and uses <code>ReactDOM.createRoot</code> to attach it to the <code>index.html</code>’s
+                                <code>&lt;div id="root"&gt;</code>.</li>
+                        
+                            <li><span class="bolder">src/index.css:</span> A global CSS file for app-wide styles, imported in
+                                <code>main.jsx</code>. Use it for base styles (e.g., <code>body { margin: 0; }</code>) or add component-specific
+                                styles elsewhere.</li>
+                        
+                            <li><span class="bolder">.gitignore:</span> A Git configuration file listing files/folders to ignore (e.g.,
+                                <code>node_modules/</code>, <code>dist/</code>). Prevents unnecessary or sensitive files from being tracked.
+                            </li>
+                        
+                            <li><span class="bolder">index.html:</span> The main HTML template served by Vite. It includes a
+                                <code>&lt;div id="root"&gt;&lt;/div&gt;</code> where the React app is injected and links to scripts/styles.</li>
+                        
+                            <li><span class="bolder">package.json:</span> Defines project details (name, version) and lists dependencies (e.g.,
+                                React) and scripts (e.g., <code>npm run dev</code>, <code>npm run build</code>) for running and building the
+                                app.</li>
+                        
+                            <li><span class="bolder">vite.config.js:</span> Configures Vite's behavior, like plugins, server settings, or build
+                                options. You can customize it to add features like TypeScript or CSS preprocessors.</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- React Components -->
+        <section id="section3" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>React Components</h2>
+                <p>
+                    Components are independent, reusable pieces of UI (e.g., buttons, headers, forms) written as JavaScript functions or classes. They accept inputs (props) and return JSX to describe what should be rendered.
+                </p>
+                <p>
+                    Purpose: Break down the UI into manageable, reusable parts, making code modular and easier to maintain.
+                </p>
+                <p>
+                    Types:
+                    <ul>
+                        <li>Functional Components: Modern, preferred way using functions (e.g., function Button() { return &lt;button&gt; Click me &lt;'/button&gt;; }).</li>
+                        <li>Class Components: Older approach using ES6 classes, less common since Hooks were introduced.</li>
+                    </ul>
+                </p>
+                <div class="note-l2">
+                    <h3>Creating and Organizing Components</h3>
+                    <p>
+                        Components are primarily located in the src/ directory or its sub folders.
+                    </p>
+                    <div class="note-l3">
+                        <h4>src/App.jsx:</h4>
+                        <p>
+                            Role: This is the main React component, acting as the root of your application's UI.
+                        </p>
+                        <p>
+                            Details: It's a functional component that returns JSX, defining the initial UI. The default Vite template includes a sample App.jsx with a simple layout (e.g., a heading and counter).
+                        </p>
+                        <p>
+                            Usage: You can modify App.jsx to include other components or add your UI logic.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //Example:
+                                import './index.css';
+
+                                function App() {
+                                    &nbsp;&nbsp;return (
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt; Welcome to My React App &lt;/h1&gt;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt; Built with Vite! &lt;/p&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+                                    &nbsp;&nbsp;);
+                                }
+
+                                export default App;  //export
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>src/:</h4>
+                        <p>
+                            Role: The primary folder where you create and organize additional components.
+                        </p>
+                        <p>
+                            Details: While the default Vite setup only includes App.jsx, you can add more components as .jsx files in src/ or subfolders (e.g., src/components/Button.jsx).
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //Example: Create a new component src/components/Button.jsx:
+                                function Button({ label }) {
+                                    &nbsp;&nbsp;return &lt;button&gt; {label} &lt;/button&gt;;
+                                }
+                                export default Button;
+
+                                //Then import and use it in App.jsx:
+                                import Button from './components/Button.jsx'; //import button to use
+                                function App() {
+                                    &nbsp;&nbsp;return (
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt; My App &lt;/h1&gt;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Button label="Click Me" /&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+                                    &nbsp;&nbsp;);
+                                }
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>src/main.jsx:</h4>
+                        <p>
+                            Role: Not a component itself but the entry point that renders the App component into the DOM.
+                        </p>
+                        <p>
+                            Details: It uses ReactDOM.createRoot to mount App into the &lt;div id="root"&gt; in index.html. You can wrap App with other components or providers (e.g., Redux) here.
+                        </p>
+                    </div>
+                    <div class="note-l3">
+                        <h4>src/index.css:</h4>
+                        <p>
+                            Role: Provides global styles that can be applied to components.
+                        </p>
+                        <p>
+                            Details: Styles defined here (e.g., body { font-family: Arial; }) affect all components unless overridden by component-specific styles (e.g., CSS modules).
+                        </p>
+                    </div>
+                    <div class="note-l3">
+                        <h4>src/assets/:</h4>
+                        <p>
+                            Role: Stores assets (e.g., images) that components can import.
+                        </p>
+                        <p>
+                            Details: For example, a component might use an image: import logo from './assets/logo.png'; &lt;img src={logo} alt="Logo" /&gt;.
+                        </p>
+                    </div>
+                </div>
+                <div class="note-l3">
+                    <h4>&lt;ComponentName /&gt; or &lt;ComponentName&gt;&lt;/ComponentName&gt;</h4>
+                    <p>
+                        These are JSX tags used to render a React component inside another component.
+                    </p>
+                    <p>
+                        <span class="bolder">&lt;ComponentName /&gt;: </span>Purpose: Self-closing tag used to render a component without children (no content between opening and closing tags). 
+                        <br> When to Use: When the component doesn't need to wrap other elements or components.
+                    </p>
+                    <p>
+                        <span class="bolder">&lt;ComponentName&gt;&lt;/ComponentName&gt;: </span>Purpose: Opening and closing tags used to render a component with children (content, elements, or other components between the tags). 
+                        <br>When to Use: When you want to pass JSX, text, or other components as children to ComponentName. 
+                        <br>Example: &lt;ComponentName&gt; &lt;p&gt;Child content&lt;/p&gt; &lt;/ComponentName&gt; renders the component with a paragraph as its child.
                     </p>
                     <div class="code-container">
                         <code>
-                            //Steps:
-                            //1.Create a New React Project:
-                            npm create vite@latest
-
-                            //2.Enter project details e.g:
-                            Project name: my-react-app
-                            Framework: React
-                            Variant: JavaScript or TypeScript e.t.c
-
-                            //3. Move into project folder:
-                            cd my-react-app
-
-                            //4.Install dependencies:
-                            npm install
-
-                            <hr>
-                            //To start a react server:
-                            npm run dev
+                            function Welcome() {
+                                &nbsp;&nbsp;return &lt;h2&gt;Welcome to the site!&lt;/h2&gt;;
+                            }
+                            
+                            function App() {
+                                &nbsp;&nbsp;return (
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Welcome /&gt; //This line renders the Welcome component
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+                                &nbsp;&nbsp;);
+                            }
                         </code>
                     </div>
+                </div>
+                <div class="note-l3">
+                    <h4>component return only one element?</h4>
+                    <p>
+                        A component must return only one single parent element. BUT that one element can contain many nested elements inside.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //Example 1: Incorrect - Multiple siblings without wrapper
+                            function MyComponent() {
+                                &nbsp;&nbsp;return (
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Title&lt;/h1&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Description&lt;/p&gt; //incorrect - will throw arror
+                                &nbsp;&nbsp;);
+                            }
+
+
+                            //Example 2: Correct - With a parent <div>
+                            function MyComponent() {
+                                &nbsp;&nbsp;return (
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Title&lt;/h1&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Description&lt;/p&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+                                &nbsp;&nbsp;);
+                            }
+
+                            //This works because you're returning one element (div), which contains other elements inside.
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Import, Export -->
+        <section id="section4" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Import, Export</h2>
+                <p>
+                    React apps are made of many components stored in different files. You can export components, functions, or variables.
+                </p>
+                <p>
+                    To use code from one file in another, you must: export it from the source file AND import it into the destination file 
+                </p>
+                <p>
+                    Types:
+                    <ul>
+                        <li>1. Default Export - Use this when you're exporting only one thing from a file.</li>
+                        <li>2. Named Export - Use this when you're exporting multiple things from the same file.</li>
+                    </ul>
+                </p>
+                <div class="code-container">
+                    <code>
+                        //1.Example - Default Export:
+                        //Header.jsx
+                        function Header() {
+                            &nbsp;&nbsp;return &lt;h1&gt;My App&lt;/h1&gt;;
+                        }
+                        export default Header; // default export
+
+
+                        //App.jsx
+                        import Header from './Header'; // import, no curly braces
+                        //You can name it anything when importing.
+
+                        <hr>
+                        //2.Example - Named Export:
+                        //utils.js
+                        export function add(a, b) {
+                            &nbsp;&nbsp;return a + b;
+                        }
+                        
+                        export function subtract(a, b) {
+                            &nbsp;&nbsp;return a - b;
+                        }
+
+                        
+                        //In another file
+                        import { add, subtract } from './utils'; // use curly braces
+
+                        to rename use like - import { add as addition } from './utils';
+                    </code>
                 </div>
             </div>
         </section>
