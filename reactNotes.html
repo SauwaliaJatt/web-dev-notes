@@ -48,8 +48,10 @@
         }
 
         nav.sidebar ul {
-            list-style: none !important; /* Remove all list styles */
-            list-style-type: none !important; /* Explicitly remove bullet points */
+            list-style: none !important;
+            /* Remove all list styles */
+            list-style-type: none !important;
+            /* Explicitly remove bullet points */
             margin: 0;
             padding: 0;
         }
@@ -223,7 +225,9 @@
         }
 
         .bolder {
-            font-weight: 700;
+            font-weight: 900;
+            font-size: 1.1em;
+            filter: brightness(1.2);
         }
 
         /* lists ul, ol */
@@ -300,8 +304,8 @@
     <button class="menu-toggle" aria-label="Toggle menu">☰ Menu</button>
     <nav class="sidebar" aria-label="Sidebar Navigation">
         <ul>
-            <li><a href="#section1">MongoDB Basics</a></li>
-            <li><a href="#section2">Document & Collections</a></li>
+            <li><a href="#section1">React</a></li>
+            <li><a href="#section2">Setup and Project Structure</a></li>
             <li><a href="#section3">Insert</a></li>
             <li><a href="#section4">View Data</a></li>
             <li><a href="#section5">Query Operators</a></li>
@@ -311,70 +315,99 @@
     </nav>
 
     <main>
+        <!-- React -->
         <section id="section1" class="note-section" tabindex="0">
-            <!-- lvl 1 -->
             <div class="note-l1">
-                <h2>MongoDB Basics</h2>
+                <h2>React</h2>
                 <p>
-                    Essential concepts and methods for building server-side applications with MongoDB.
+                    React.js is an open-source JavaScript library used for building user interfaces (UIs), especially single-page applications (SPAs) where you need a fast, interactive, and dynamic user experience.
                 </p>
-                <!-- lvl 2 -->
                 <div class="note-l2">
-                    <h3>Introduction to MongoDB</h3>
+                    <h3>Key features of React include:</h3>
                     <p>
-                        MongoDB is a NoSQL database that stores data in a flexible, JSON-like format called BSON.
+                        <ul>
+                            <li><span class="bolder">Component-Based Architecture:</span> Build encapsulated components that manage their own state and can be composed to create complex UIs.</li>
+                            <li><span class="bolder">Virtual DOM:</span> React keeps a lightweight representation of the DOM in memory, comparing it with the actual DOM to apply only necessary updates, enhancing performance.</li>
+                            <li><span class="bolder">JSX:</span> A syntax extension that allows you to write HTML-like code within JavaScript, making the code more readable and expressive.</li>
+                            <li><span class="bolder">Unidirectional Data Flow:</span> Data flows in one direction, making it easier to understand and predict how changes affect the application.</li>
+                            <li><span class="bolder">Ecosystem and Tools:</span> React has a rich ecosystem with tools like React Router for routing, Redux for state management, and Next.js for server-side rendering.</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="code-container">
+                    <code>
+                        //Example:
+                        function Greeting(props) {
+                            &nbsp;&nbsp;return &lt;h1&gt; Hello, {props.name}! &lt;/h1&gt;;
+                        }
+
+                        //This is a React component that displays a personalized greeting.
+                    </code>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Setup And Project Structure -->
+         <section id="section1" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Setup And Project Structure</h2>
+                <div class="note-l2">
+                    <h3>Vite</h3>
+                    <p>
+                        Setting up React with Vite is one of the fastest and easiest ways to start a modern React project. Vite is a modern build tool that's faster and more optimized than Create React App (CRA). Here's a step-by-step guide to setting up React with Vite:
                     </p>
                     <div class="code-container">
                         <code>
-                            // Example of a MongoDB document
-                            {
-                                "_id": "123",
-                                "name": "John Doe",
-                                "age": 30
-                            }
+                            //Steps:
+                            //1.Create a New React Project:
+                            npm create vite@latest
+
+                            //2.Enter project details e.g:
+                            Project name: my-react-app
+                            Framework: React
+                            Variant: JavaScript or TypeScript e.t.c
+
+                            //3. Move into project folder:
+                            cd my-react-app
+
+                            //4.Install dependencies:
+                            npm install
+
+                            <hr>
+                            //To start a react server:
+                            npm run dev
                         </code>
                     </div>
-                    <!-- lvl 3 -->
-                    <div class="note-l3">
-                        <h4>Key Features</h4>
-                        <p>
-                            Supports scalability, flexible schema, and high performance.
-                        </p>
+                </div>
+                <div class="note-l2">
+                    <h3>Project Structure</h3>
+                    <p>
+                        Setting up React with Vite is one of the fastest and easiest ways to start a modern React project. Vite is a modern build tool that's faster and more optimized than Create React App (CRA). Here's a step-by-step guide to setting up React with Vite:
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //Steps:
+                            //1.Create a New React Project:
+                            npm create vite@latest
+
+                            //2.Enter project details e.g:
+                            Project name: my-react-app
+                            Framework: React
+                            Variant: JavaScript or TypeScript e.t.c
+
+                            //3. Move into project folder:
+                            cd my-react-app
+
+                            //4.Install dependencies:
+                            npm install
+
+                            <hr>
+                            //To start a react server:
+                            npm run dev
+                        </code>
                     </div>
                 </div>
-                <!-- table -->
-                <table>
-                    <caption>MongoDB Data Types</caption>
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>String</td>
-                            <td>Used for textual data.</td>
-                        </tr>
-                        <tr>
-                            <td>Number</td>
-                            <td>Used for integer or floating-point numbers.</td>
-                        </tr>
-                        <tr>
-                            <td>Object</td>
-                            <td>Embedded documents or arrays.</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Scalable and Flexible</li>
-                    <li>Document-Oriented</li>
-                    <li>High Performance
-                        <ul>
-                            <li>Optimized for read/write operations</li>
-                        </ul>
-                    </li>
-                </ol>
             </div>
         </section>
     </main>
