@@ -309,8 +309,8 @@
             <li><a href="#section2">Setup and Project Structure</a></li>
             <li><a href="#section3">React Components</a></li>
             <li><a href="#section4">Import, Export</a></li>
-            <li><a href="#section5">Query Operators</a></li>
-            <li><a href="#section6">Update</a></li>
+            <li><a href="#section5">Writing Markup with JSX</a></li>
+            <li><a href="#section6">JavaScript in JSX with Curly Braces</a></li>
             <li><a href="#section7">Delete</a></li>
         </ul>
     </nav>
@@ -675,6 +675,69 @@
                 </div>
             </div>
         </section>
+
+
+        <!-- Writing Markup with JSX -->
+        <section id="section5" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Writing Markup with JSX</h2>
+                <p>
+                    JSX is a syntax extension for JavaScript that lets you write HTML-like markup inside a JavaScript file. Although there are other ways to write components, most React developers prefer the conciseness of JSX, and most codebases use it.
+                </p>
+                <div class="note-l2">
+                    <h3>The Rules of JSX</h3>
+                    <p>
+                        <span class="bolder">1. Return a single root element - </span> To return multiple elements from a component, wrap them with a single parent tag.
+                    </p>
+                    <p>
+                        <span class="bolder">2. Close all the tags - </span> JSX requires tags to be explicitly closed: self-closing tags like &lt;img&gt; must become &lt;img /&gt;, and wrapping tags like &lt;li&gt; oranges must be written as &lt;li&gt;oranges&lt;/li&gt;.
+                    </p>
+                    <p>
+                        <span class="bolder">3. Use CamelCase for Attributes - </span> JSX attributes use camelCase (e.g., className, onClick) instead of HTML's lowercase (e.g., class, onclick).
+                    </p>
+                    <p>
+                        <span class="bolder">4. Capitalize Component Names - </span> Custom components (e.g., &lt;ComponentName /&gt;) must start with a capital letter to distinguish them from HTML elements (e.g., &lt;div&gt;). e.t.c.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- JavaScript in JSX with Curly Braces -->
+        <section id="section6" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>JavaScript in JSX with Curly Braces</h2>
+                <p>
+                    In JSX, you can write JavaScript expressions directly inside the HTML-like syntax using curly braces {}.
+                </p>
+                <p>
+                    You can embed any JavaScript expression inside JSX - e.g. &lt;h1&gt;{expression}&lt;/h1&gt;. An expression is something that returns a value, like: Variable, Math, Function call, Array e.t.c.
+                </p>
+                <div class="code-container">
+                    <code>
+                        //Example:
+                        function Title() {
+                            &nbsp;&nbsp;let name = "John";
+                            &nbsp;&nbsp;return (
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;2 * 2 = {2 * 2}&lt;/p&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Hi, {name}&lt;/p&gt;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+                            &nbsp;&nbsp;);
+                        }
+                        
+                        export default Title;
+
+                        //Output:
+                        2 * 2 = 4
+                        Hi, John
+                    </code>
+                </div>
+            </div>
+        </section>
+
+
+
     </main>
 
     <script>
