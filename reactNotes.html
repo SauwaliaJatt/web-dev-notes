@@ -311,7 +311,8 @@
             <li><a href="#section4">Import, Export</a></li>
             <li><a href="#section5">Writing Markup with JSX</a></li>
             <li><a href="#section6">JavaScript in JSX with Curly Braces</a></li>
-            <li><a href="#section7">Delete</a></li>
+            <li><a href="#section7">React Fragments</a></li>
+            <li><a href="#section8">React Props</a></li>
         </ul>
     </nav>
 
@@ -732,6 +733,218 @@
                         2 * 2 = 4
                         Hi, John
                     </code>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- React Fragments -->
+        <section id="section7" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>React Fragments</h2>
+                <p>
+                    In React, every component must return a single parent element. But sometimes, you don't want to wrap your elements in an extra &lt;div&gt; just for that. That's where React Fragments come in.
+                </p>
+                <p>
+                    That's where React Fragments come in. Using:
+                    <ul>
+                        <li>Short Form - &lt;&gt; &lt;/&gt;</li>
+                        <li>Full Form - &lt;React.Fragment&gt; &lt;/React.Fragment&gt;</li>
+                    </ul>
+                    Both do the same thing, but &lt;&gt; &lt;/&gt; is shorter and cleaner.
+                </p>
+                <div class="code-container">
+                    <code>
+                        //Example:
+                        return (
+                            &nbsp;&nbsp;&lt;&gt;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Hello&lt;/h1&gt;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;World&lt;/p&gt;
+                            &nbsp;&nbsp;&lt;/&gt;
+                        );
+                        //This won't add any extra tags to the DOM.
+                    </code>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- React Props -->
+        <section id="section8" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>React Props</h2>
+                <p>
+                    React components use props(short for properties) to communicate with each other. Every parent component can pass some information to its child components by giving them props. Props might remind you of HTML attributes, but you can pass any JavaScript value through them, including objects, arrays, and functions.
+                </p>
+                <div class="note-l2">
+                    <h3>Usage</h3>
+                    <p>
+                        Props are passed to a component as attributes in JSX, similar to HTML attributes.
+                    </p>
+                    <p>
+                        The child component accesses props via the props object (or through destructuring).
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //Example:
+                            // Parent Component
+                            function Parent() {
+                                &nbsp;&nbsp;const name = "Alice";
+                                &nbsp;&nbsp;return &lt;Child greeting="Hello" name={name} /&gt;; // pass like this
+                            }
+                            
+                            // Child Component
+                            function Child(props) {
+                                &nbsp;&nbsp;return &lt;h1&gt; {props.greeting}, {props.name}! &lt;/h1&gt;;
+                            }
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>Destructuring Props</h3>
+                    <p>
+                        You can destructure props in the function parameter for cleaner code.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //Example:
+                            function Child({ greeting, name }) { //use {arg1, arg2...}
+                                &nbsp;&nbsp;return &lt;h1&gt;{greeting}, {name}!&lt;/h1&gt;;
+                            }
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>Default Props</h3>
+                    <p>
+                        We can set Default values for props.
+                    </p>
+                    <p>
+                        We can assign default values to props directly in the function parameter list using destructuring syntax, like ({ value = "abc" }).
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //Example:
+                            function MyComponent({ value = "abc" }) {
+                                &nbsp;&nbsp;return &lt;h1&gt;Value: {value}&lt;/h1&gt;;
+                            }
+
+                            <hr>
+                            //usign defaultProps:
+                            function MyComponent(props) {
+                                &nbsp;&nbsp;return &lt;h1&gt;Value: {props.value}&lt;/h1&gt;;
+                            }
+                            
+                            MyComponent.defaultProps = { //like this. but above method is preffered
+                                &nbsp;&nbsp;value: "abc",
+                            };
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>Passing Arrays, Objects as Props</h3>
+                    <p>
+                        Arrays can be passed to a child component to render lists, collections, or other iterable data.
+                    </p>
+                    <p>
+                        Objects are useful for passing structured or complex data, such as configuration settings, user details, or nested data.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            // Parent Component
+                            function Parent() {
+                                &nbsp;&nbsp;const fruits = ["Apple", "Banana", "Orange"];
+                                &nbsp;&nbsp;const user = { name: "Alice", age: 25, city: "New York" };
+                                &nbsp;&nbsp;return &lt;Child items={fruits} user={user} /&gt;; // pass like this
+                            }
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>Rendering Arrays</h3>
+                    <p>
+                        You will often want to display multiple similar components from a collection of data. You can use the JavaScript array methods to manipulate an array of data. On this page, you'll use filter() and map() with React to filter and transform your array of data into an array of components.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            // Parent Component
+                            function Parent() {
+                                &nbsp;&nbsp;const fruits = ["Apple", "Banana", "Orange"];
+                                &nbsp;&nbsp;return &lt;Child items={fruits} /&gt;;
+                            }
+                            
+                            // Child Component
+                            function Child({ items = [] }) {
+                                &nbsp;&nbsp;return (
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{items.map((item, index) => (
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li key={index}&gt; {item} &lt;/li&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;
+                                &nbsp;&nbsp;);
+                            }
+
+                            //output:
+                            - Apple
+                            - Banana
+                            - Orange
+
+                            //Default Value: { items = [] } ensures that if no items prop is passed, an empty array prevents errors when calling .map().
+
+                            //Key Prop: Use a unique key for each element. If the array items have unique IDs, use those instead of index.
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>Accessing Object Props</h3>
+                    <p>
+                        Accessing object props in a child component is straightforward using dot notation, destructuring, or nested destructuring, with defaults to handle missing data.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            // Parent Component
+                            function Parent() {
+                                &nbsp;&nbsp;const user = { name: "Alice", age: 25};
+                                &nbsp;&nbsp;return &lt;Child user={user} /&gt;;
+                            }
+                            
+                            // Child Component:
+                            //Method 1: Destructuring Props in the Parameter:
+                            function Child({ user }) { //like this
+                                &nbsp;&nbsp;return (
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Name: {user.name}&lt;/p&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Age: {user.age}&lt;/p&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+                                &nbsp;&nbsp;);
+                            }
+
+                            <hr>
+                            //Method 2: Using the props Object Directly:
+                            function Child(props) {
+                                &nbsp;&nbsp;return (
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Name: {props.user.name}&lt;/p&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Age: {props.user.age}&lt;/p&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+                                &nbsp;&nbsp;);
+                            }
+
+                            <hr>
+                            //Method 3: Destructuring Inside the Component:
+                            function Child({ user = { name: "Guest", age: 18, city: "Unknown" } }) { //passing default values to objects
+                                &nbsp;&nbsp;const { name, age, city } = user; //like this
+                                &nbsp;&nbsp;return (
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Name: {props.user.name}&lt;/p&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Age: {props.user.age}&lt;/p&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+                                &nbsp;&nbsp;);
+                            }
+
+                            //there mey other methods also...
+                        </code>
+                    </div>
                 </div>
             </div>
         </section>
