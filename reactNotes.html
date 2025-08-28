@@ -313,6 +313,7 @@
             <li><a href="#section6">JavaScript in JSX with Curly Braces</a></li>
             <li><a href="#section7">React Fragments</a></li>
             <li><a href="#section8">React Props</a></li>
+            <li><a href="#section9">Conditional Rendering</a></li>
         </ul>
     </nav>
 
@@ -949,6 +950,85 @@
             </div>
         </section>
 
+
+        <!-- Conditional Rendering -->
+        <section id="section9" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Conditional Rendering</h2>
+                <p>
+                    Conditional rendering in React allows you to display different UI elements or components based on specific conditions, such as user input, application state, or props.
+                </p>
+                <p>
+                    For example, you might show a "Welcome" message for logged-in users or a "Login" button for guests. This is achieved using JavaScript expressions like if statements, ternary operators, or logical operators within JSX.
+                </p>
+                <div class="note-l2">
+                    <h3>Common Techniques for Conditional Rendering</h3>
+                    <div class="note-l3">
+                        <h4>Using if/else Statements</h4>
+                        <p>
+                            The simplest approach, often used outside the return statement for complex logic or when rendering entirely different components.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //Example:
+                                function Greeting({ isLoggedIn }) {
+                                    &nbsp;&nbsp;if (isLoggedIn) {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;return &lt;h1&gt; Welcome back! &lt;/h1&gt;;
+                                    &nbsp;&nbsp;}
+
+                                    &nbsp;&nbsp;return &lt;h1&gt; Please sign in. &lt;/h1&gt;;
+                                }
+
+                                Use Case: Best for complex conditions or when you need to return different components based on multiple checks.
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>Using Ternary Operator</h4>
+                        <p>
+                            The ternary operator (condition ? expr1 : expr2) is concise for simple, inline conditions with two outcomes.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //Example:
+                                function UserStatus({ isLoggedIn }) {
+                                    &nbsp;&nbsp;return &lt;h1&gt;{isLoggedIn ? "Welcome, User!" : "Please Login!"}&lt;/h1&gt;;
+                                }
+
+                                Use Case: Ideal for simple binary conditions within JSX.
+                            </code>
+                        </div>
+                    </div>
+                    <div class="note-l3">
+                        <h4>Using Logical AND (&&) Operator</h4>
+                        <p>
+                            The && operator renders an element only if the condition is true, leveraging JavaScript's short-circuit evaluation.
+                        </p>
+                        <div class="code-container">
+                            <code>
+                                //Example:
+                                function Notification({ hasMessages }) {
+                                    &nbsp;&nbsp;return (
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;Welcome!&lt;/h2&gt;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{hasMessages && &lt;p&gt;You have new messages.&lt;p&gt;}
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+                                    &nbsp;&nbsp;);
+                                }
+
+                                Use Case: Perfect when you want to render something only if a condition is true, with no alternative output.
+                            </code>
+                        </div>
+                    </div>
+                    <p>
+                        There are other ways also...
+                    </p>
+                </div>
+                <p>
+                    We can also style components dynamically using conditionals or other methods...
+                </p>
+            </div>
+        </section>
 
 
     </main>
