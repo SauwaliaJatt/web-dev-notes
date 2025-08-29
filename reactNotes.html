@@ -314,6 +314,7 @@
             <li><a href="#section7">React Fragments</a></li>
             <li><a href="#section8">React Props</a></li>
             <li><a href="#section9">Conditional Rendering</a></li>
+            <li><a href="#section10">Events</a></li>
         </ul>
     </nav>
 
@@ -1031,6 +1032,70 @@
         </section>
 
 
+        <!-- Events -->
+        <section id="section10" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Events</h2>
+                <p>
+                    React events work similar to DOM events but with some differences.
+                </p>
+                <div class="note-l2">
+                    <h3>Event Handling in React</h3>
+                    <p>
+                        Events in React are handled by passing functions (event handlers) as props to components. These functions are triggered when the event occurs.
+                    </p>
+                    <p>
+                        Events are written in camelCase (onClick, not onclick).
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //Example:
+                            function handleClick() {
+                                &nbsp;&nbsp;alert("Button clicked!");
+                            }
+
+                            function App() {
+                                &nbsp;&nbsp;return &lt;button onClick={handleClick}&gt; Click Me &lt;/button&gt;;
+                            }
+                            //pass function as props to event, but not write () with it(because it calls immediately).
+
+                            <hr>
+                            //Passing Inline Functions:
+                            &lt;button onClick={()=> alert("Hello React!")} &gt; Say Hello &lt;/button&gt;
+                        </code>
+                    </div>
+                    <p>
+                        Prevent Default Behavior: Use event.preventDefault() to stop default browser behavior (e.g., form submission or page refresh).
+                    </p>
+                </div>
+                <div class="note-l2">
+                    <h3>Event Object</h3>
+                    <p>
+                        The event object (SyntheticEvent) is passed to event handlers when an event is triggered (e.g., onClick, onChange).
+                    </p>
+                    <p>
+                        It mirrors the native browser event but is normalized to ensure consistent behavior across browsers. It contains properties and methods to access details about the event, such as the target element, event type, or user input.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //Example:
+                            const handleClick = (event) => { //write event or any other name
+                                &nbsp;&nbsp;event.preventDefault(); //Method: Prevents browser's default action
+                                &nbsp;&nbsp;event.stopPropagation(); //Method: Stops event from bubbling up
+
+                                &nbsp;&nbsp;console.log(event); // SyntheticEvent object
+                                &nbsp;&nbsp;console.log(event.type); // "click"
+                                &nbsp;&nbsp;console.log(event.target); // Element that triggered the event
+                            };
+
+                            function MyComponent() {
+                                &nbsp;&nbsp;return &lt;button onClick={handleClick} &gt; Click Me &lt;/button&gt;;
+                            }
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script>
