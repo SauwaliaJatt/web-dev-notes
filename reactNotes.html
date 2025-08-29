@@ -315,6 +315,7 @@
             <li><a href="#section8">React Props</a></li>
             <li><a href="#section9">Conditional Rendering</a></li>
             <li><a href="#section10">Events</a></li>
+            <li><a href="#section11">State</a></li>
         </ul>
     </nav>
 
@@ -1093,6 +1094,119 @@
                             }
                         </code>
                     </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- State -->
+        <section id="section11" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>State</h2>
+                <p>
+                    In React, state refers to a built-in object that stores data or information about a component that can change over time, triggering a re-render when updated. State is commonly managed using the useState hook in functional components (introduced in React 16.8) or this.state in class components (less common in modern React).
+                </p>
+                <div class="note-l3">
+                    <h4>Hooks</h4>
+                    <p>
+                        Hooks, introduced in React 16.8, allow functional components to manage state, side effects, and other React features without class components. They're functions with names starting with use (e.g., useState, useEffect) and can only be called at the top level of functional components or custom hooks(not inside loops, conditions, or nested functions).
+                    </p>
+                </div>
+                <div class="note-l3">
+                    <h4>useState</h4>
+                    <p>
+                        Manages local component state.
+                    </p>
+                    <p>
+                        Syntax: const [state, setState] = useState(initialState);
+                    </p>
+                </div>
+                <div class="code-container">
+                    <code>
+                        //Example:
+                        import React, { useState } from 'react'; //import
+                        
+                        function Counter() {
+                            &nbsp;&nbsp;// Declare a state variable 'count' with initial value 0
+                            &nbsp;&nbsp;const [count, setCount] = useState(0);
+                            
+                            &nbsp;&nbsp;// Event handler to update state
+                            &nbsp;&nbsp;const increment = () => {
+                                &nbsp;&nbsp;&nbsp;&nbsp;setCount(count + 1); // Updates state and triggers re-render
+                            &nbsp;&nbsp;};
+                        
+                            &nbsp;&nbsp;return (
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Count: {count}&lt;/p&gt; //it will update when button clicked
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick={increment}&gt; Increment &lt;/button&gt;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+                            &nbsp;&nbsp;);
+                        }
+
+                        //How It Works:
+                        //useState(0): Initializes the state variable count with a value of 0. Returns an array with the current state value (count) and a setter function (setCount).
+                        //Updating state: Call setCount to update count. React schedules a re-render with the new state value.
+                        //Re-rendering: The component re-renders, displaying the updated count.
+                    </code>
+                </div>
+                <div class="note-l2">
+                    <h3>Callback in State Updater</h3>
+                    <p>
+                        When you call setState (or setCount, setUser, etc.), React doesn't update the state immediately — it schedules the update. If you update state multiple times in a single render, React may use the same stale (old) value unless you use the callback form.
+                    </p>
+                    <p>
+                        Use to change state when it depends on the current value
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //Wrong Way:
+                            const [count, setCount] = useState(0);
+                            
+                            function increase() {
+                                &nbsp;&nbsp;setCount(count + 1);
+                                &nbsp;&nbsp;setCount(count + 1);
+                            }
+
+                            //Both updates read the old value (0), so both set it to 1.
+                            //Final result: count = 1 (not 2 as expected)
+
+                            <hr>
+                            //Correct Way:
+                            const [count, setCount] = useState(0);
+                            
+                            function increase() { //use callback
+                                &nbsp;&nbsp;setCount((prev) => prev + 1);
+                                &nbsp;&nbsp;setCount((prev) => prev + 1);
+                            }
+
+                            //First update → prev = 0 → sets to 1. Second update → prev = 1 → sets to 2. Final result: count = 2 (as expected)
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l3">
+                    <h4>Passing a Function as Initial State</h4>
+                    <div class="code-container">
+                        <code>
+                            const [count, setCount] = useState(() => { 
+                                return Math.random();
+                            });
+
+                            //Or pass function name but without () - useState(functionName)
+
+
+                            //Here the function is run only once (when the component mounts).
+                            //Useful for expensive calculations (e.g., reading from localStorage, computing something heavy).
+                            //React stores the result of Math.random() as the initial state.
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l3">
+                    <p>
+                        React will only trigger a re-render if the new state/props value is actually different from the previous one.
+                    </p>
+                    <p>
+                        e.g - setCount(0); // same value → React skips re-render
+                    </p>
                 </div>
             </div>
         </section>
