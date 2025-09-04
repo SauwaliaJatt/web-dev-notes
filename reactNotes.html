@@ -1246,8 +1246,125 @@
                             setUser({ ...user, name: "Singh" }); //We must copy old state first and then override the field
 
                             //Now user becomes: { name: "Singh", age: 20, city: "Jalandhar" }
+
+                            <hr>
+                            //Using Functional Updater with Objects - If new value depends on old value, use callback:
+                            setUser(prev => ({ ...prev, age: prev.age + 1 }));
                         </code>
                     </div>
+                </div>
+                <div class="note-l2">
+                    <h3>Array State</h3>
+                    <p>
+                        Just like objects, you can store and manage arrays inside useState. Like objects, arrays are reference types, so updates must be immutable to ensure React detects changes and re-renders the component.
+                    </p>
+                    <p>
+                        Immutability: Always create a new array when updating state to avoid mutating the original array directly.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //Example - Creating Array State:
+                            import { useState } from "react";
+                            
+                            function Fruits() {
+                                const [fruits, setFruits] = useState(["Apple", "Banana"]);
+                                return &lt;p&gt; {fruits.join(", ")} &lt;/p&gt;;
+                            }
+                            //fruits is an array in state.
+                        </code>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            //Don't Mutate Arrays:
+                            fruits.push("Mango");
+                            setFruits(fruits); //WRONG
+
+                            //Directly modifying (push, splice, etc.) mutates the old array.
+                            //React won't detect changes → no re-render.
+
+                            <hr>
+                            //Correct Way - Create New Array (Use spread operator [...oldArray]).
+                            // Add new element
+                            setFruits([...fruits, "Mango"]);
+                            
+                            // Remove element - use filter
+                            setFruits(fruits.filter(fruit => fruit !== "Banana")); 
+                            
+                            // Update element - user map
+                            setFruits(fruits.map(fruit => fruit === "Apple" ? "Green Apple" : fruit));
+
+                            <hr>
+                            //Using Functional Updater with Arrays - When new state depends on old state:
+                            setFruits(prev => [...prev, "Orange"]);
+                        </code>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            //Rendering Arrays:
+                            //React uses .map() to render lists:
+                            function Fruits() {
+                                &nbsp;&nbsp;const [fruits, setFruits] = useState(["Apple", "Banana", "Mango"]);
+                                &nbsp;&nbsp;return (
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{fruits.map((fruit, index) => (
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li key={index}&gt; {fruit} &lt;/li&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;
+                                &nbsp;&nbsp;);
+                            }
+                            //Always use key when rendering lists (unique id if possible, not index).
+                        </code>
+                    </div>
+                    <div class="note-l3">
+                        <h4>Array of Objects in State</h4>
+                        <div class="code-container">
+                            <code>
+                                function TodoApp() {
+                                    &nbsp;&nbsp;const [todos, setTodos] = useState([
+                                        &nbsp;&nbsp;&nbsp;&nbsp;{ id: 1, text: "Learn React", done: false },
+                                        &nbsp;&nbsp;&nbsp;&nbsp;{ id: 2, text: "Practice DSA", done: true }
+                                    &nbsp;&nbsp;]);
+                                    
+                                    &nbsp;&nbsp;function toggleTodo(id) {
+                                        &nbsp;&nbsp;&nbsp;&nbsp;setTodos(prev =&gt;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prev.map(todo =&gt;
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;todo.id === id ? { ...todo, done: !todo.done } : todo
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+                                        &nbsp;&nbsp;&nbsp;&nbsp;);
+                                    &nbsp;&nbsp;}
+                                    
+                                    &nbsp;&nbsp;return (
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;ul&gt;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{todos.map(todo => (
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li key={todo.id}&gt;
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span style={{ textDecoration: todo.done ? "line-through" : "none" }}&gt; {todo.text} &lt;/span&gt;
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onClick = {() => toggleTodo(todo.id)}&gt; Toggle &lt;/button&gt;
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))}
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;
+                                    &nbsp;&nbsp;);
+                                }
+                            </code>
+                        </div>
+                    </div>
+                </div>
+                <div class="note-l3">
+                    <h4>Unique Key</h4>
+                    <p>
+                        In React, the key prop is a special attribute you provide when rendering a list of elements (e.g., using map to render an array). Keys help React identify which items in a list have changed, been added, or been removed, optimizing the rendering process.
+                    </p>
+                    <p>
+                        Key Points on Unique Keys:
+                        <ul>
+                            <li>Purpose: Keys help React track list items for efficient rendering and updates.</li>
+                            <li>Requirement: Each list item needs a unique, stable key prop (e.g., an ID).</li>
+                            <li>Best Practice: Use a unique ID from your data (not array indices) for dynamic lists.</li>
+                            <li>Why Avoid Indices: Indices cause issues in dynamic lists (e.g., reordering, adding/removing items) as they don't uniquely identify items.</li>
+                        </ul>
+                    </p>
+                    <p>
+                        Use Unique IDs: Use id or uuid for keys (install uuid with npm install uuid).
+                    </p>
                 </div>
             </div>
         </section>
