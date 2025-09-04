@@ -1208,6 +1208,47 @@
                         e.g - setCount(0); // same value → React skips re-render
                     </p>
                 </div>
+                <div class="note-l2">
+                    <h3>Object State</h3>
+                    <p>
+                        In React, state can hold objects, and you typically use the useState hook to manage them in functional components. Since objects are reference types, updating them requires special care to ensure immutability and proper re-rendering.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //Example:
+                            function UserProfile() {
+                                &nbsp;&nbsp;const [user, setUser] = useState({
+                                    &nbsp;&nbsp;&nbsp;&nbsp;name: "Inderjit",
+                                    &nbsp;&nbsp;&nbsp;&nbsp;age: 20,
+                                    &nbsp;&nbsp;&nbsp;&nbsp;city: "Jalandhar",
+                                &nbsp;&nbsp;});
+                            
+                                &nbsp;&nbsp;return (
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt; {user.name} ({user.age}) - {user.city} &lt;/h3&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+                                &nbsp;&nbsp;);
+                            }
+
+                            //user is an object stored in state.
+                        </code>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            //Updating Object state:
+                            //Wrong Way:
+                            setUser({ name: "Singh" });
+
+                            //This replaces the whole object. After this, user becomes { name: "Singh" } and age, city are lost.
+
+                            <hr>
+                            //Right Way:
+                            setUser({ ...user, name: "Singh" }); //We must copy old state first and then override the field
+
+                            //Now user becomes: { name: "Singh", age: 20, city: "Jalandhar" }
+                        </code>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
