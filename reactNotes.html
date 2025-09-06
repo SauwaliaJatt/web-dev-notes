@@ -316,6 +316,8 @@
             <li><a href="#section9">Conditional Rendering</a></li>
             <li><a href="#section10">Events</a></li>
             <li><a href="#section11">State</a></li>
+            <li><a href="#section12">Forms in React</a></li>
+            <li><a href="#section13">useEffect</a></li>
         </ul>
     </nav>
 
@@ -949,6 +951,27 @@
                         </code>
                     </div>
                 </div>
+                <div class="note-l2">
+                    <h3>Function as Props</h3>
+                    <p>
+                        Functions as props means you can pass a function from a parent component to a child component as a property (prop). The child can then call that function to send data or trigger actions in the parent.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            //Example:
+                            function Child({ onGreet }) {
+                                &nbsp;&nbsp;return &lt;button onClick={onGreet}&gt; Say Hello &lt;/button&gt;;
+                            }
+                            
+                            function Parent() {
+                                &nbsp;&nbsp;function greet() {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;alert("Hello from Parent!");
+                                &nbsp;&nbsp;}
+                                &nbsp;&nbsp;return &lt;Child onGreet={greet} /&gt;;
+                            }
+                        </code>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1368,6 +1391,290 @@
                 </div>
             </div>
         </section>
+
+
+        <!-- Forms in React -->
+        <section id="section12" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Forms in React</h2>
+                <p>
+                    React forms are typically controlled components, meaning the form inputs' values are managed by React state, and updates are handled via event handlers. This ensures predictable behavior and easy data management. Forms can handle simple data (e.g., strings), objects, or arrays, and you can use hooks like useState or useReducer to manage form state.
+                </p>
+                <p>
+                    In HTML, form elements like &lt;input&gt;, &lt;textarea&gt;, and &lt;select%gt; manage their own internal state. In React, state is kept in components and updated with setState(). By syncing form values with React state, we make React the single source of truth. Such form elements are called controlled components.
+                </p>
+                <div class="code-container">
+                    <code>
+                        import { useState } from "react";
+                        
+                        export default function Form() {
+                            &nbsp;&nbsp;const [fullName, setFullName] = useState("");
+                            
+                            &nbsp;&nbsp;function handleNameChange(event) {
+                                &nbsp;&nbsp;&nbsp;&nbsp;setFullName(event.target.value);
+                            &nbsp;&nbsp;}
+                            
+                            &nbsp;&nbsp;function handleSubmit(e) {
+                                &nbsp;&nbsp;&nbsp;&nbsp;e.preventDefault(); // prevent page reload
+                                &nbsp;&nbsp;&nbsp;&nbsp;alert("Submitted: " + fullName);
+                            &nbsp;&nbsp;}
+                            
+                            &nbsp;&nbsp;return (
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;form onSubmit={handleSubmit}&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input placeholder="Enter name" type="text" value={fullName} onChange={handleNameChange} /&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button type="submit"&gt; Submit &lt;/button&gt;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;/form&gt;
+                            &nbsp;&nbsp;);
+                        }
+
+
+                        //value={fullName} → input shows whatever is in state.
+                        //onChange={handleNameChange} → updates state whenever user types.
+                        //onSubmit={handleSubmit} → stops page refresh & shows alert with current state.
+                    </code>
+                </div>
+                <div class="note-l3">
+                    <h4>Form Labels in React</h4>
+                    <p>
+                        In React, we use &lt;label&gt; just like HTML, but: "for" attribute becomes "htmlFor" (because for is a reserved keyword in JS).
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            function FormLabelExample() {
+                                &nbsp;&nbsp;return (
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;form&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label htmlFor="username"&gt; Username: &lt;/label&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input id="username" type="text" placeholder="Enter username" /&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/form&gt;
+                                &nbsp;&nbsp;);
+                            }
+
+                            //but in DOM it is "for" only.
+
+                            <hr>
+                            //Label Wrapping Input (Alternative Way):
+                            //Instead of htmlFor, you can wrap input inside the label:
+
+                            &lt;label&gt;
+                                &nbsp;&nbsp;Username:
+                                &nbsp;&nbsp;&lt;input type="text" placeholder="Enter username" /&gt;
+                            &lt;/label&gt;
+
+                            //This automatically links the label to the input.
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>Multiple Inputs(with One State Object)</h3>
+                    <p>
+                        If your form has many fields (name, email, password, etc.), you don't want useState for each one. Instead, keep one object in state, where each property corresponds to a field. This makes the code cleaner and scalable.
+                    </p>
+                    <div class="code-container">
+                        <code>
+                            import { useState } from "react";
+                            
+                            export default function Form() {
+                                &nbsp;&nbsp;const [formData, setFormData] = useState({
+                                    &nbsp;&nbsp;&nbsp;&nbsp;fullName: "",
+                                    &nbsp;&nbsp;&nbsp;&nbsp;username: "",
+                                &nbsp;&nbsp;});
+                                
+                                &nbsp;&nbsp;// Handles input changes - using event.target.name and event.target.value
+                                &nbsp;&nbsp;const handleInputChange = (event) => {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;const { name, value } = event.target;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;setFormData((currData) => ({ ...currData, [name]: value,})); 
+                                    &nbsp;&nbsp;&nbsp;&nbsp;// dynamically updates the field
+                                &nbsp;&nbsp;};
+                                
+                                &nbsp;&nbsp;// Handles form submit
+                                &nbsp;&nbsp;const handleSubmit = (event) => {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;event.preventDefault();
+                                    &nbsp;&nbsp;&nbsp;&nbsp;alert(`Full Name: ${formData.fullName}, Username: ${formData.username}`);
+                                
+                                    &nbsp;&nbsp;&nbsp;&nbsp;// Reset form after submit
+                                    &nbsp;&nbsp;&nbsp;&nbsp;setFormData({
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fullName: "",
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;username: "",
+                                    &nbsp;&nbsp;&nbsp;&nbsp;});
+                                &nbsp;&nbsp;};
+                                
+                                &nbsp;&nbsp;return (
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;form onSubmit={handleSubmit}&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt; 
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input value={formData.fullName}
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name="fullName"
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={handleInputChange}
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/label&gt;
+                                    
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label&gt; 
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input 
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value={formData.username}
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name="username"
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={handleInputChange}
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/label&gt;
+                                        
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button type="submit"&gt; Submit &lt;/button&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/form&gt;
+                                &nbsp;&nbsp;);
+                            }
+
+                            //we are using ([name]: value), the name attribute of the input must match the key name in your state object.
+                        </code>
+                    </div>
+                </div>
+                <div class="note-l2">
+                    <h3>useEffect</h3>
+                    <p>
+                        useEffect is a React Hook that lets you perform side effects in functional components. Side effects = code that affects something outside the component (not just rendering). It runs after the component renders and can be controlled with a dependency array.
+                    </p>
+                    <p>
+                        Examples of side effects: Fetching data from an API, Subscribing/unsubscribing (like WebSocket, event listeners), Working with setInterval / setTimeout, Updating document.title e.t.c
+                    </p>
+                    <p>
+                        <span class="bolder">Syntax: useEffect(() => { /* effect */ }, [dependencies]);</span>
+                    </p>
+                    <div class="note-l3">
+                        <h4>useEffect Dependency Arrays Scenarios</h4>
+                        <p>
+                            <ul>
+                                <li>[] (Empty Array): The effect runs once when the component mounts and cleans up when it unmounts. Ideal for one-time setup (e.g., fetching initial data).</li>
+                                <li>[value] (With Dependencies): The effect runs on mount and whenever the specified dependencies change. Used for effects tied to specific state or props.</li>
+                                <li>No Dependency Array: The effect runs after every render, including initial mount and all updates. Use cautiously, as it can lead to performance issues or infinite loops.</li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="note-l3">
+                        <h4>Key Points</h4>
+                        <p>
+                            <ul>
+                                <li>Cleanup: Return a function from useEffect to clean up (e.g., cancel timers or subscriptions).</li>
+                                <li>Purpose: Handles tasks that aren't directly tied to rendering (e.g., API calls, timers).</li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="code-container">
+                        <code>
+                            //Example:
+                            import React, { useState, useEffect } from 'react'; //import
+                            
+                            function UserForm() {
+                                &nbsp;&nbsp;const [formData, setFormData] = useState({ name: '' });
+                                
+                                &nbsp;&nbsp;// 1. Empty array: Runs once on mount
+                                &nbsp;&nbsp;useEffect(() => {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;const saved = localStorage.getItem('formData');
+                                    &nbsp;&nbsp;&nbsp;&nbsp;if (saved) setFormData(JSON.parse(saved));
+                                    &nbsp;&nbsp;&nbsp;&nbsp;return () => console.log('Cleanup on unmount');
+                                &nbsp;&nbsp;}, []); // Empty array
+                                
+                                &nbsp;&nbsp;// 2. With dependency: Runs when formData changes
+                                &nbsp;&nbsp;useEffect(() => {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;localStorage.setItem('formData', JSON.stringify(formData));
+                                &nbsp;&nbsp;}, [formData]); // Dependency: formData
+                                
+                                &nbsp;&nbsp;// 3. No dependency: Runs on every render
+                                &nbsp;&nbsp;useEffect(() => {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;document.title = formData.name || 'User Form';
+                                &nbsp;&nbsp;}); // No dependency array
+                                
+                                &nbsp;&nbsp;const handleChange = (e) => {
+                                    &nbsp;&nbsp;&nbsp;&nbsp;setFormData({ name: e.target.value });
+                                &nbsp;&nbsp;};
+                                
+                                &nbsp;&nbsp;return (
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;form&gt;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="text" name="name" value={formData.name} 
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={handleChange} placeholder="Name" /&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/form&gt;
+                                &nbsp;&nbsp;);
+                            }
+                            
+                            export default UserForm;
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- useEffect -->
+        <section id="section13" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>useEffect</h2>
+                <p>
+                    useEffect is a React Hook that lets you perform side effects in functional components. Side effects = code that affects something outside the component (not just rendering). It runs after the component renders and can be controlled with a dependency array.
+                </p>
+                <p>
+                    Examples of side effects: Fetching data from an API, Subscribing/unsubscribing (like WebSocket, event listeners), Working with setInterval / setTimeout, Updating document.title e.t.c
+                </p>
+                <p>
+                    <span class="bolder">Syntax: useEffect(() => { /* effect */ }, [dependencies]);</span>
+                </p>
+                <div class="note-l3">
+                    <h4>useEffect Dependency Arrays Scenarios</h4>
+                    <p>
+                        <ul>
+                            <li>[] (Empty Array): The effect runs once when the component mounts and cleans up when it unmounts. Ideal for one-time setup (e.g., fetching initial data).</li>
+                            <li>[value] (With Dependencies): The effect runs on mount and whenever the specified dependencies change. Used for effects tied to specific state or props.</li>
+                            <li>No Dependency Array: The effect runs after every render, including initial mount and all updates. Use cautiously, as it can lead to performance issues or infinite loops.</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="note-l3">
+                    <h4>Key Points</h4>
+                    <p>
+                        <ul>
+                            <li>Cleanup: Return a function from useEffect to clean up (e.g., cancel timers or subscriptions).</li>
+                            <li>Purpose: Handles tasks that aren't directly tied to rendering (e.g., API calls, timers).</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="code-container">
+                    <code>
+                        //Example:
+                        import React, { useState, useEffect } from 'react'; //import
+                        
+                        function UserForm() {
+                            &nbsp;&nbsp;const [formData, setFormData] = useState({ name: '' });
+                            
+                            &nbsp;&nbsp;// 1. Empty array: Runs once on mount
+                            &nbsp;&nbsp;useEffect(() => {
+                                &nbsp;&nbsp;&nbsp;&nbsp;const saved = localStorage.getItem('formData');
+                                &nbsp;&nbsp;&nbsp;&nbsp;if (saved) setFormData(JSON.parse(saved));
+                                &nbsp;&nbsp;&nbsp;&nbsp;return () => console.log('Cleanup on unmount');
+                            &nbsp;&nbsp;}, []); // Empty array
+                            
+                            &nbsp;&nbsp;// 2. With dependency: Runs when formData changes
+                            &nbsp;&nbsp;useEffect(() => {
+                                &nbsp;&nbsp;&nbsp;&nbsp;localStorage.setItem('formData', JSON.stringify(formData));
+                            &nbsp;&nbsp;}, [formData]); // Dependency: formData
+                            
+                            &nbsp;&nbsp;// 3. No dependency: Runs on every render
+                            &nbsp;&nbsp;useEffect(() => {
+                                &nbsp;&nbsp;&nbsp;&nbsp;document.title = formData.name || 'User Form';
+                            &nbsp;&nbsp;}); // No dependency array
+                            
+                            &nbsp;&nbsp;const handleChange = (e) => {
+                                &nbsp;&nbsp;&nbsp;&nbsp;setFormData({ name: e.target.value });
+                            &nbsp;&nbsp;};
+                            
+                            &nbsp;&nbsp;return (
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;form&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="text" name="name" value={formData.name} 
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange={handleChange} placeholder="Name" /&gt;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;/form&gt;
+                            &nbsp;&nbsp;);
+                        }
+                        
+                        export default UserForm;
+                    </code>
+                </div>
+            </div>
+        </section>
+
+        
     </main>
 
     <script>
