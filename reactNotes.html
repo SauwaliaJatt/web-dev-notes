@@ -1617,7 +1617,7 @@
                     <p>
                         <ul>
                             <li>[] (Empty Array): The effect runs once when the component mounts and cleans up when it unmounts. Ideal for one-time setup (e.g., fetching initial data).</li>
-                            <li>[value] (With Dependencies): The effect runs on mount and whenever the specified dependencies change. Used for effects tied to specific state or props.</li>
+                            <li>[value(s)] (With Dependencies): The effect runs on mount and whenever the specified dependencies change. Used for effects tied to specific state or props.</li>
                             <li>No Dependency Array: The effect runs after every render, including initial mount and all updates. Use cautiously, as it can lead to performance issues or infinite loops.</li>
                         </ul>
                     </p>
@@ -1674,7 +1674,7 @@
             </div>
         </section>
 
-        
+
     </main>
 
     <script>
