@@ -318,6 +318,7 @@
             <li><a href="#section11">State</a></li>
             <li><a href="#section12">Forms in React</a></li>
             <li><a href="#section13">useEffect</a></li>
+            <li><a href="#section14">Material UI</a></li>
         </ul>
     </nav>
 
@@ -1674,6 +1675,54 @@
             </div>
         </section>
 
+
+        <!-- Material UI -->
+        <section id="section14" class="note-section" tabindex="0">
+            <div class="note-l1">
+                <h2>Material UI</h2>
+                <p>
+                    Material UI (MUI) is a React component library that implements Google's Material Design principles. It gives you ready-made, customizable UI components (buttons, inputs, dialogs, navigation bars, grids, etc.) so you don't have to build everything from scratch.
+                </p>
+                <p>
+                    Helps in building responsive, accessible, and beautiful UIs quickly. Think of it as Bootstrap for React but with modern design and React-first philosophy.
+                </p>
+                <div class="code-container">
+                    <code>
+                        //Installation:
+                        //Install core MUI:
+                        npm install @mui/material @emotion/react @emotion/styled
+
+                        //@mui/material → Core components
+                        //@emotion/react & @emotion/styled → CSS-in-JS styling engine
+
+
+                        //Install MUI Icons (optional but common):
+                        npm install @mui/icons-material
+
+                        //there are other things we can install of it
+                    </code>
+                </div>
+                <div class="code-container">
+                    <code>
+                        //Basic Example:
+                        import * as React from "react";
+                        import Button from "@mui/material/Button"; //import like this or see document
+                        
+                        export default function App() {
+                            &nbsp;&nbsp;return (
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt; Hello MUI &lt;/h1&gt;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Button variant="outlined" color="secondary"&gt;Cancel&lt;/Button&gt;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+                            &nbsp;&nbsp;);
+                        }
+                    </code>
+                </div>
+                <p>
+                    We can learn about it more on its documentation or other...
+                </p>
+            </div>
+        </section>
 
     </main>
 
