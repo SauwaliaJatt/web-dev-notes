@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Notes</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <style>
         /* Reset some default styling */
         * {
@@ -46,7 +47,7 @@
             left: 0;
             width: 250px;
             height: 100vh;
-            background-color: #333;
+            background-color: #282c34;
             color: #fff;
             padding-top: 20px;
             padding-left: 10px;
@@ -74,6 +75,26 @@
 
         .sidebar a:hover {
             background-color: #4CAF50;
+        }
+
+        /* nav */
+        nav{
+            position: fixed;
+            display: flex;
+            justify-content: space-around;
+            width: calc(100vw - 260px);
+            margin-left: 250px;
+            height: 50px;
+            background-color: #282c34;
+        }
+
+        .navelement{
+            border-left: 2px solid gray;
+            width: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
         }
 
         /* Main Content */
@@ -197,8 +218,10 @@
 </head>
 <body>
     
+    
 
     <!-- Sidebar Section -->
+     
     <div class="sidebar">
         <ul>
             <li><a href="#section1">Javascript</a></li>
@@ -255,9 +278,29 @@
             <li><a href="#section51">Inheritance</a></li>
         </ul>
     </div>
+    
+
+    <!-- navbar -->
+    <nav>
+        <a href="https://sauwaliajatt.github.io/web-dev-notes/javascript.html" class="navelement js" style="color: #f7df1e;">
+            Javascript <i class="fa-brands fa-js"></i>
+        </a>
+        <a href="https://sauwaliajatt.github.io/web-dev-notes/node-express.html" class="navelement nodex" style="color: #339933;">
+            Node.js, Express.js <i class="fa-brands fa-node-js"></i>
+        </a>
+        <a href="https://sauwaliajatt.github.io/web-dev-notes/mongodb.html" class="navelement mongo" style="color: #47a248;">
+            MongoDB <i class="fa-brands fa-envira"></i>
+        </a>
+        <a href="https://sauwaliajatt.github.io/web-dev-notes/reactNotes.html" class="navelement react" style="color: #61dafb;">
+            React <i class="fa-brands fa-react"></i>
+        </a>
+        <a href="https://sauwaliajatt.github.io/web-dev-notes/cssnotes.html" class="navelement css" style="color: #264de4;">
+            CSS <i class="fa-brands fa-css3-alt"></i>
+        </a>
+    </nav>
 
     <!-- Main Content Section -->
-     <!-- Javascript -->
+    <!-- Javascript -->
     <main>
         <section id="section1" class="note-section">
             <div class="container">

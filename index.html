@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web dev Notes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            height: 100vh;
+        }
+        .notes{
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            background: #020202f3;
+            color: aliceblue;
+        }
+
+        a{
+            text-decoration: none;
+            color: aliceblue;
+        }
+
+        .note{
+            border: 2px solid grey;
+            border-radius: 0 50px 0 50px;
+            box-shadow: 10px 5px 5px grey;
+            width: 30vw;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="notes">
+        <a href="https://sauwaliajatt.github.io/web-dev-notes/javascript.html" class="note js" style="color: #f7df1e;">
+            Javascript <i class="fa-brands fa-js"></i>
+        </a>
+        <a href="https://sauwaliajatt.github.io/web-dev-notes/node-express.html" class="note nodex" style="color: #339933;">
+            Node.js, Express.js <i class="fa-brands fa-node-js"></i>
+        </a>
+        <a href="https://sauwaliajatt.github.io/web-dev-notes/mongodb.html" class="note mongo" style="color: #47a248;">
+            MongoDB <i class="fa-brands fa-envira"></i>
+        </a>
+        <a href="https://sauwaliajatt.github.io/web-dev-notes/reactNotes.html" class="note react" style="color: #61dafb;">
+            React <i class="fa-brands fa-react"></i>
+        </a>
+        <a href="https://sauwaliajatt.github.io/web-dev-notes/cssnotes.html" class="note css" style="color: #264de4;">
+            CSS <i class="fa-brands fa-css3-alt"></i>
+        </a>
+    </div>
+</body>
+</html>
